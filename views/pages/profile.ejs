@@ -1,0 +1,27 @@
+<script type="text/javascript" src="assets/js/profile.js"></script>
+<div class="content">
+  <div class="msg-form">
+    <div class="form-group">
+      <input type="file" class="file" id="file" accept="image/*">
+      <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-picture-o fa-fw" aria-hidden="true"></i></span>
+        <input type="text" class="form-control" disabled placeholder="Upload Image">
+        <span class="input-group-btn">
+          <button class="btn btn-primary" id="img_input" type="button"><i class="fa fa-search fa-fw" aria-hidden="true"></i>&nbsp;瀏覽</button>
+        </span>
+      </div>
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+      <textarea id="newPost_body" class="form-control" rows="3" placeholder="留些什麼吧..."></textarea>
+    </div><br>
+    <!--  <input id="img_input" type="file" accept="image/*"/>
+    <label for="img_input"></label><br><br>!-->
+    <div id="img_preview"></div><br>
+    <div class="pull-right">
+      <button id="clearNewPost" type="button" class="btn btn-default">清除</button>
+      <button id="writeNewPost" type="button" class="btn btn-primary">發佈</button>
+    </div>
+  </div>
+  <ul id="list" class="msg"></ul>
+</div>

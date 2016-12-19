@@ -1,0 +1,214 @@
+@charset "utf-8";
+
+/* CSS Reset */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    background: transparent;
+}
+
+body {
+    line-height: 1;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+
+:focus {
+    outline: 0;
+}
+
+ins {
+    text-decoration: none;
+}
+
+del {
+    text-decoration: line-through;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* Basic Elements */
+
+body {
+    font: 14px/25px "微軟正黑體",Arial, Helvetica, sans-serif;
+    color: #292929;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover, a:visited, a:active, a:link {
+    text-decoration: none;
+    color: white;
+}
+
+h1 {
+    font-family: Lobster;
+    padding: 10px 15px 10px 15px;
+    color: white;
+    font-weight: bold;
+    font-size: 27px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+h1 a {
+    color: white;
+}
+
+h2 {
+    display: inline-block;
+    color: #0068B7;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 8px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+p {
+    text-align: justify;
+}
+
+/* Basic Layout */
+
+.wrapper {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.header {
+    text-align: center;
+    box-shadow: 0 -1px 0 rgba(0,0,0,0.1) inset;
+    background-color: #0068B7;
+    position: relative;
+}
+
+.content {
+    width: 700px;
+    margin: 40px auto;
+}
+
+.intro {
+    margin: 0px auto;
+    text-align: center;
+}
+
+.intro h2 {
+    color: #717171;
+    display: block;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+.intro img {
+    display: block;
+    margin: 10px auto;
+}
+
+.msg-form {
+    padding: 40px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 0 0 40px 0;
+    overflow: hidden;
+}
+
+.msg li {
+    margin: 20px 0;
+    padding: 30px 40px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.info {
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+    overflow: hidden;
+}
+
+.info img {
+    vertical-align: text-bottom;
+}
+
+.navi {
+    margin-top: 5px;
+}
+
+.time {
+    color: #bbb;
+    font-style: italic;
+    font-size: 13px;
+}
+
+.file {
+    visibility: hidden;
+    position: absolute;
+}
+
+.form-control[disabled] {
+    background-color: #fff;
+    cursor: default;
+}
+
+.profile {
+    display:block;
+    padding:9.5px 20px;
+    color:white;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.profile:hover {
+    background-color:#035ca0;
+}
+
+#list p {
+    margin-bottom: 10px;
+}
+
+
+/* Clear Float */
+
+.clearfix:before, .clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+  *zoom: 1; /* For IE 6&7 only */
+}
