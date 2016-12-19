@@ -29,6 +29,7 @@
       reader.onload = function (arg) {
         var img = '<img class="preview" width="300px" src="' + arg.target.result + '" alt="preview"/>';
         $("#img_preview").empty().append(img);
+        jQuery('.preview').nailthumb({width:500,height:500,method:'resize',fitDirection:'center'});
       }
     });
 
