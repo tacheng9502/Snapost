@@ -130,11 +130,9 @@
               '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i></button>' +
               '</div></div>' +
               '<p id="' + array[i].postKey + '_body">' + array[i].postBody + '</p>' +
-              '<img id="' + array[i].postKey + '_postImage" width="600px" src="' + array[i].postImage + '"/>' +
+              '<img id="' + array[i].postKey + '_postImage" class="postImage" src="' + array[i].postImage + '"/>' +
               '</li>'
-            );
-            jQuery('#'+array[i].postKey+ '_postImage').nailthumb({width:500,height:500,method:'resize',fitDirection:'center'});
-            
+            );     
           } else {
             $('#list').append(
               '<li>' +
@@ -147,13 +145,12 @@
               '</span>' +
               '</div>' +
               '<p id="' + array[i].postKey + '_body">' + array[i].postBody + '</p>' +
-              '<img id="' + array[i].postKey + '_postImage" width="600px" src="' + array[i].postImage + '"/>' +
+              '<img id="' + array[i].postKey + '_postImage" class="postImage" src="' + array[i].postImage + '"/>' +
               '</li>'
             );
-            jQuery('#'+array[i].postKey+ '_postImage').nailthumb({width:500,height:500,method:'resize',fitDirection:'center'});
-            
           }
         }
+        jQuery('.postImage').nailthumb({width:500,height:500,method:'resize',fitDirection:'center'});
       }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
       });
