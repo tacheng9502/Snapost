@@ -131,7 +131,7 @@
               '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i></button>' +
               '</div></div>' +
               '<p id="' + array[i].postKey + '_body">' + array[i].postBody + '</p>' +
-              '<img id="' + array[i].postKey + '_postImage" width="600px" src="' + array[i].postImage + '"/>' +
+              '<img id="' + array[i].postKey + '_postImage" src="' + array[i].postImage + '"/>' +
               '</li>'
             );
           } else {
