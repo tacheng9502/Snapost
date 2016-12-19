@@ -3,7 +3,7 @@
 
     firebase.auth().onAuthStateChanged(function (user) {
       if (!user) {
-        window.location.href = 'https://immense-falls-61701.herokuapp.com/';
+        window.location.href = 'https://snapost.herokuapp.com/';
       } else {
         userName = user.displayName;
         userImage = user.photoURL;
