@@ -150,6 +150,7 @@
               '</li>'
             );
           }
+          jQuery('#'+array[i].postKey).nailthumb({width:500,height:500,method:'resize',fitDirection:'center'});
         }
       }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
