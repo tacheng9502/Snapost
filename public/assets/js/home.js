@@ -150,7 +150,7 @@
             );
           }
         }
-        jQuery('.postImage').nailthumb({width:500,height:500,method:'resize',fitDirection:'center'});
+        jQuery('.postImage').nailthumb({width:600,height:600,method:'resize',fitDirection:'center'});
       }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
       });
