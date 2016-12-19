@@ -133,6 +133,7 @@
               '<img id="' + array[i].postKey + '_postImage" width="600px" src="' + array[i].postImage + '"/>' +
               '</li>'
             );
+            jQuery('#'+array[i].postKey).nailthumb({width:500,height:500,method:'resize',fitDirection:'center'});
           } else {
             $('#list').append(
               '<li>' +
@@ -148,8 +149,8 @@
               '<img id="' + array[i].postKey + '_postImage" width="600px" src="' + array[i].postImage + '"/>' +
               '</li>'
             );
+            jQuery('#'+array[i].postKey).nailthumb({width:600,height:600,method:'resize',fitDirection:'center'});
           }
-          jQuery('#'+array[i].postKey).nailthumb({width:600,height:600,method:'resize',fitDirection:'center'});
         }
       }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
