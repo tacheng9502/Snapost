@@ -31,14 +31,13 @@
         $("#img_preview").empty().append(img);
       }
     });
-    function dragHandler(e)
-    {
+
+    window.dragHandler = function (e){
       e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
       e.preventDefault();
     }
 
-    function drop_image(e)
-    {
+    window.drop_image = function(e){
       e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
       e.preventDefault();
       var files  = e.dataTransfer.files ; //擷取拖曳的檔案
