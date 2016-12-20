@@ -200,7 +200,7 @@ jQuery(document).ready(function ($) {
 
         $('#writeNewPost').on('click', function (event) {
             event.preventDefault();
-            var newImagePNG;
+            var newImageJPG;
             var postBody = $('#newPost_body').val();
             var date = new Date();
             var postTime = date.getTime();
@@ -209,16 +209,20 @@ jQuery(document).ready(function ($) {
                 contentType: 'image/jpeg'
             };
 
+            console.log(newImageFile);
+
             newImageFile.croppie('result', {
                 type: 'rawcanvas',
                 size: 'viewport',
                 format: 'jpeg'
             }).then(function (resp) {
-                newImagePNG = resp;
+                newImageJPG = resp;
                 console.log(resp);
             });
 
-            var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(newImagePNG, metadata);
+            console.log(newImageJPG);
+
+            var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(newImageJPG, metadata);
             uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
                 function (snapshot) {
                     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
