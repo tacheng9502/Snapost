@@ -89,17 +89,17 @@ jQuery(document).ready(function ($) {
         var reader = new FileReader();
         reader.readAsDataURL(event.target.files[0]); // 讀取檔案
         reader.onload = function (arg) {
-            var img = '<img class="preview" width="400" src="' + arg.target.result + '" alt="preview"/>';
+            var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
             $("#img_preview").empty().append(img);
             newImageFile = $('.preview').croppie({
                 viewport: {
-                    width: 500,
-                    height: 500,
+                    width: 600,
+                    height: 600,
                     type: 'square'
                 },
                 boundary: {
-                    width: 500,
-                    height: 500
+                    width: 600,
+                    height: 600
                 }
             });
         }
@@ -117,17 +117,17 @@ jQuery(document).ready(function ($) {
         reader.readAsDataURL(e.dataTransfer.files[0]); // 讀取檔案
         // 渲染至頁面
         reader.onload = function (arg) {
-            var img = '<img class="preview" width="400" src="' + arg.target.result + '" alt="preview"/>';
+            var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
             $("#img_preview").empty().append(img);
             newImageFile = $('.preview').croppie({
                 viewport: {
-                    width: 500,
-                    height: 500,
+                    width: 600,
+                    height: 600,
                     type: 'square'
                 },
                 boundary: {
-                    width: 500,
-                    height: 500
+                    width: 600,
+                    height: 600
                 }
             });
         }
