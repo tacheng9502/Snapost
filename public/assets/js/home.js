@@ -210,11 +210,12 @@ jQuery(document).ready(function ($) {
             };
 
             newImageFile.croppie('result', {
-                type: 'blob',
+                type: 'rawcanvas',
                 size: 'viewport',
                 format: 'jpeg'
             }).then(function (resp) {
                 newImagePNG = resp;
+                console.log(resp);
             });
 
             var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(newImagePNG, metadata);
