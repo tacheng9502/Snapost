@@ -34,13 +34,13 @@
     function dragHandler(e)
     {
       e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
-
+      e.preventDefault();
     }
 
     function drop_image(e)
     {
       e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
-      
+      e.preventDefault();
       var files  = e.dataTransfer.files ; //擷取拖曳的檔案
       var reader = new FileReader();
 
