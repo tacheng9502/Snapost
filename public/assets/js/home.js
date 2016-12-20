@@ -33,14 +33,14 @@
     });
     function dragHandler(e)
     {
-      e.preventDefault() ; //防止瀏覽器執行預設動作
+      e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
 
     }
 
     function drop_image(e)
     {
-      e.preventDefault() ; //防止瀏覽器執行預設動作
-
+      e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
+      
       var files  = e.dataTransfer.files ; //擷取拖曳的檔案
       var reader = new FileReader();
 
