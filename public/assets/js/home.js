@@ -59,13 +59,6 @@ jQuery(document).ready(function ($) {
                     );
                 }
             }
-
-            $('.postImage').nailthumb({
-                width: 600,
-                height: 600,
-                method: 'resize',
-                fitDirection: 'center'
-            });
         }, function (errorObject) {
             console.log("The read failed: " + errorObject.code);
         });
@@ -100,13 +93,13 @@ jQuery(document).ready(function ($) {
             $("#img_preview").empty().append(img);
             newImageFile = $('.preview').croppie({
                 viewport: {
-                    width: 600,
-                    height: 600,
+                    width: 500,
+                    height: 500,
                     type: 'square'
                 },
                 boundary: {
-                    width: 600,
-                    height: 600
+                    width: 500,
+                    height: 500
                 }
             });
         }
@@ -128,13 +121,13 @@ jQuery(document).ready(function ($) {
             $("#img_preview").empty().append(img);
             newImageFile = $('.preview').croppie({
                 viewport: {
-                    width: 600,
-                    height: 600,
+                    width: 500,
+                    height: 500,
                     type: 'square'
                 },
                 boundary: {
-                    width: 600,
-                    height: 600
+                    width: 500,
+                    height: 500
                 }
             });
         }
