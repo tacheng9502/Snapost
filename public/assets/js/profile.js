@@ -19,7 +19,7 @@ jQuery(document).ready(function ($) {
   var queryId = window.location.search.substr(3);
 
   if (queryId != userId){
-    $('.msg-form').empty();
+    $('.posting_area').empty();
   }
 
   $("#img_input").on('click', function () {
