@@ -31,7 +31,28 @@
         $("#img_preview").empty().append(img);
       }
     });
+    function dragHandler(e)
+    {
+      e.preventDefault() ; //防止瀏覽器執行預設動作
 
+    }
+
+    function drop_image(e)
+    {
+      e.preventDefault() ; //防止瀏覽器執行預設動作
+
+      var files  = e.dataTransfer.files ; //擷取拖曳的檔案
+      var reader = new FileReader();
+
+      reader.readAsDataURL(file); // 讀取檔案
+
+      // 渲染至頁面
+      reader.onload = function(arg) {
+
+        var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+        $(".preview_box").empty().append(img);
+    }
+  }
     window.sendUpdate = function (event) {
       event.preventDefault();
       var postKey = event.target.id.slice(0, -5);
