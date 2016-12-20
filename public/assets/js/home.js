@@ -27,7 +27,7 @@
       var reader = new FileReader();
       reader.readAsDataURL(newImageFile); // 讀取檔案
       reader.onload = function (arg) {
-        var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+        var img = '<img class="preview" width="400" src="' + arg.target.result + '" alt="preview"/>';
         $("#img_preview").empty().append(img);
       }
     });
@@ -48,7 +48,7 @@
       // 渲染至頁面
       reader.onload = function(arg) {
 
-        var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+        var img = '<img class="preview" width="400" src="' + arg.target.result + '" alt="preview"/>';
         $("#img_preview").empty().append(img);
     }
   }
