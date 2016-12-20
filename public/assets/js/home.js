@@ -50,7 +50,7 @@
       reader.onload = function(arg) {
 
         var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
-        $(".preview_box").empty().append(img);
+        $("#img_preview").empty().append(img);
     }
   }
     window.sendUpdate = function (event) {
