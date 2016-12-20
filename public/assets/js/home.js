@@ -40,7 +40,8 @@
     window.drop_image = function(e){
       e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
       e.preventDefault();
-      var file  = e.dataTransfer.files ; //擷取拖曳的檔案
+      $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+      var file  = e.dataTransfer.files[0] ; //擷取拖曳的檔案
       var reader = new FileReader();
 
       reader.readAsDataURL(file); // 讀取檔案
