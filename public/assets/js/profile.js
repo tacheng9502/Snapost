@@ -15,7 +15,9 @@ jQuery(document).ready(function ($) {
       showPost();
     }
   });
-  
+
+  var queryId = window.location.search.substr(3);
+
   $("#img_input").on('click', function () {
     var file = $(this).parent().parent().parent().find('.file');
     file.trigger('click');
@@ -164,7 +166,7 @@ jQuery(document).ready(function ($) {
   });
 
   function showPost() {
-    firebase.database().ref('posts').orderByChild('userId').equalTo(userId).once("value", function (snapshot) {
+    firebase.database().ref('posts').orderByChild('userId').equalTo(queryId).once("value", function (snapshot) {
       var array = [];
       snapshot.forEach(function (data) {
         var post = {

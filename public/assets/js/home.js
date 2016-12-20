@@ -92,6 +92,12 @@
         });
     }
 
+    window.queryUser = function (event) {
+      event.preventDefault();
+      var queryId = event.target.id;
+      window.location.href = "/profile?u="+queryId;
+    }
+
     function showPost() {
       firebase.database().ref('posts').once("value", function (snapshot) {
         var array = [];
@@ -114,9 +120,9 @@
           if (userId === array[i].userId) {
             $('#list').append(
               '<li>' +
-              '<div class="info">' +
+              '<div class="info"><a href="#" id="' + array[i].userId + '">' +
               '<img src="' + array[i].userImage + '" class="img-circle" width="25px">' +
-              '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2>' +
+              '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2></a>' +
               '<span class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() +
               '/' +
               date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() +
@@ -132,13 +138,13 @@
               '<p id="' + array[i].postKey + '_body">' + array[i].postBody + '</p>' +
               '<img id="' + array[i].postKey + '_postImage" class="postImage" src="' + array[i].postImage + '"/>' +
               '</li>'
-            );     
+            );
           } else {
             $('#list').append(
               '<li>' +
-              '<div class="info">' +
+              '<div class="info"><a href="#" id="' + array[i].userId + '">' +
               '<img src="' + array[i].userImage + '" class="img-circle" width="25px">' +
-              '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2>' +
+              '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2></a>' +
               '<span class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() +
               '/' +
               date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() +
