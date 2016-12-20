@@ -196,7 +196,7 @@ jQuery(document).ready(function ($) {
             }, function (errorObject) {
                 console.log("The read failed: " + errorObject.code);
             });
-        };
+        }
 
         $('#writeNewPost').on('click', function (event) {
             event.preventDefault();
