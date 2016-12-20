@@ -114,7 +114,7 @@
           if (userId === array[i].userId) {
             $('#list').append(
               '<li>' +
-              '<div class="info"><a href="/profile?u="' + array[i].userId + ' >' +
+              '<div class="info"><a href="/profile?u=' + array[i].userId + '" >' +
               '<img src="' + array[i].userImage + '" class="img-circle" width="25px">' +
               '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2></a>' +
               '<span class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() +
@@ -136,7 +136,7 @@
           } else {
             $('#list').append(
               '<li>' +
-              '<div class="info"><a href="/profile?u="' + array[i].userId + ' >' +
+              '<div class="info"><a href="/profile?u=' + array[i].userId + '" >' +
               '<img src="' + array[i].userImage + '" class="img-circle" width="25px">' +
               '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2></a>' +
               '<span class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() +
