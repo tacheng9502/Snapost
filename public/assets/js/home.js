@@ -201,7 +201,6 @@ jQuery(document).ready(function ($) {
 
     $('#writeNewPost').on('click', function (event) {
         event.preventDefault();
-        var uploadTask;
         var postBody = $('#newPost_body').val();
         var date = new Date();
         var postTime = date.getTime();
@@ -215,59 +214,58 @@ jQuery(document).ready(function ($) {
             size: 'viewport',
             format: 'jpeg'
         }).then(function (resp) {
-            uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(resp, metadata);
+            var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(resp, metadata);
+            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+                function (snapshot) {
+                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                    switch (snapshot.state) {
+                        case firebase.storage.TaskState.PAUSED:
+                            console.log('Upload is paused');
+                            break;
+                        case firebase.storage.TaskState.RUNNING:
+                            console.log('Upload is running');
+                            break;
+                    }
+                },
+                function (error) {
+                    switch (error.code) {
+                        case 'storage/unauthorized':
+                            // User doesn't have permission to access the object
+                            break;
+                        case 'storage/canceled':
+                            // User canceled the upload
+                            break;
+                        case 'storage/unknown':
+                            // Unknown error occurred, inspect error.serverResponse
+                            break;
+                    }
+                },
+                function () {
+                    // Upload completed successfully, now we can get the download URL
+                    var downloadURL = uploadTask.snapshot.downloadURL;
+                    // A post entry.
+                    var postData = {
+                        userId: userId,
+                        userName: userName,
+                        userImage: userImage,
+                        postBody: postBody,
+                        postTime: postTime,
+                        postImage: downloadURL
+                    };
+
+                    // Write the new post's data simultaneously in the posts list and the user's post list.
+                    var sets = {};
+                    sets['/posts/' + newPostKey] = postData;
+
+                    firebase.database().ref().update(sets);
+                    $('.form-control').val("");
+                    $('#newPost_body').val("");
+                    $("#img_preview").empty();
+                    newImageFile = null;
+                    showPost();
+                });
         });
-
-        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-            function (snapshot) {
-                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log('Upload is ' + progress + '% done');
-                switch (snapshot.state) {
-                    case firebase.storage.TaskState.PAUSED:
-                        console.log('Upload is paused');
-                        break;
-                    case firebase.storage.TaskState.RUNNING:
-                        console.log('Upload is running');
-                        break;
-                }
-            },
-            function (error) {
-                switch (error.code) {
-                    case 'storage/unauthorized':
-                        // User doesn't have permission to access the object
-                        break;
-                    case 'storage/canceled':
-                        // User canceled the upload
-                        break;
-                    case 'storage/unknown':
-                        // Unknown error occurred, inspect error.serverResponse
-                        break;
-                }
-            },
-            function () {
-                // Upload completed successfully, now we can get the download URL
-                var downloadURL = uploadTask.snapshot.downloadURL;
-                // A post entry.
-                var postData = {
-                    userId: userId,
-                    userName: userName,
-                    userImage: userImage,
-                    postBody: postBody,
-                    postTime: postTime,
-                    postImage: downloadURL
-                };
-
-                // Write the new post's data simultaneously in the posts list and the user's post list.
-                var sets = {};
-                sets['/posts/' + newPostKey] = postData;
-
-                firebase.database().ref().update(sets);
-                $('.form-control').val("");
-                $('#newPost_body').val("");
-                $("#img_preview").empty();
-                newImageFile = null;
-                showPost();
-            });
     });
 
     $('#clearNewPost').on('click', function (event) {
