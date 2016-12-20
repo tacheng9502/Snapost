@@ -201,7 +201,7 @@ jQuery(document).ready(function ($) {
 
     $('#writeNewPost').on('click', function (event) {
         event.preventDefault();
-        var newImageJPG;
+        var uploadTask;
         var postBody = $('#newPost_body').val();
         var date = new Date();
         var postTime = date.getTime();
@@ -215,12 +215,9 @@ jQuery(document).ready(function ($) {
             size: 'viewport',
             format: 'jpeg'
         }).then(function (resp) {
-            newImageJPG = resp;
-            console.log(resp);
+            uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(resp, metadata);
         });
-        console.log(newImageJPG);
 
-        var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(newImageJPG, metadata);
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
             function (snapshot) {
                 var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
