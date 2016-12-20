@@ -11,10 +11,10 @@
 </script>
 
 <div class="content">
-  <div class="msg-form">
+  <div class="msg-form" ondragover="javascript: dragHandler(event);" ondrop="javascript: drop_image(event);">
     <div class="form-group">
       <input type="file" class="file" id="file" accept="image/*">
-      <div class="input-group">
+      <div class="input-group" >
         <span class="input-group-addon"><i class="fa fa-picture-o fa-fw" aria-hidden="true"></i></span>
         <input type="text" class="form-control" disabled placeholder="Upload Image">
         <span class="input-group-btn">
@@ -28,7 +28,7 @@
     </div><br>
     <!--  <input id="img_input" type="file" accept="image/*"/>
     <label for="img_input"></label><br><br>!-->
-    <div id="img_preview"></div><br>
+    <div id="img_preview" ></div><br>
     <div class="pull-right">
       <button id="clearNewPost" type="button" class="btn btn-default">清除</button>
       <button id="writeNewPost" type="button" class="btn btn-primary">發佈</button>

@@ -27,11 +27,30 @@
       var reader = new FileReader();
       reader.readAsDataURL(newImageFile); // 讀取檔案
       reader.onload = function (arg) {
-        var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+        var img = '<img class="preview" width="400" src="' + arg.target.result + '" alt="preview"/>';
         $("#img_preview").empty().append(img);
       }
     });
 
+    window.dragHandler = function (e){
+      e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
+      e.preventDefault();
+    }
+
+    window.drop_image = function(e){
+      e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
+      e.preventDefault();
+      newImageFile = e.dataTransfer.files[0] ; //擷取拖曳的檔案
+      var reader = new FileReader();
+
+      reader.readAsDataURL(newImageFile); // 讀取檔案
+      // 渲染至頁面
+      reader.onload = function(arg) {
+
+        var img = '<img class="preview" width="400" src="' + arg.target.result + '" alt="preview"/>';
+        $("#img_preview").empty().append(img);
+    }
+  }
     window.sendUpdate = function (event) {
       event.preventDefault();
       var postKey = event.target.id.slice(0, -5);
@@ -114,9 +133,9 @@
           if (userId === array[i].userId) {
             $('#list').append(
               '<li>' +
-              '<div class="info">' +
+              '<div class="info"><a href="/profile?u=' + array[i].userId + '" >' +
               '<img src="' + array[i].userImage + '" class="img-circle" width="25px">' +
-              '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2>' +
+              '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2></a>' +
               '<span class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() +
               '/' +
               date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() +
@@ -132,13 +151,13 @@
               '<p id="' + array[i].postKey + '_body">' + array[i].postBody + '</p>' +
               '<img id="' + array[i].postKey + '_postImage" class="postImage" src="' + array[i].postImage + '"/>' +
               '</li>'
-            );     
+            );
           } else {
             $('#list').append(
               '<li>' +
-              '<div class="info">' +
+              '<div class="info"><a href="/profile?u=' + array[i].userId + '" >' +
               '<img src="' + array[i].userImage + '" class="img-circle" width="25px">' +
-              '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2>' +
+              '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2></a>' +
               '<span class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() +
               '/' +
               date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() +
@@ -150,7 +169,7 @@
             );
           }
         }
-        jQuery('.postImage').nailthumb({width:500,height:500,method:'resize',fitDirection:'center'});
+        jQuery('.postImage').nailthumb({width:600,height:600,method:'resize',fitDirection:'center'});
       }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
       });
