@@ -1,6 +1,76 @@
 jQuery(document).ready(function ($) {
     var newImageFile, userName, userImage, userId;
 
+    function showPost() {
+        firebase.database().ref('posts').once("value", function (snapshot) {
+            var array = [];
+            snapshot.forEach(function (data) {
+                var post = {
+                    postKey: data.key,
+                    userId: data.val().userId,
+                    userName: data.val().userName,
+                    userImage: data.val().userImage,
+                    postBody: data.val().postBody,
+                    postTime: data.val().postTime,
+                    postImage: data.val().postImage
+                };
+                array.push(post);
+            });
+            array = array.reverse();
+            $('#list').children().remove();
+            for (var i = 0; i < array.length; i++) {
+                var date = new Date(parseInt(array[i].postTime));
+                if (userId === array[i].userId) {
+                    $('#list').append(
+                        '<li>' +
+                        '<div class="info"><a href="/profile?u=' + array[i].userId + '" >' +
+                        '<img src="' + array[i].userImage + '" class="img-circle" width="25px">' +
+                        '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2></a>' +
+                        '<span class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() +
+                        '/' +
+                        date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() +
+                        '</span>' +
+                        '<div id="' + array[i].postKey + '_operate" class="navi pull-right">' +
+                        '<button id="' + array[i].postKey +
+                        '_update" class="btn btn-default" onclick="clickUpdate(event)" ><i id="' + array[i].postKey +
+                        '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i></button>&nbsp;' +
+                        '<button id="' + array[i].postKey +
+                        '_delete" class="btn btn-default" onclick="clickDelete(event)" ><i id="' + array[i].postKey +
+                        '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i></button>' +
+                        '</div></div>' +
+                        '<p id="' + array[i].postKey + '_body">' + array[i].postBody + '</p>' +
+                        '<img id="' + array[i].postKey + '_postImage" class="postImage" src="' + array[i].postImage + '"/>' +
+                        '</li>'
+                    );
+                } else {
+                    $('#list').append(
+                        '<li>' +
+                        '<div class="info"><a href="/profile?u=' + array[i].userId + '" >' +
+                        '<img src="' + array[i].userImage + '" class="img-circle" width="25px">' +
+                        '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2></a>' +
+                        '<span class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() +
+                        '/' +
+                        date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() +
+                        '</span>' +
+                        '</div>' +
+                        '<p id="' + array[i].postKey + '_body">' + array[i].postBody + '</p>' +
+                        '<img id="' + array[i].postKey + '_postImage" class="postImage" src="' + array[i].postImage + '"/>' +
+                        '</li>'
+                    );
+                }
+            }
+
+            $('.postImage').nailthumb({
+                width: 600,
+                height: 600,
+                method: 'resize',
+                fitDirection: 'center'
+            });
+        }, function (errorObject) {
+            console.log("The read failed: " + errorObject.code);
+        });
+    }
+
     firebase.auth().onAuthStateChanged(function (user) {
         if (!user) {
             window.location.href = 'https://snapost.herokuapp.com/';
@@ -126,76 +196,6 @@ jQuery(document).ready(function ($) {
                     swal("已刪除", "留言已經成功刪除", "success");
                     showPost();
                 });
-        }
-
-        function showPost() {
-            firebase.database().ref('posts').once("value", function (snapshot) {
-                var array = [];
-                snapshot.forEach(function (data) {
-                    var post = {
-                        postKey: data.key,
-                        userId: data.val().userId,
-                        userName: data.val().userName,
-                        userImage: data.val().userImage,
-                        postBody: data.val().postBody,
-                        postTime: data.val().postTime,
-                        postImage: data.val().postImage
-                    };
-                    array.push(post);
-                });
-                array = array.reverse();
-                $('#list').children().remove();
-                for (var i = 0; i < array.length; i++) {
-                    var date = new Date(parseInt(array[i].postTime));
-                    if (userId === array[i].userId) {
-                        $('#list').append(
-                            '<li>' +
-                            '<div class="info"><a href="/profile?u=' + array[i].userId + '" >' +
-                            '<img src="' + array[i].userImage + '" class="img-circle" width="25px">' +
-                            '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2></a>' +
-                            '<span class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() +
-                            '/' +
-                            date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() +
-                            '</span>' +
-                            '<div id="' + array[i].postKey + '_operate" class="navi pull-right">' +
-                            '<button id="' + array[i].postKey +
-                            '_update" class="btn btn-default" onclick="clickUpdate(event)" ><i id="' + array[i].postKey +
-                            '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i></button>&nbsp;' +
-                            '<button id="' + array[i].postKey +
-                            '_delete" class="btn btn-default" onclick="clickDelete(event)" ><i id="' + array[i].postKey +
-                            '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i></button>' +
-                            '</div></div>' +
-                            '<p id="' + array[i].postKey + '_body">' + array[i].postBody + '</p>' +
-                            '<img id="' + array[i].postKey + '_postImage" class="postImage" src="' + array[i].postImage + '"/>' +
-                            '</li>'
-                        );
-                    } else {
-                        $('#list').append(
-                            '<li>' +
-                            '<div class="info"><a href="/profile?u=' + array[i].userId + '" >' +
-                            '<img src="' + array[i].userImage + '" class="img-circle" width="25px">' +
-                            '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2></a>' +
-                            '<span class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() +
-                            '/' +
-                            date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() +
-                            '</span>' +
-                            '</div>' +
-                            '<p id="' + array[i].postKey + '_body">' + array[i].postBody + '</p>' +
-                            '<img id="' + array[i].postKey + '_postImage" class="postImage" src="' + array[i].postImage + '"/>' +
-                            '</li>'
-                        );
-                    }
-                }
-
-                $('.postImage').nailthumb({
-                    width: 600,
-                    height: 600,
-                    method: 'resize',
-                    fitDirection: 'center'
-                });
-            }, function (errorObject) {
-                console.log("The read failed: " + errorObject.code);
-            });
         }
 
         $('#writeNewPost').on('click', function (event) {
