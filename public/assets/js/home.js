@@ -1,5 +1,5 @@
 jQuery(document).ready(function ($) {
-    var newImageFile, userName, userImage, userId, uploadCrop;
+    var newImageFile, userName, userImage, userId;
 
     firebase.auth().onAuthStateChanged(function (user) {
         if (!user) {
@@ -23,13 +23,12 @@ jQuery(document).ready(function ($) {
 
     $("#file").on("change", function (event) {
         $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
-        newImageFile = event.target.files[0]; //獲得圖片資源
         var reader = new FileReader();
-        reader.readAsDataURL(newImageFile); // 讀取檔案
+        reader.readAsDataURL(event.target.files[0]); // 讀取檔案
         reader.onload = function (arg) {
             var img = '<img class="preview" width="400" src="' + arg.target.result + '" alt="preview"/>';
             $("#img_preview").empty().append(img);
-            $uploadCrop = $('.preview').croppie({
+            newImageFile = $('.preview').croppie({
                 viewport: {
                     width: 600,
                     height: 600,
@@ -51,15 +50,13 @@ jQuery(document).ready(function ($) {
     window.drop_image = function (e) {
         e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
         e.preventDefault();
-        newImageFile = e.dataTransfer.files[0]; //擷取拖曳的檔案
         var reader = new FileReader();
-
-        reader.readAsDataURL(newImageFile); // 讀取檔案
+        reader.readAsDataURL(e.dataTransfer.files[0]); // 讀取檔案
         // 渲染至頁面
         reader.onload = function (arg) {
             var img = '<img class="preview" width="400" src="' + arg.target.result + '" alt="preview"/>';
             $("#img_preview").empty().append(img);
-            $uploadCrop = $('.preview').croppie({
+            newImageFile = $('.preview').croppie({
                 viewport: {
                     width: 600,
                     height: 600,
@@ -203,6 +200,7 @@ jQuery(document).ready(function ($) {
 
         $('#writeNewPost').on('click', function (event) {
             event.preventDefault();
+            var newImagePNG;
             var postBody = $('#newPost_body').val();
             var date = new Date();
             var postTime = date.getTime();
@@ -210,8 +208,15 @@ jQuery(document).ready(function ($) {
             var metadata = {
                 contentType: 'image/jpeg'
             };
-            var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(newImageFile, metadata);
 
+            newImageFile.croppie('result', {
+                type: 'canvas',
+                size: 'viewport'
+            }).then(function (resp) {
+                newImagePNG = resp;
+            });
+
+            var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(newImagePNG, metadata);
             uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
                 function (snapshot) {
                     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
