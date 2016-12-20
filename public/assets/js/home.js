@@ -210,8 +210,9 @@ jQuery(document).ready(function ($) {
             };
 
             newImageFile.croppie('result', {
-                type: 'canvas',
-                size: 'viewport'
+                type: 'blob',
+                size: 'viewport',
+                format: 'jpeg'
             }).then(function (resp) {
                 newImagePNG = resp;
             });
