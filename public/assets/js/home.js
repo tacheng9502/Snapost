@@ -138,154 +138,155 @@ jQuery(document).ready(function ($) {
                 }
             });
         }
+    }
 
-        window.sendUpdate = function (event) {
-            event.preventDefault();
-            var postKey = event.target.id.slice(0, -5);
-            var date = new Date();
-            var postTime = date.getTime();
-            var postBody = $('#' + postKey + '_newBody').val();
-            var postImage = $('#' + postKey + '_postImage').attr('src');
+    window.sendUpdate = function (event) {
+        event.preventDefault();
+        var postKey = event.target.id.slice(0, -5);
+        var date = new Date();
+        var postTime = date.getTime();
+        var postBody = $('#' + postKey + '_newBody').val();
+        var postImage = $('#' + postKey + '_postImage').attr('src');
 
-            var postData = {
-                userId: userId,
-                userName: userName,
-                userImage: userImage,
-                postBody: postBody,
-                postTime: postTime,
-                postImage: postImage
-            };
+        var postData = {
+            userId: userId,
+            userName: userName,
+            userImage: userImage,
+            postBody: postBody,
+            postTime: postTime,
+            postImage: postImage
+        };
 
-            var updates = {};
-            updates['/posts/' + postKey] = postData;
-            firebase.database().ref().update(updates);
-            showPost();
-        }
+        var updates = {};
+        updates['/posts/' + postKey] = postData;
+        firebase.database().ref().update(updates);
+        showPost();
+    }
 
-        window.clickUpdate = function (event) {
-            event.preventDefault();
-            var updateId = event.target.id.slice(0, -7);
+    window.clickUpdate = function (event) {
+        event.preventDefault();
+        var updateId = event.target.id.slice(0, -7);
 
-            $('#' + updateId + '_operate').html(
-                '<button id="' + updateId + '_send" class="btn btn-default" onclick="sendUpdate(event)" >' +
-                '<i id="' + updateId + '_send" class="fa fa-floppy-o" onclick="sendUpdate(event)" title="save"></i></a>'
-            );
-            var oldBody = $('#' + updateId + '_body').text();
-            $('#' + updateId + '_body').html(
-                '<textarea id="' + updateId + '_newBody" class="form-control" rows="3">' + oldBody + '</textarea>'
-            );
-        }
+        $('#' + updateId + '_operate').html(
+            '<button id="' + updateId + '_send" class="btn btn-default" onclick="sendUpdate(event)" >' +
+            '<i id="' + updateId + '_send" class="fa fa-floppy-o" onclick="sendUpdate(event)" title="save"></i></a>'
+        );
+        var oldBody = $('#' + updateId + '_body').text();
+        $('#' + updateId + '_body').html(
+            '<textarea id="' + updateId + '_newBody" class="form-control" rows="3">' + oldBody + '</textarea>'
+        );
+    }
 
-        window.clickDelete = function (event) {
-            event.preventDefault();
-            var postKey = event.target.id.slice(0, -7);
+    window.clickDelete = function (event) {
+        event.preventDefault();
+        var postKey = event.target.id.slice(0, -7);
 
-            swal({
-                    title: "確認刪除留言?",
-                    text: "刪除後留言將無法復原",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "刪除",
-                    closeOnConfirm: false
-                },
-                function () {
-                    var deletes = {};
-                    deletes['/posts/' + postKey] = null;
-                    firebase.database().ref().update(deletes);
-                    swal("已刪除", "留言已經成功刪除", "success");
-                    showPost();
-                });
-        }
-
-        $('#writeNewPost').on('click', function (event) {
-            event.preventDefault();
-            var newImageJPG;
-            var postBody = $('#newPost_body').val();
-            var date = new Date();
-            var postTime = date.getTime();
-            var newPostKey = firebase.database().ref().child('posts').push().key;
-            var metadata = {
-                contentType: 'image/jpeg'
-            };
-
-            console.log(newImageFile);
-
-            newImageFile.croppie('result', {
-                type: 'rawcanvas',
-                size: 'viewport',
-                format: 'jpeg'
-            }).then(function (resp) {
-                newImageJPG = resp;
-                console.log(resp);
+        swal({
+                title: "確認刪除留言?",
+                text: "刪除後留言將無法復原",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "刪除",
+                closeOnConfirm: false
+            },
+            function () {
+                var deletes = {};
+                deletes['/posts/' + postKey] = null;
+                firebase.database().ref().update(deletes);
+                swal("已刪除", "留言已經成功刪除", "success");
+                showPost();
             });
+    }
 
-            console.log(newImageJPG);
+    $('#writeNewPost').on('click', function (event) {
+        event.preventDefault();
+        var newImageJPG;
+        var postBody = $('#newPost_body').val();
+        var date = new Date();
+        var postTime = date.getTime();
+        var newPostKey = firebase.database().ref().child('posts').push().key;
+        var metadata = {
+            contentType: 'image/jpeg'
+        };
 
-            var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(newImageJPG, metadata);
-            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-                function (snapshot) {
-                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
-                    switch (snapshot.state) {
-                        case firebase.storage.TaskState.PAUSED:
-                            console.log('Upload is paused');
-                            break;
-                        case firebase.storage.TaskState.RUNNING:
-                            console.log('Upload is running');
-                            break;
-                    }
-                },
-                function (error) {
-                    switch (error.code) {
-                        case 'storage/unauthorized':
-                            // User doesn't have permission to access the object
-                            break;
-                        case 'storage/canceled':
-                            // User canceled the upload
-                            break;
-                        case 'storage/unknown':
-                            // Unknown error occurred, inspect error.serverResponse
-                            break;
-                    }
-                },
-                function () {
-                    // Upload completed successfully, now we can get the download URL
-                    var downloadURL = uploadTask.snapshot.downloadURL;
-                    // A post entry.
-                    var postData = {
-                        userId: userId,
-                        userName: userName,
-                        userImage: userImage,
-                        postBody: postBody,
-                        postTime: postTime,
-                        postImage: downloadURL
-                    };
+        console.log(newImageFile);
 
-                    // Write the new post's data simultaneously in the posts list and the user's post list.
-                    var sets = {};
-                    sets['/posts/' + newPostKey] = postData;
-
-                    firebase.database().ref().update(sets);
-                    $('.form-control').val("");
-                    $('#newPost_body').val("");
-                    $("#img_preview").empty();
-                    newImageFile = null;
-                    showPost();
-                });
+        newImageFile.croppie('result', {
+            type: 'rawcanvas',
+            size: 'viewport',
+            format: 'jpeg'
+        }).then(function (resp) {
+            newImageJPG = resp;
+            console.log(resp);
         });
 
-        $('#clearNewPost').on('click', function (event) {
-            event.preventDefault();
-            $('.form-control').val("");
-            $('#newPost_body').val("");
-            $("#img_preview").empty();
-            newImageFile = null;
-        });
+        console.log(newImageJPG);
 
-        $('#userInfo').on('click', function (event) {
-            event.preventDefault();
-            window.location.href = "/profile?u=" + userId;
-        });
-    };
-})
+        var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(newImageJPG, metadata);
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+            function (snapshot) {
+                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+                switch (snapshot.state) {
+                    case firebase.storage.TaskState.PAUSED:
+                        console.log('Upload is paused');
+                        break;
+                    case firebase.storage.TaskState.RUNNING:
+                        console.log('Upload is running');
+                        break;
+                }
+            },
+            function (error) {
+                switch (error.code) {
+                    case 'storage/unauthorized':
+                        // User doesn't have permission to access the object
+                        break;
+                    case 'storage/canceled':
+                        // User canceled the upload
+                        break;
+                    case 'storage/unknown':
+                        // Unknown error occurred, inspect error.serverResponse
+                        break;
+                }
+            },
+            function () {
+                // Upload completed successfully, now we can get the download URL
+                var downloadURL = uploadTask.snapshot.downloadURL;
+                // A post entry.
+                var postData = {
+                    userId: userId,
+                    userName: userName,
+                    userImage: userImage,
+                    postBody: postBody,
+                    postTime: postTime,
+                    postImage: downloadURL
+                };
+
+                // Write the new post's data simultaneously in the posts list and the user's post list.
+                var sets = {};
+                sets['/posts/' + newPostKey] = postData;
+
+                firebase.database().ref().update(sets);
+                $('.form-control').val("");
+                $('#newPost_body').val("");
+                $("#img_preview").empty();
+                newImageFile = null;
+                showPost();
+            });
+    });
+
+    $('#clearNewPost').on('click', function (event) {
+        event.preventDefault();
+        $('.form-control').val("");
+        $('#newPost_body').val("");
+        $("#img_preview").empty();
+        newImageFile = null;
+    });
+
+    $('#userInfo').on('click', function (event) {
+        event.preventDefault();
+        window.location.href = "/profile?u=" + userId;
+    });
+
+});
