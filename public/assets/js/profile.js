@@ -18,6 +18,10 @@ jQuery(document).ready(function ($) {
 
   var queryId = window.location.search.substr(3);
 
+  if (queryId != userId){
+    $('.msg-form').empty();
+  }
+
   $("#img_input").on('click', function () {
     var file = $(this).parent().parent().parent().find('.file');
     file.trigger('click');
@@ -181,6 +185,7 @@ jQuery(document).ready(function ($) {
         array.push(post);
       });
       array = array.reverse();
+      $('#user_posts').append(array.length);
       $('#list').children().remove();
       for (var i = 0; i < array.length; i++) {
         var date = new Date(parseInt(array[i].postTime));
