@@ -210,17 +210,14 @@ jQuery(document).ready(function ($) {
             contentType: 'image/jpeg'
         };
 
-        console.log(newImageFile);
-
         newImageFile.croppie('result', {
-            type: 'rawcanvas',
+            type: 'blob',
             size: 'viewport',
             format: 'jpeg'
         }).then(function (resp) {
             newImageJPG = resp;
             console.log(resp);
         });
-
         console.log(newImageJPG);
 
         var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(newImageJPG, metadata);
