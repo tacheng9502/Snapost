@@ -40,11 +40,10 @@
     window.drop_image = function(e){
       e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
       e.preventDefault();
-      var file  = e.dataTransfer.files[0] ; //擷取拖曳的檔案
+      newImageFile = e.dataTransfer.files[0] ; //擷取拖曳的檔案
       var reader = new FileReader();
 
-      reader.readAsDataURL(file); // 讀取檔案
-
+      reader.readAsDataURL(newImageFile); // 讀取檔案
       // 渲染至頁面
       reader.onload = function(arg) {
 
