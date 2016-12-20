@@ -1,5 +1,5 @@
   jQuery(document).ready(function ($) {
-    var newImageFile, userName, userImage, userId;
+    var newImageFile, userName, userImage, userId, uploadCrop;
 
     firebase.auth().onAuthStateChanged(function (user) {
       if (!user) {
@@ -29,6 +29,17 @@
       reader.onload = function (arg) {
         var img = '<img class="preview" width="400" src="' + arg.target.result + '" alt="preview"/>';
         $("#img_preview").empty().append(img);
+             $uploadCrop = $('.preview').croppie({
+        viewport: {
+            width: 600,
+            height: 600,
+            type: 'square'
+        },
+        boundary: {
+            width: 600,
+            height: 600
+        }
+    });
       }
     });
 
@@ -49,6 +60,17 @@
 
         var img = '<img class="preview" width="400" src="' + arg.target.result + '" alt="preview"/>';
         $("#img_preview").empty().append(img);
+             $uploadCrop = $('.preview').croppie({
+        viewport: {
+            width: 600,
+            height: 600,
+            type: 'square'
+        },
+        boundary: {
+            width: 600,
+            height: 600
+        }
+    });
     }
   }
     window.sendUpdate = function (event) {
