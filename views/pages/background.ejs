@@ -8,16 +8,16 @@ jQuery(document).ready(function ($) {
     function createLine(array){
         var post = c3.generate({
             data: {
-                json: {
-
+                columns: [
+                    
+                ]
             }
-        }
         });
         for(var i=0;i<array.length;i++){
             post.load({
-                json:{
-                    array[i].time:array[i].postCount
-                }
+                colums:[
+                    [array[i].time.toString(),array[i].postCount]
+                ]
             });
         };
     }
