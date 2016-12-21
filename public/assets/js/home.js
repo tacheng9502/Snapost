@@ -258,7 +258,7 @@ jQuery(document).ready(function ($) {
 
                     var thisYear = date.getFullYear();
                     var thisMonth = date.getMonth()+1;
-                    firebase.database().ref('statistic/'+thisYear+'-'+thisMonth+'/post-count').transaction(function (currentCount) {
+                    firebase.database().ref('statistic/'+thisYear+'-'+thisMonth+'/postCount').transaction(function (currentCount) {
                         return currentCount + 1;
                     });
                 });
