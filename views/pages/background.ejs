@@ -25,16 +25,11 @@ jQuery(document).ready(function ($) {
                     ['total',total]
                 ]
             });
-            chart.load({
-                columns:[
-                    ['total',total]
-                ],type:'line'
-            }); 
         };
 
     }
 
-    firebase.database().ref('statistic').orderByChild("num").limitToLast(2).once("value", function (snapshot){
+    firebase.database().ref('statistic').orderByChild("num").limitToLast(3).once("value", function (snapshot){
         var array = [];
         snapshot.forEach(function(data){
             var post = {
