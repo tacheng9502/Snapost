@@ -1,9 +1,10 @@
-<link href="assets/css/c3.css" rel="stylesheet" type="text/css">
+<link href="assets/css/c3.min.css" rel="stylesheet" type="text/css">
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="assets/js/c3.min.js"></script>
 <div id="chart"></div>
 
 <script>
+var date = new Date();
 var thisYear = date.getFullYear();
 var thisMonth = date.getMonth()+1;
 firebase.database().ref('statistic/'+thisYear+'-'+thisMonth+'/post-count').once("value", function (snapshot){
