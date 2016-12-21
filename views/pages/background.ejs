@@ -3,14 +3,41 @@
 <script src="assets/js/c3.min.js"></script>
 <div id="chart"></div>
 <script>
-var chart = c3.generate({
-    data: {
-        columns: [
-            ['data1', 30, 200, 100, 400, 150, 250],
-            ['data2', 130, 100, 140, 200, 150, 50]
-        ],
-        type: 'bar'
+jQuery(document).ready(function ($) {
+
+    function createLine(array){
+        var chart = c3.generate({
+            data: {
+                columns: [
+
+                ],
+                type: 'bar'
+            }
+        });
+        for(var i=0;i<array.length;i++){
+            post.load({
+                columns:[
+                    [array[i].time.toString(),array[i].postCount]
+                ]
+            });
+            console.log(array[i].time.toString());
+        };
+
     }
+
+    firebase.database().ref('statistic').limitToFirst(2).once("value", function (snapshot){
+        var array = [];
+        snapshot.forEach(function(data){
+            var post = {
+                    time: data.key,
+                    postCount: data.val().postCount,
+                };
+                array.push(post);
+        });
+        createLine(array);
+        
+    });
+
 });
 
 </script>
