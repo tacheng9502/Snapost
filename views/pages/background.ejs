@@ -23,9 +23,13 @@ jQuery(document).ready(function ($) {
                 columns:[
                     [array[i].time.toString(),array[i].postCount],
                     ['total',total]
-                ],type: 'bar',types: {total:'line'}
+                ]
             });
-            
+            chart.load({
+                columns:[
+                    ['total',total]
+                ],type:'line'
+            }); 
         };
 
     }
