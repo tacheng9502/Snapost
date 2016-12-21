@@ -18,7 +18,7 @@ jQuery(document).ready(function ($) {
     var thisMonth = date.getMonth()+1;
     firebase.database().ref('/statistic/'+thisYear+'-'+thisMonth).once("value", function (snapshot){
         var postCount = snapshot.val().postCount;
-        console.log(postCount);
+        createLine(postCount);
     });
 
 });
