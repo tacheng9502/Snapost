@@ -8,7 +8,7 @@ exports.index = function (request, response) {
 
 exports.profile = function (request, response) {
     response.render('pages/profile');
-}
+};
 
 exports.background = function (request, response) {
     response.render('pages/background');
