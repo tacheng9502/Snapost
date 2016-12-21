@@ -1,0 +1,22 @@
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="c3/c3.min.js"></script>
+    <div id="chart"></div>
+
+<script>
+var thisYear = date.getFullYear();
+var thisMonth = date.getMonth()+1;
+firebase.database().ref('statistic/'+thisYear+'-'+thisMonth+'/post-count').once("value", function (snapshot){
+function createLine(val1,val2,val3){
+    var chart = c3.generate({
+        data: {
+            json: {
+                data1: snapshot,
+
+            }
+        }
+    });
+}
+});
+
+
+</script>
