@@ -19,7 +19,6 @@ jQuery(document).ready(function ($) {
             },axis: {
                 x: {
                     type: 'category',
-                    categories: ['貼文數量']
                     }
                 }
         });
@@ -28,6 +27,7 @@ jQuery(document).ready(function ($) {
             chart.load({
                 columns:[
                     [array[i].time.toString(),array[i].postCount],
+                    ['x',array[i].time.toString()]
                 ]
             });
         };
