@@ -9,25 +9,15 @@ jQuery(document).ready(function ($) {
         var post = c3.generate({
             data: {
                 columns: [
-
+                    ['data1', 30, 200, 100, 400, 150, 250],
+                    ['data2', 130, 100, 140, 200, 150, 50]
                 ],
                 type: 'bar'
             }
         });
-        for(var i=0;i<array.length;i++){
-            post.load({
-                columns:[
-                    [array[i].time.toString(),array[i].postCount]
-                ]
-            });
-            console.log(array[i].time.toString());
-        };
 
     }
 
-    var date = new Date();
-    var thisYear = date.getFullYear();
-    var thisMonth = date.getMonth()+1;
     firebase.database().ref('statistic').limitToFirst(2).once("value", function (snapshot){
         var array = [];
         snapshot.forEach(function(data){
