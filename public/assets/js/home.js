@@ -14,7 +14,7 @@ jQuery(document).ready(function ($) {
                     postTime: data.val().postTime,
                     postImage: data.val().postImage
                 };
-                array.push(post).revese;
+                array.push(post).reverse;
             });
             $('#list').children().remove();
             for (var i = 0; i < array.length; i++) {
