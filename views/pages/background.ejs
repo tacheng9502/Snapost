@@ -1,20 +1,22 @@
 <link href="assets/css/c3.min.css" rel="stylesheet" type="text/css">
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="assets/js/c3.min.js"></script>
-<div id="post"></div>
+<div id="postcount"></div>
 <script>
 jQuery(document).ready(function ($) {
 
-        var post = c3.generate({
+    function createLine(array){
+        var postcount = c3.generate({
             data: {
-        columns: [
-            ['data1', 30, 200, 100, 400, 150, 250],
-            ['data2', 130, 100, 140, 200, 150, 50]
-        ],
-        type: 'bar'
-    }
+                columns: [
+                    ['data1', 30, 200, 100, 400, 150, 250],
+                    ['data2', 130, 100, 140, 200, 150, 50]
+                ],
+                type: 'bar'
+            }
         });
 
+    }
 
     firebase.database().ref('statistic').limitToFirst(2).once("value", function (snapshot){
         var array = [];
@@ -25,6 +27,7 @@ jQuery(document).ready(function ($) {
                 };
                 array.push(post);
         });
+        createLine(array);
         
     });
 
