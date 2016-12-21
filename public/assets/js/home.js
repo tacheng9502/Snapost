@@ -257,7 +257,7 @@ jQuery(document).ready(function ($) {
                     showPost();
 
                     var thisYear = date.getFullYear();
-                    var thisMonth = data.getMonth()+1;
+                    var thisMonth = date.getMonth()+1;
                     firebase.database().ref('post-count/'+thisYear+'-'+thisMonth+'/count').transaction(function (currentCount) {
                         return currentCount + 1;
                     });
