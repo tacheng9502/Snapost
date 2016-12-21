@@ -2,7 +2,7 @@ jQuery(document).ready(function ($) {
     var newImageFile, userName, userImage, userId;
 
     function showPost() {
-        firebase.database().ref('posts').once("value", function (snapshot) {
+        firebase.database().ref('posts').orderByValue('postTime').once("value", function (snapshot) {
             var array = [];
             snapshot.forEach(function (data) {
                 var post = {
@@ -16,7 +16,6 @@ jQuery(document).ready(function ($) {
                 };
                 array.push(post);
             });
-            array = array.reverse();
             $('#list').children().remove();
             for (var i = 0; i < array.length; i++) {
                 var date = new Date(parseInt(array[i].postTime));
@@ -247,7 +246,6 @@ jQuery(document).ready(function ($) {
                         postImage: downloadURL
                     };
 
-                    // Write the new post's data simultaneously in the posts list and the user's post list.
                     var sets = {};
                     sets['/posts/' + newPostKey] = postData;
 
@@ -257,6 +255,12 @@ jQuery(document).ready(function ($) {
                     $("#img_preview").empty();
                     newImageFile = null;
                     showPost();
+
+                    var thisYear = date.getFullYear();
+                    var thisMonth = data.getMonth()+1;
+                    firebase.database().ref('post-count/'+thisYear+'-'+thisMonth+'/count').transaction(function (currentCount) {
+                        return currentCount + 1;
+                    });
                 });
         });
     });
