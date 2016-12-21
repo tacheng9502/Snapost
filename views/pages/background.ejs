@@ -5,7 +5,6 @@
 <script>
 jQuery(document).ready(function ($) {
 
-    function createLine(array){
         var post = c3.generate({
             data: {
         columns: [
@@ -16,7 +15,6 @@ jQuery(document).ready(function ($) {
     }
         });
 
-    }
 
     firebase.database().ref('statistic').limitToFirst(2).once("value", function (snapshot){
         var array = [];
@@ -27,7 +25,6 @@ jQuery(document).ready(function ($) {
                 };
                 array.push(post);
         });
-        createLine(array);
         
     });
 
