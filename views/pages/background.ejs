@@ -9,8 +9,9 @@ jQuery(document).ready(function ($) {
         var total=0;
         var chart = c3.generate({
             data: {
+                x : 'x',
                 columns: [
-
+                        ['x', array[0].time.toString(), array[1].time.toString(), array[2].time.toString()],
                 ],
                 type: 'bar'
             },bar: {
