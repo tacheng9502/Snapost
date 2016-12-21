@@ -18,18 +18,7 @@ jQuery(document).ready(function ($) {
 
     }
 
-    firebase.database().ref('statistic').limitToFirst(2).once("value", function (snapshot){
-        var array = [];
-        snapshot.forEach(function(data){
-            var post = {
-                    time: data.key,
-                    postCount: data.val().postCount,
-                };
-                array.push(post);
-        });
-        createLine(array);
-        
-    });
+
 
 });
 
