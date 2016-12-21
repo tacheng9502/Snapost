@@ -16,14 +16,15 @@ jQuery(document).ready(function ($) {
                 type: 'bar'
             },bar: {
                 width: {ratio: 0.2 }
-            }
+            }, axis: {
+                x: {type: 'category'}
+                }
         });
         for(var i=0;i<array.length;i++){
             total=total+array[i].postCount;
             chart.load({
                 columns:[
                     [array[i].time.toString(),array[i].postCount],
-                    ['total',total]
                 ]
             });
         };
