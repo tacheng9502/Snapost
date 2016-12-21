@@ -6,6 +6,7 @@
 jQuery(document).ready(function ($) {
 
     function createLine(array){
+        var total=0;
         var chart = c3.generate({
             data: {
                 columns: [
@@ -17,12 +18,14 @@ jQuery(document).ready(function ($) {
             }
         });
         for(var i=0;i<array.length;i++){
+            total=total+array[i].postCount;
             chart.load({
                 columns:[
-                    [array[i].time.toString(),array[i].postCount]
-                ]
+                    [array[i].time.toString(),array[i].postCount],
+                    ['total',total]
+                ],types: {total:'line'}
             });
-            console.log(array[i].time.toString());
+            
         };
 
     }
