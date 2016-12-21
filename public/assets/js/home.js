@@ -2,7 +2,7 @@ jQuery(document).ready(function ($) {
     var newImageFile, userName, userImage, userId;
 
     function showPost() {
-        firebase.database().ref('posts').orderByValue('postTime').once("value", function (snapshot) {
+        firebase.database().ref('posts').once("value", function (snapshot) {
             var array = [];
             snapshot.forEach(function (data) {
                 var post = {
