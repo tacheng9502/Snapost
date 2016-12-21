@@ -2,7 +2,7 @@ jQuery(document).ready(function ($) {
     var newImageFile, userName, userImage, userId;
 
     function showPost() {
-        firebase.database().ref('posts').orderByKey().once("value", function (snapshot) {
+        firebase.database().ref('posts').once("value", function (snapshot) {
             var array = [];
             snapshot.forEach(function (data) {
                 var post = {
@@ -14,7 +14,7 @@ jQuery(document).ready(function ($) {
                     postTime: data.val().postTime,
                     postImage: data.val().postImage
                 };
-                array.push(post);
+                array.push(post).revese;
             });
             $('#list').children().remove();
             for (var i = 0; i < array.length; i++) {
