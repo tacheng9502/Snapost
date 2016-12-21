@@ -11,13 +11,16 @@ jQuery(document).ready(function ($) {
             data: {
                 x : 'x',
                 columns: [
-                        ['x', array[0].time.toString(), array[1].time.toString(), array[2].time.toString()],
+                        
                 ],
                 type: 'bar'
             },bar: {
                 width: {ratio: 0.2 }
-            }, axis: {
-                x: {type: 'category'}
+            },axis: {
+                x: {
+                    type: 'category',
+                    categories: [array[0].time.toString(), array[1].time.toString(), array[2].time.toString()]
+                    }
                 }
         });
         for(var i=0;i<array.length;i++){
