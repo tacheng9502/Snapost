@@ -1,25 +1,16 @@
 <link href="assets/css/c3.min.css" rel="stylesheet" type="text/css">
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="assets/js/c3.min.js"></script>
-<div id="postcount"></div>
+<div id="chart"></div>
 <script>
-jQuery(document).ready(function ($) {
-
-    function createLine(array){
-        var postcount = c3.generate({
-            data: {
-                columns: [
-                    ['data1', 30, 200, 100, 400, 150, 250],
-                    ['data2', 130, 100, 140, 200, 150, 50]
-                ],
-                type: 'bar'
-            }
-        });
-
+var chart = c3.generate({
+    data: {
+        columns: [
+            ['data1', 30, 200, 100, 400, 150, 250],
+            ['data2', 130, 100, 140, 200, 150, 50]
+        ],
+        type: 'bar'
     }
-
-
-
 });
 
 </script>
