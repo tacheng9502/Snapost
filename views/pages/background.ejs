@@ -13,7 +13,7 @@ jQuery(document).ready(function ($) {
                 ],
                 type: 'bar'
             },bar: {
-                width: {ratio: 0.5 }
+                width: {ratio: 0.2 }
             }
         });
         for(var i=0;i<array.length;i++){
@@ -27,7 +27,7 @@ jQuery(document).ready(function ($) {
 
     }
 
-    firebase.database().ref('statistic').limitToFirst(2).once("value", function (snapshot){
+    firebase.database().ref('statistic').limitToLast(2).once("value", function (snapshot){
         var array = [];
         snapshot.forEach(function(data){
             var post = {
