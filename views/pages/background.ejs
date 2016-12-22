@@ -97,7 +97,7 @@ function creategauge(val){
         });
     }
 
-    firebase.database().ref('statistic').limitToLast(3).once("value", function (snapshot){
+    firebase.database().ref('statistic').once("value", function (snapshot){
         var array = [];
         snapshot.forEach(function(data){
             var post = {
