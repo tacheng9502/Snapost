@@ -26,10 +26,7 @@ jQuery(document).ready(function ($) {
                         '<div class="info"><a href="/profile?u=' + array[i].userId + '" >' +
                         '<img src="' + array[i].userImage + '" class="img-circle" width="25px">' +
                         '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2></a>' +
-                        '<span class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() +
-                        '/' +
-                        date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() +
-                        '</span>' +
+                        '<span class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>' +
                         '<div id="' + array[i].postKey + '_operate" class="navi pull-right">' +
                         '<button id="' + array[i].postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
                         '<i id="' + array[i].postKey + '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i></button>&nbsp;' +
@@ -46,6 +43,7 @@ jQuery(document).ready(function ($) {
                         '<button id="' + array[i].postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button">發送</button>' +
                         '</span>' +
                         '</div>' +
+                        '<ul id="' + array[i].postKey + '_commentList" class="msg"></ul>'+
                         '</li>'
                     );
                 } else {
@@ -54,10 +52,7 @@ jQuery(document).ready(function ($) {
                         '<div class="info"><a href="/profile?u=' + array[i].userId + '" >' +
                         '<img src="' + array[i].userImage + '" class="img-circle" width="25px">' +
                         '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2></a>' +
-                        '<span class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() +
-                        '/' +
-                        date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() +
-                        '</span>' +
+                        '<span class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' +date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() +'</span>' +
                         '</div>' +
                         '<p id="' + array[i].postKey + '_body">' + array[i].postBody + '</p>' +
                         '<img id="' + array[i].postKey + '_postImage" class="postImage" src="' + array[i].postImage + '"/>' +
@@ -69,12 +64,31 @@ jQuery(document).ready(function ($) {
                         '<button id="' + array[i].postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button">發送</button>' +
                         '</span>' +
                         '</div>' +
+                        '<ul id="' + array[i].postKey + '_commentList" class="msg"></ul>'+
                         '</li>'
                     );
                 }
             }
         }, function (errorObject) {
             console.log("The read failed: " + errorObject.code);
+        });
+    }
+
+    function showComment(){
+        firebase.database().ref('post-comments').once("value", function (snapshot) {
+            snapshot.forEach(function (data) {
+                var comment = {
+                    postKey: data.key,
+                    userId: data.val().userId,
+                    userName: data.val().userName,
+                    userImage: data.val().userImage,
+                    commentBody: data.val().commentBody,
+                    commentTime: data.val().commentTime
+                };
+                $('#'+comment.postKey+ '_commentList').append(
+                    '<li>'+comment.userName+'：'+commentBody+'</li>'
+                );
+            });
         });
     }
 
