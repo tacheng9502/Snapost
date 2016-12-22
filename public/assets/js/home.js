@@ -40,7 +40,13 @@ jQuery(document).ready(function ($) {
                         '<img id="' + array[i].postKey + '_postImage" class="postImage" src="' + array[i].postImage + '"/>' +
                         '<button id="' + array[i].postKey + '_like" class="btn btn-default" onclick="" >'+
                         '<i id="' + array[i].postKey + '_like" class="fa fa-heart-o" onclick="" title="edit"></i></button></br>'+
-                        '<input type="text" class="form-control" placeholder="Password">'+
+                        '<div class="input-group">'+
+                        '<span class="input-group-addon"><i class="fa fa-picture-o fa-fw" aria-hidden="true"></i></span>'+
+                        '<input type="text" class="form-control" placeholder="留言...">'+
+                        '<span class="input-group-btn">'+
+                        '<button class="btn btn-primary" id="img_input" type="button"><i class="fa fa-search fa-fw" aria-hidden="true"></i>&nbsp;發送</button>'+
+                        '</span>'+
+                        '</div>'+
                         '</li>'
                     );
                 } else {
@@ -56,6 +62,15 @@ jQuery(document).ready(function ($) {
                         '</div>' +
                         '<p id="' + array[i].postKey + '_body">' + array[i].postBody + '</p>' +
                         '<img id="' + array[i].postKey + '_postImage" class="postImage" src="' + array[i].postImage + '"/>' +
+                        '<button id="' + array[i].postKey + '_like" class="btn btn-default" onclick="" >'+
+                        '<i id="' + array[i].postKey + '_like" class="fa fa-heart-o" onclick="" title="edit"></i></button></br>'+
+                        '<div class="input-group">'+
+                        '<span class="input-group-addon"><i class="fa fa-picture-o fa-fw" aria-hidden="true"></i></span>'+
+                        '<input type="text" class="form-control" placeholder="留言...">'+
+                        '<span class="input-group-btn">'+
+                        '<button class="btn btn-primary" id="img_input" type="button"><i class="fa fa-search fa-fw" aria-hidden="true"></i>&nbsp;發送</button>'+
+                        '</span>'+
+                        '</div>'+
                         '</li>'
                     );
                 }
