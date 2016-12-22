@@ -3,6 +3,7 @@
 <script src="assets/js/c3.min.js"></script>
 <div id="totalpost"></div>
 <div id="chart"></div>
+<div id="post"></div>
 <script>
 jQuery(document).ready(function ($) {
 var totalpost=0;
@@ -26,7 +27,8 @@ function creategauge(val){
             width: 39
         },
         size: {
-            height: 180
+            height: 180,
+            width:500
         }
     });
 }
@@ -63,7 +65,48 @@ function creategauge(val){
 
     }
 
-    firebase.database().ref('statistic').limitToLast(3).once("value", function (snapshot){
+    function createspline(array){
+        var total=0;
+        var arr=[];
+        var arr1=[];
+        var xarr=[];
+        arr[0]="累計貼文數"
+        arr1[0]="單月貼文數"
+        xarr[0]="x"
+        var chart = c3.generate({
+            bindto: '#post',
+             data: {
+        x : 'x',         
+        columns: [
+           
+        ],
+        type: 'spline'
+        },axis: {
+                x: {
+                    type: 'category',
+                    }
+                }
+        });
+        for(var i=0;i<array.length;i++){
+            total=total+array[i].postCount;
+            arr.push(total);
+            arr1.push(array[i].postCount);
+            xarr.push(array[i].time.toString());
+        };
+        chart.load({
+            columns:[
+                arr,
+                arr1,
+                xarr
+            ],
+            axes: {
+                累計貼文數: 'y',
+                單月貼文數: 'y2'
+            },types:{單月貼文數:'bar'},
+        });
+    }
+
+    firebase.database().ref('statistic').once("value", function (snapshot){
         var array = [];
         snapshot.forEach(function(data){
             var post = {
@@ -73,7 +116,7 @@ function creategauge(val){
                 array.push(post);
         });
         createLine(array);
-        
+        createspline(array);
     });
 
     firebase.database().ref('statistic').once("value", function (snapshot){
