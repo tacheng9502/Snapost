@@ -1,6 +1,24 @@
 jQuery(document).ready(function ($) {
     var newImageFile, userName, userImage, userId;
 
+    function showComment(){
+        firebase.database().ref('post-comments').once("value", function (snapshot) {
+            snapshot.forEach(function (data) {
+                var comment = {
+                    postKey: data.key,
+                    userId: data.val().userId,
+                    userName: data.val().userName,
+                    userImage: data.val().userImage,
+                    commentBody: data.val().commentBody,
+                    commentTime: data.val().commentTime
+                };
+                $('#'+comment.postKey+ '_commentList').append(
+                    '<li>'+comment.userName+'：'+commentBody+'</li>'
+                );
+            });
+        });
+    }
+
     function showPost() {
         firebase.database().ref('posts').once("value", function (snapshot) {
             var array = [];
@@ -72,24 +90,7 @@ jQuery(document).ready(function ($) {
         }, function (errorObject) {
             console.log("The read failed: " + errorObject.code);
         });
-    }
-
-    function showComment(){
-        firebase.database().ref('post-comments').once("value", function (snapshot) {
-            snapshot.forEach(function (data) {
-                var comment = {
-                    postKey: data.key,
-                    userId: data.val().userId,
-                    userName: data.val().userName,
-                    userImage: data.val().userImage,
-                    commentBody: data.val().commentBody,
-                    commentTime: data.val().commentTime
-                };
-                $('#'+comment.postKey+ '_commentList').append(
-                    '<li>'+comment.userName+'：'+commentBody+'</li>'
-                );
-            });
-        });
+        showComment();
     }
 
     firebase.auth().onAuthStateChanged(function (user) {
