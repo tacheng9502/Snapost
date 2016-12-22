@@ -339,7 +339,8 @@ jQuery(document).ready(function ($) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -5);
         firebase.database().ref('/post-likes/' + postKey + '/' + userId).once("value", function (snapshot) {
-            if (snapshot) {
+            console.log(snapshot);
+            if (snapshot!=null) {
                 var deletes = {};
                 deletes['/post-likes/' + postKey + '/' + userId] = null;
                 firebase.database().ref().update(deletes);
