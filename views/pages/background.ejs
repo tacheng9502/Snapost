@@ -1,9 +1,33 @@
 <link href="assets/css/c3.min.css" rel="stylesheet" type="text/css">
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="assets/js/c3.min.js"></script>
+<div id="totalpost"></div>
 <div id="chart"></div>
 <script>
 jQuery(document).ready(function ($) {
+var totalpost=0;
+function creategauge(val){
+    var chart = c3.generate({
+        bindto: '#totalpost',
+        data: {
+            columns: [
+                ['貼文總數',val]
+            ],
+            type: 'gauge',
+        },
+        gauge: {
+            max: 500,
+            units: 'post',
+            width: 39
+        },
+        size: {
+            height: 180
+        }
+    });
+}
+
+
+
 
     function createLine(array){
         var total=0;
@@ -44,6 +68,15 @@ jQuery(document).ready(function ($) {
                 array.push(post);
         });
         createLine(array);
+        
+    });
+
+    firebase.database().ref('statistic').once("value", function (snapshot){
+        snapshot.forEach(function(data){
+                temp=data.val().postCount;
+                totalpost=totalpost+temp;
+        });
+        creategauge(totalpost);
         
     });
 
