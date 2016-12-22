@@ -31,21 +31,21 @@ jQuery(document).ready(function ($) {
                         date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() +
                         '</span>' +
                         '<div id="' + array[i].postKey + '_operate" class="navi pull-right">' +
-                        '<button id="' + array[i].postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >'+
+                        '<button id="' + array[i].postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
                         '<i id="' + array[i].postKey + '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i></button>&nbsp;' +
-                        '<button id="' + array[i].postKey + '_delete" class="btn btn-default" onclick="clickDelete(event)" >'+
+                        '<button id="' + array[i].postKey + '_delete" class="btn btn-default" onclick="clickDelete(event)" >' +
                         '<i id="' + array[i].postKey + '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i></button>' +
                         '</div></div>' +
                         '<p id="' + array[i].postKey + '_body">' + array[i].postBody + '</p>' +
                         '<img id="' + array[i].postKey + '_postImage" class="postImage" src="' + array[i].postImage + '"/>' +
-                        '<button id="' + array[i].postKey + '_like" class="btn btn-default" onclick="" >'+
-                        '<i id="' + array[i].postKey + '_like" class="fa fa-heart-o" onclick="" title="edit"></i></button></br>'+
-                        '<div class="input-group">'+
-                        '<input type="text" class="form-control" placeholder="留言...">'+
-                        '<span class="input-group-btn">'+
-                        '<button class="btn btn-primary" type="button">發送</button>'+
-                        '</span>'+
-                        '</div>'+
+                        '<button id="' + array[i].postKey + '_like" class="btn btn-default" onclick="" >' +
+                        '<i id="' + array[i].postKey + '_like" class="fa fa-heart-o" onclick="" title="edit"></i></button></br>' +
+                        '<div class="input-group">' +
+                        '<input type="text" class="form-control" placeholder="留言...">' +
+                        '<span class="input-group-btn">' +
+                        '<button class="btn btn-primary" type="button">發送</button>' +
+                        '</span>' +
+                        '</div>' +
                         '</li>'
                     );
                 } else {
@@ -61,14 +61,14 @@ jQuery(document).ready(function ($) {
                         '</div>' +
                         '<p id="' + array[i].postKey + '_body">' + array[i].postBody + '</p>' +
                         '<img id="' + array[i].postKey + '_postImage" class="postImage" src="' + array[i].postImage + '"/>' +
-                        '<button id="' + array[i].postKey + '_like" class="btn btn-default" onclick="" >'+
-                        '<i id="' + array[i].postKey + '_like" class="fa fa-heart-o" onclick="" title="edit"></i></button></br>'+
-                        '<div class="input-group">'+
-                        '<input type="text" class="form-control" placeholder="留言...">'+
-                        '<span class="input-group-btn">'+
-                        '<button class="btn btn-primary" type="button">發送</button>'+
-                        '</span>'+
-                        '</div>'+
+                        '<button id="' + array[i].postKey + '_like" class="btn btn-default" onclick="" >' +
+                        '<i id="' + array[i].postKey + '_like" class="fa fa-heart-o" onclick="" title="edit"></i></button></br>' +
+                        '<div class="input-group">' +
+                        '<input id="' + array[i].postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
+                        '<span class="input-group-btn">' +
+                        '<button id="' + array[i].postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button">發送</button>' +
+                        '</span>' +
+                        '</div>' +
                         '</li>'
                     );
                 }
@@ -119,12 +119,99 @@ jQuery(document).ready(function ($) {
         }
     });
 
+    $('#clearNewPost').on('click', function (event) {
+        event.preventDefault();
+        $('.form-control').val("");
+        $('#newPost_body').val("");
+        $("#img_preview").empty();
+        newImageFile = null;
+    });
+
+    $('#userInfo').on('click', function (event) {
+        event.preventDefault();
+        window.location.href = "/profile?u=" + userId;
+    });
+
+    $('#writeNewPost').on('click', function (event) {
+        event.preventDefault();
+        var postBody = $('#newPost_body').val();
+        var date = new Date();
+        var postTime = date.getTime();
+        var newPostKey = firebase.database().ref().child('posts').push().key;
+        var metadata = {
+            contentType: 'image/jpeg'
+        };
+
+        newImageFile.croppie('result', {
+            type: 'blob',
+            size: 'viewport',
+            format: 'jpeg'
+        }).then(function (resp) {
+            var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(resp, metadata);
+            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+                function (snapshot) {
+                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                    switch (snapshot.state) {
+                        case firebase.storage.TaskState.PAUSED:
+                            console.log('Upload is paused');
+                            break;
+                        case firebase.storage.TaskState.RUNNING:
+                            console.log('Upload is running');
+                            break;
+                    }
+                },
+                function (error) {
+                    switch (error.code) {
+                        case 'storage/unauthorized':
+                            // User doesn't have permission to access the object
+                            break;
+                        case 'storage/canceled':
+                            // User canceled the upload
+                            break;
+                        case 'storage/unknown':
+                            // Unknown error occurred, inspect error.serverResponse
+                            break;
+                    }
+                },
+                function () {
+                    // Upload completed successfully, now we can get the download URL
+                    var downloadURL = uploadTask.snapshot.downloadURL;
+                    // A post entry.
+                    var postData = {
+                        userId: userId,
+                        userName: userName,
+                        userImage: userImage,
+                        postBody: postBody,
+                        postTime: postTime,
+                        postImage: downloadURL
+                    };
+
+                    var sets = {};
+                    sets['/posts/' + newPostKey] = postData;
+
+                    firebase.database().ref().update(sets);
+                    $('.form-control').val("");
+                    $('#newPost_body').val("");
+                    $("#img_preview").empty();
+                    newImageFile = null;
+                    showPost();
+
+                    var thisYear = date.getFullYear();
+                    var thisMonth = date.getMonth() + 1;
+                    firebase.database().ref('statistic/' + thisYear + '-' + thisMonth + '/postCount').transaction(function (currentCount) {
+                        return currentCount + 1;
+                    });
+                });
+        });
+    });
+
     window.dragHandler = function (e) {
         e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
         e.preventDefault();
     }
 
-    window.drop_image = function (e) {
+    window.dropImage = function (e) {
         e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
         e.preventDefault();
         var reader = new FileReader();
@@ -206,91 +293,26 @@ jQuery(document).ready(function ($) {
             });
     }
 
-    $('#writeNewPost').on('click', function (event) {
+    window.writeNewComment = function (event) {
         event.preventDefault();
-        var postBody = $('#newPost_body').val();
+        var postKey = event.target.id.slice(0, -7);
         var date = new Date();
         var postTime = date.getTime();
-        var newPostKey = firebase.database().ref().child('posts').push().key;
-        var metadata = {
-            contentType: 'image/jpeg'
+        var commentBody = $('#' + postKey + '_commentBody').val();
+        var newCommentKey = firebase.database().ref().child('post-comments').push().key;
+
+        var commentData = {
+            userId: userId,
+            userName: userName,
+            userImage: userImage,
+            commentBody: commentBody,
+            commentTime: commentTime
         };
 
-        newImageFile.croppie('result', {
-            type: 'blob',
-            size: 'viewport',
-            format: 'jpeg'
-        }).then(function (resp) {
-            var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(resp, metadata);
-            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-                function (snapshot) {
-                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
-                    switch (snapshot.state) {
-                        case firebase.storage.TaskState.PAUSED:
-                            console.log('Upload is paused');
-                            break;
-                        case firebase.storage.TaskState.RUNNING:
-                            console.log('Upload is running');
-                            break;
-                    }
-                },
-                function (error) {
-                    switch (error.code) {
-                        case 'storage/unauthorized':
-                            // User doesn't have permission to access the object
-                            break;
-                        case 'storage/canceled':
-                            // User canceled the upload
-                            break;
-                        case 'storage/unknown':
-                            // Unknown error occurred, inspect error.serverResponse
-                            break;
-                    }
-                },
-                function () {
-                    // Upload completed successfully, now we can get the download URL
-                    var downloadURL = uploadTask.snapshot.downloadURL;
-                    // A post entry.
-                    var postData = {
-                        userId: userId,
-                        userName: userName,
-                        userImage: userImage,
-                        postBody: postBody,
-                        postTime: postTime,
-                        postImage: downloadURL
-                    };
-
-                    var sets = {};
-                    sets['/posts/' + newPostKey] = postData;
-
-                    firebase.database().ref().update(sets);
-                    $('.form-control').val("");
-                    $('#newPost_body').val("");
-                    $("#img_preview").empty();
-                    newImageFile = null;
-                    showPost();
-
-                    var thisYear = date.getFullYear();
-                    var thisMonth = date.getMonth()+1;
-                    firebase.database().ref('statistic/'+thisYear+'-'+thisMonth+'/postCount').transaction(function (currentCount) {
-                        return currentCount + 1;
-                    });
-                });
-        });
-    });
-
-    $('#clearNewPost').on('click', function (event) {
-        event.preventDefault();
-        $('.form-control').val("");
-        $('#newPost_body').val("");
-        $("#img_preview").empty();
-        newImageFile = null;
-    });
-
-    $('#userInfo').on('click', function (event) {
-        event.preventDefault();
-        window.location.href = "/profile?u=" + userId;
-    });
+        var updates = {};
+        updates['/post-comments/' + postKey + '/' + newCommentKey] = commentData;
+        firebase.database().ref().update(updates);
+        showPost();
+    }
 
 });
