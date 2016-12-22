@@ -47,7 +47,7 @@ jQuery(document).ready(function ($) {
                         '<div class="info"><a href="/profile?u=' + array[i].userId + '" >' +
                         '<img src="' + array[i].userImage + '" class="img-circle" width="25px">' +
                         '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2></a>' +
-                        '<span class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>' +
+                        '<span id="' + array[i].postKey + '_postTime" class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>' +
                         '<div id="' + array[i].postKey + '_operate" class="navi pull-right">' +
                         '<button id="' + array[i].postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
                         '<i id="' + array[i].postKey + '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i></button>&nbsp;' +
@@ -73,7 +73,7 @@ jQuery(document).ready(function ($) {
                         '<div class="info"><a href="/profile?u=' + array[i].userId + '" >' +
                         '<img src="' + array[i].userImage + '" class="img-circle" width="25px">' +
                         '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2></a>' +
-                        '<span class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>' +
+                        '<span id="' + array[i].postKey + '_postTime" class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>' +
                         '</div>' +
                         '<p id="' + array[i].postKey + '_body">' + array[i].postBody + '</p>' +
                         '<img id="' + array[i].postKey + '_postImage" class="postImage" src="' + array[i].postImage + '"/>' +
@@ -292,6 +292,7 @@ jQuery(document).ready(function ($) {
     window.clickDelete = function (event) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -7);
+        var timeArray = $('#'+postKey+ '_postTime').val().split("/");
 
         swal({
                 title: "確認刪除留言?",
@@ -307,6 +308,9 @@ jQuery(document).ready(function ($) {
                 deletes['/posts/' + postKey] = null;
                 firebase.database().ref().update(deletes);
                 swal("已刪除", "留言已經成功刪除", "success");
+                firebase.database().ref('statistic/' + timeArray[0] + '-' + timeArray[1] + '/postCount').transaction(function (currentCount) {
+                    return currentCount - 1;
+                });
                 showPost();
             });
     }
