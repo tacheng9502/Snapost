@@ -84,6 +84,7 @@ function creategauge(val){
                 x: {
                     type: 'category',
                     }
+                y2:{show:true}
                 }
         });
         for(var i=0;i<array.length;i++){
@@ -97,8 +98,11 @@ function creategauge(val){
                 arr,
                 arr1,
                 xarr
-            ],types:{單月貼文數:'bar'},
-            bar:{width: 10}
+            ],
+            axes: {
+                累計貼文數: 'y',
+                單月貼文數: 'y2'
+            },types:{單月貼文數:'bar'}, 
         });
     }
 
