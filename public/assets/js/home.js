@@ -2,9 +2,10 @@ jQuery(document).ready(function ($) {
     var newImageFile, userName, userImage, userId;
 
     function showPost() {
+        var array = [];
+
         firebase.database().ref('posts').once("value", function (snapshot) {
             $('#list').children().remove();
-            var array = [];
             snapshot.forEach(function (data) {
                 var post = {
                     postKey: data.key,
@@ -85,7 +86,6 @@ jQuery(document).ready(function ($) {
                         );
                     });
                 });
-
 
             }
         }, function (errorObject) {
