@@ -41,9 +41,9 @@ jQuery(document).ready(function ($) {
                         '<button id="' + array[i].postKey + '_like" class="btn btn-default" onclick="" >' +
                         '<i id="' + array[i].postKey + '_like" class="fa fa-heart-o" onclick="" title="edit"></i></button></br>' +
                         '<div class="input-group">' +
-                        '<input type="text" class="form-control" placeholder="留言...">' +
+                        '<input id="' + array[i].postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
                         '<span class="input-group-btn">' +
-                        '<button class="btn btn-primary" type="button">發送</button>' +
+                        '<button id="' + array[i].postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button">發送</button>' +
                         '</span>' +
                         '</div>' +
                         '</li>'
@@ -297,7 +297,7 @@ jQuery(document).ready(function ($) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -7);
         var date = new Date();
-        var postTime = date.getTime();
+        var commentTime = date.getTime();
         var commentBody = $('#' + postKey + '_commentBody').val();
         var newCommentKey = firebase.database().ref().child('post-comments').push().key;
 
@@ -312,7 +312,7 @@ jQuery(document).ready(function ($) {
         var updates = {};
         updates['/post-comments/' + postKey + '/' + newCommentKey] = commentData;
         firebase.database().ref().update(updates);
-        console.log("留言成功");
+        $('#' + postKey + '_commentBody').val("");
         showPost();
     }
 
