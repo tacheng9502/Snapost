@@ -16,6 +16,11 @@ function creategauge(val){
             type: 'gauge',
         },
         gauge: {
+            label:{
+                format: function(value, ratio){
+                    return value;
+                    },
+                },
             max: 500,
             units: 'post',
             width: 39
