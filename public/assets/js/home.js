@@ -31,15 +31,16 @@ jQuery(document).ready(function ($) {
                         date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() +
                         '</span>' +
                         '<div id="' + array[i].postKey + '_operate" class="navi pull-right">' +
-                        '<button id="' + array[i].postKey +
-                        '_update" class="btn btn-default" onclick="clickUpdate(event)" ><i id="' + array[i].postKey +
-                        '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i></button>&nbsp;' +
-                        '<button id="' + array[i].postKey +
-                        '_delete" class="btn btn-default" onclick="clickDelete(event)" ><i id="' + array[i].postKey +
-                        '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i></button>' +
+                        '<button id="' + array[i].postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >'+
+                        '<i id="' + array[i].postKey + '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i></button>&nbsp;' +
+                        '<button id="' + array[i].postKey + '_delete" class="btn btn-default" onclick="clickDelete(event)" >'+
+                        '<i id="' + array[i].postKey + '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i></button>' +
                         '</div></div>' +
                         '<p id="' + array[i].postKey + '_body">' + array[i].postBody + '</p>' +
                         '<img id="' + array[i].postKey + '_postImage" class="postImage" src="' + array[i].postImage + '"/>' +
+                        '<button id="' + array[i].postKey + '_like" class="btn btn-default" onclick="" >'+
+                        '<i id="' + array[i].postKey + '_like" class="fa fa-heart-o" onclick="" title="edit"></i></button></br>'+
+                        '<input type="text" class="form-control" placeholder="Password">'+
                         '</li>'
                     );
                 } else {
