@@ -2,10 +2,10 @@ jQuery(document).ready(function ($) {
     var newImageFile, userName, userImage, userId;
 
     function showPost() {
-        var array = [];
 
         firebase.database().ref('posts').once("value", function (snapshot) {
             $('#list').children().remove();
+            var array = [];
             snapshot.forEach(function (data) {
                 var post = {
                     postKey: data.key,
@@ -72,7 +72,8 @@ jQuery(document).ready(function ($) {
                     );
                 }
 
-                firebase.database().ref('/post-comments/' + array[i].postKey).once("value", function (snapshot) {
+                var parentKey = array[i].postKey;
+                firebase.database().ref('/post-comments/' + parentKey).once("value", function (snapshot) {
                     snapshot.forEach(function (data) {
                         var comment = {
                             userId: data.val().userId,
@@ -81,12 +82,11 @@ jQuery(document).ready(function ($) {
                             commentBody: data.val().commentBody,
                             commentTime: data.val().commentTime
                         };
-                        $('#' + array[i].postKey + '_commentList').append(
+                        $('#' + parentKey + '_commentList').append(
                             '<li>' + comment.userName + '：' + comment.commentBody + '</li>'
                         );
                     });
                 });
-
             }
         }, function (errorObject) {
             console.log("The read failed: " + errorObject.code);
