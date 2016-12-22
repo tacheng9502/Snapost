@@ -295,7 +295,7 @@ jQuery(document).ready(function ($) {
 
     window.writeNewComment = function (event) {
         event.preventDefault();
-        var postKey = event.target.id.slice(0, -7);
+        var postKey = event.target.id.slice(0, -8);
         var date = new Date();
         var commentTime = date.getTime();
         var commentBody = $('#' + postKey + '_commentBody').val();
