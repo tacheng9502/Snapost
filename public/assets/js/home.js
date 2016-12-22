@@ -312,6 +312,7 @@ jQuery(document).ready(function ($) {
         var updates = {};
         updates['/post-comments/' + postKey + '/' + newCommentKey] = commentData;
         firebase.database().ref().update(updates);
+        console.log("留言成功");
         showPost();
     }
 
