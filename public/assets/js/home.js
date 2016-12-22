@@ -292,7 +292,7 @@ jQuery(document).ready(function ($) {
     window.clickDelete = function (event) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -7);
-        var timeArray = $('#'+postKey+ '_postTime').val().split("/");
+        var timeArray = $('#'+postKey+ '_postTime').text().split("/");
 
         swal({
                 title: "確認刪除留言?",
