@@ -67,8 +67,10 @@ function creategauge(val){
     function createspline(array){
         var total=0;
         var arr=[];
+        var arr1=[];
         var xarr=[];
-        arr[0]="累計貼文"
+        arr[0]="累計貼文數"
+        arr1[0]="單月貼文數"
         xarr[0]="x"
         var chart = c3.generate({
             bindto: '#post',
@@ -87,13 +89,15 @@ function creategauge(val){
         for(var i=0;i<array.length;i++){
             total=total+array[i].postCount;
             arr.push(total);
+            arr1.push(array[i].postCount);
             xarr.push(array[i].time.toString());
         };
         chart.load({
             columns:[
                 arr,
+                arr1,
                 xarr
-            ]
+            ],types:{data2:'bar'}
         });
     }
 
