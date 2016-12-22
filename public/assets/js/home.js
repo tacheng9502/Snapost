@@ -1,29 +1,9 @@
 jQuery(document).ready(function ($) {
     var newImageFile, userName, userImage, userId;
 
-    function showComment() {
-        firebase.database().ref('/post-comments/').once("value", function (snapshot) {
-            snapshot.forEach(function (parentData) {
-                firebase.database().ref('/post-comments/'+parentData.key).once("value", function (cache) {
-                    cache.forEach(function (data) {
-                        var comment = {
-                            userId: data.val().userId,
-                            userName: data.val().userName,
-                            userImage: data.val().userImage,
-                            commentBody: data.val().commentBody,
-                            commentTime: data.val().commentTime
-                        };
-                        $('#' + parentData.key + '_commentList').append(
-                            '<li>' + comment.userName + '：' + comment.commentBody + '</li>'
-                        );
-                    });
-                });
-            });
-        });
-    }
-
     function showPost() {
         firebase.database().ref('posts').once("value", function (snapshot) {
+            $('#list').children().remove();
             var array = [];
             snapshot.forEach(function (data) {
                 var post = {
@@ -33,12 +13,13 @@ jQuery(document).ready(function ($) {
                     userImage: data.val().userImage,
                     postBody: data.val().postBody,
                     postTime: data.val().postTime,
-                    postImage: data.val().postImage
+                    postImage: data.val().postImage,
+                    likeCount: data.val().likeCount
                 };
                 array.push(post);
                 array.reverse();
             });
-            $('#list').children().remove();
+
             for (var i = 0; i < array.length; i++) {
                 var date = new Date(parseInt(array[i].postTime));
                 if (userId === array[i].userId) {
@@ -57,7 +38,7 @@ jQuery(document).ready(function ($) {
                         '<p id="' + array[i].postKey + '_body">' + array[i].postBody + '</p>' +
                         '<img id="' + array[i].postKey + '_postImage" class="postImage" src="' + array[i].postImage + '"/>' +
                         '<button id="' + array[i].postKey + '_like" class="btn btn-default" onclick="" >' +
-                        '<i id="' + array[i].postKey + '_like" class="fa fa-heart-o" onclick="" title="edit"></i></button></br>' +
+                        '<i id="' + array[i].postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit"></i></button>' + array[i].likeCount + '</br>' +
                         '<div class="input-group">' +
                         '<input id="' + array[i].postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
                         '<span class="input-group-btn">' +
@@ -78,7 +59,7 @@ jQuery(document).ready(function ($) {
                         '<p id="' + array[i].postKey + '_body">' + array[i].postBody + '</p>' +
                         '<img id="' + array[i].postKey + '_postImage" class="postImage" src="' + array[i].postImage + '"/>' +
                         '<button id="' + array[i].postKey + '_like" class="btn btn-default" onclick="" >' +
-                        '<i id="' + array[i].postKey + '_like" class="fa fa-heart-o" onclick="" title="edit"></i></button></br>' +
+                        '<i id="' + array[i].postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit"></i></button>' + array[i].likeCount + '</br>' +
                         '<div class="input-group">' +
                         '<input id="' + array[i].postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
                         '<span class="input-group-btn">' +
@@ -89,11 +70,27 @@ jQuery(document).ready(function ($) {
                         '</li>'
                     );
                 }
+
+                firebase.database().ref('/post-comments/' + array[i].postKey).once("value", function (snapshot) {
+                    snapshot.forEach(function (data) {
+                        var comment = {
+                            userId: data.val().userId,
+                            userName: data.val().userName,
+                            userImage: data.val().userImage,
+                            commentBody: data.val().commentBody,
+                            commentTime: data.val().commentTime
+                        };
+                        $('#' + array[i].postKey + '_commentList').append(
+                            '<li>' + comment.userName + '：' + comment.commentBody + '</li>'
+                        );
+                    });
+                });
+
+
             }
         }, function (errorObject) {
             console.log("The read failed: " + errorObject.code);
         });
-        showComment();
     }
 
     firebase.auth().onAuthStateChanged(function (user) {
@@ -292,7 +289,7 @@ jQuery(document).ready(function ($) {
     window.clickDelete = function (event) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -7);
-        var timeArray = $('#'+postKey+ '_postTime').text().split("/");
+        var timeArray = $('#' + postKey + '_postTime').text().split("/");
 
         swal({
                 title: "確認刪除留言?",
@@ -336,6 +333,32 @@ jQuery(document).ready(function ($) {
         firebase.database().ref().update(updates);
         $('#' + postKey + '_commentBody').val("");
         showPost();
+    }
+
+    window.clickLike = function (event) {
+        event.preventDefault();
+        var postKey = event.target.id.slice(0, -5);
+        firebase.database().ref('/post-likes/' + postKey + '/' + userId).once("value", function (snapshot) {
+            if (snapshot) {
+                var deletes = {};
+                deletes['/post-likes/' + postKey + '/' + userId] = null;
+                firebase.database().ref().update(deletes);
+                firebase.database().ref('/posts/' + postKey + '/' + 'likeCount').transaction(function (currentCount) {
+                    return currentCount - 1;
+                });
+            } else {
+                var likeData = {
+                    userId: userId,
+                    userName: userName
+                };
+                var updates = {};
+                updates['/post-likes/' + postKey + '/' + userId] = likeData;
+                firebase.database().ref().update(updates);
+                firebase.database().ref('/posts/' + postKey + '/' + 'likeCount').transaction(function (currentCount) {
+                    return currentCount + 1;
+                });
+            }
+        });
     }
 
 });
