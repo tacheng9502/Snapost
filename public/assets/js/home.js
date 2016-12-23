@@ -40,7 +40,7 @@ jQuery(document).ready(function ($) {
     function startDatabaseQueries() {
 
         var postsRef = firebase.database().ref('posts').limitToLast(50);
-        postsRef.orderByChild("postTime").once("value", function (snapshot) {
+        postsRef.once("value", function (snapshot) {
             $('#list').children().remove();
             snapshot.forEach(function (data) {
                 var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
