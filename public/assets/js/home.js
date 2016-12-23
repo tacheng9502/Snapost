@@ -130,11 +130,11 @@ jQuery(document).ready(function ($) {
         var likeStatusRef = firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId);
         likeStatusRef.on('value', function (snapshot) {
             if (snapshot.val() != null) {
-                $('i#' + postKey + '_like').removeClass("fa fa-heart");
-                $('i#' + postKey + '_like').addClass("fa fa-heart-o fa-fw");
-            } else {
                 $('i#' + postKey + '_like').removeClass("fa fa-heart-o fa-fw");
                 $('i#' + postKey + '_like').addClass("fa fa-heart");
+            } else {
+                $('i#' + postKey + '_like').removeClass("fa fa-heart");
+                $('i#' + postKey + '_like').addClass("fa fa-heart-o fa-fw");
             }
         });
 
