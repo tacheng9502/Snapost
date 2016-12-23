@@ -39,7 +39,7 @@ jQuery(document).ready(function ($) {
 
     function startDatabaseQueries() {
 
-        var recentPostsRef = firebase.database().ref('posts').limitToLast(50);
+        var postsRef = firebase.database().ref('posts').limitToLast(50);
         postsRef.ref('posts').once("value", function (snapshot) {
             $('#list').children().remove();
             var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
