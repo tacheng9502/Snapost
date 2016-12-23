@@ -6,8 +6,8 @@ jQuery(document).ready(function ($) {
             userId = user.uid;
             userName = user.displayName;
             userImage = user.photoURL;
-            $('.intro').attr('display')='none';
-            $('.content').attr('display')='';
+            $('.intro').setAttribute("hidden",true);
+            $('.content').removeAttribute("hidden");
             $('#userInfo').html(
                 '<img src="' + userImage + '" class="img-circle" width="30px">&nbsp;&nbsp;' +
                 '<span>' + userName + '</span>'
@@ -17,8 +17,8 @@ jQuery(document).ready(function ($) {
             userId = null;
             userName = null;
             userImage = null;
-            $('.intro').attr('display')='';
-            $('.content').attr('display')='none';
+            $('.intro').removeAttribute("hidden");
+            $('.content').setAttribute("hidden",true);
         }
     });
 
