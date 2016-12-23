@@ -83,7 +83,7 @@ jQuery(document).ready(function ($) {
                 '<p id="' + postKey + '_body">' + postBody + '</p>' +
                 '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
                 '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="" >' +
-                '<i id="' + postKey + '_like" class="fa fa-heart-o fa-fw" onclick="clickLike(event)">&nbsp' + likeCount + '</i></button></div>' +
+                '<i id="' + postKey + '_like" onclick="clickLike(event)">&nbsp' + likeCount + '</i></button></div>' +
                 '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
                 '<div class="msg-input"><div class="input-group">' +
                 '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
@@ -105,7 +105,7 @@ jQuery(document).ready(function ($) {
                 '<p id="' + postKey + '_body">' + postBody + '</p>' +
                 '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
                 '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="" >' +
-                '<i id="' + postKey + '_like" class="fa fa-heart-o fa-fw" onclick="clickLike(event)">&nbsp' + likeCount + '</i></button></div>' +
+                '<i id="' + postKey + '_like" onclick="clickLike(event)">&nbsp' + likeCount + '</i></button></div>' +
                 '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
                 '<div class="msg-input"><div class="input-group">' +
                 '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
@@ -124,11 +124,23 @@ jQuery(document).ready(function ($) {
 
         var likeCountRef = firebase.database().ref('posts/' + postKey + '/likeCount');
         likeCountRef.on('value', function (snapshot) {
-            $('i#'+postKey+'_like').html('&nbsp'+snapshot.val());
+            $('i#' + postKey + '_like').html('&nbsp' + snapshot.val());
+        });
+
+        var likeStatusRef = firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId);
+        likeStatusRef.on('value', function (snapshot) {
+            if (snapshot.val() != null) {
+                $('i#' + postKey + '_like').removeClass("fa fa-heart");
+                $('i#' + postKey + '_like').addClass("fa fa-heart-o fa-fw");
+            } else {
+                $('i#' + postKey + '_like').removeClass("fa fa-heart-o fa-fw");
+                $('i#' + postKey + '_like').addClass("fa fa-heart");
+            }
         });
 
         listeningFirebaseRefs.push(commentsRef);
         listeningFirebaseRefs.push(likeCountRef);
+        listeningFirebaseRefs.push(likeStatusRef);
 
         return html;
     }
@@ -370,21 +382,17 @@ jQuery(document).ready(function ($) {
     window.clickLike = function (event) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -5);
-        firebase.database().ref('/post-likes/' + postKey + '/' + currentUserId).once("value", function (snapshot) {
-            console.log(snapshot);
+        firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId).once("value", function (snapshot) {
             if (snapshot.val() != null) {
                 var deletes = {};
-                deletes['/post-likes/' + postKey + '/' + currentUserId] = null;
+                deletes['posts/' + postKey + '/likes/' + currentUserId] = null;
                 firebase.database().ref().update(deletes);
                 firebase.database().ref('/posts/' + postKey + '/' + 'likeCount').transaction(function (currentCount) {
                     return currentCount - 1;
                 });
             } else {
-                var likeData = {
-                    userName: userName
-                };
                 var updates = {};
-                updates['/post-likes/' + postKey + '/' + currentUserId] = likeData;
+                updates['posts/' + postKey + '/likes/' + currentUserId] = userName;
                 firebase.database().ref().update(updates);
                 firebase.database().ref('/posts/' + postKey + '/' + 'likeCount').transaction(function (currentCount) {
                     return currentCount + 1;
