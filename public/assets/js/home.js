@@ -122,13 +122,13 @@ jQuery(document).ready(function ($) {
             $('#' + postKey + '_commentList').append(html);
         });
 
-        var likeCounttRef = firebase.database().ref('posts/' + postKey + '/likeCount');
-        likeCounttRef.on('value', function (snapshot) {
+        var likeCountRef = firebase.database().ref('posts/' + postKey + '/likeCount');
+        likeCountRef.on('value', function (snapshot) {
             $('i#'+postKey+'_like').text('&nbsp'+snapshot.val());
         });
 
         listeningFirebaseRefs.push(commentsRef);
-        listeningFirebaseRefs.push(starCountRef);
+        listeningFirebaseRefs.push(likeCountRef);
 
         return html;
     }
