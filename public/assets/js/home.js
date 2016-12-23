@@ -83,9 +83,7 @@ jQuery(document).ready(function ($) {
                 '<p id="' + postKey + '_body">' + postBody + '</p>' +
                 '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
                 '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="" >' +
-                '<i id="' + postKey + '_likeT" class="fa fa-heart" onclick="clickLike(event)">&nbsp' + likeCount + '</i>'+
-                '<i id="' + postKey + '_likeF" class="fa fa-heart-o fa-fw" onclick="clickLike(event)">&nbsp' + likeCount + '</i>'+
-                '</button></div>' +
+                '<i id="' + postKey + '_like" class="fa fa-heart-o fa-fw" onclick="clickLike(event)">&nbsp' + likeCount + '</i></button></div>' +
                 '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
                 '<div class="msg-input"><div class="input-group">' +
                 '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
@@ -107,9 +105,7 @@ jQuery(document).ready(function ($) {
                 '<p id="' + postKey + '_body">' + postBody + '</p>' +
                 '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
                 '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="" >' +
-                '<i id="' + postKey + '_likeT" class="fa fa-heart" onclick="clickLike(event)">&nbsp' + likeCount + '</i>'+
-                '<i id="' + postKey + '_likeF" class="fa fa-heart-o fa-fw" onclick="clickLike(event)">&nbsp' + likeCount + '</i>'+
-                '</button></div>' +
+                '<i id="' + postKey + '_like" class="fa fa-heart-o fa-fw" onclick="clickLike(event)">&nbsp' + likeCount + '</i></button></div>' +
                 '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
                 '<div class="msg-input"><div class="input-group">' +
                 '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
@@ -128,18 +124,17 @@ jQuery(document).ready(function ($) {
 
         var likeCountRef = firebase.database().ref('posts/' + postKey + '/likeCount');
         likeCountRef.on('value', function (snapshot) {
-            $('i#' + postKey + '_likeT').html('&nbsp' + snapshot.val());
-            $('i#' + postKey + '_likeF').html('&nbsp' + snapshot.val());
+            $('i#' + postKey + '_like').html('&nbsp' + snapshot.val());
         });
 
         var likeStatusRef = firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId);
         likeStatusRef.on('value', function (snapshot) {
             if (snapshot.val() != null) {
-                $('i#' + postKey + '_likeT').removeAttr("hidden");
-                $('i#' + postKey + '_likeF').attr("hidden", true);
+                $('i#' + postKey + '_like').removeClass("fa fa-heart-o fa-fw");
+                $('i#' + postKey + '_like').addClass("fa fa-heart");
             } else {
-                $('i#' + postKey + '_likeT').attr("hidden", true);
-                $('i#' + postKey + '_likeF').removeAttr("hidden");
+                $('i#' + postKey + '_like').removeClass("fa fa-heart");
+                $('i#' + postKey + '_like').addClass("fa fa-heart-o fa-fw");
             }
         });
 
