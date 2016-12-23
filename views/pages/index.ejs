@@ -1,18 +1,12 @@
 <script type="text/javascript" src="assets/js/home.js"></script>
 
-<div class="intro" hidden>
+<div id="intro" class="intro" hidden>
     <img src="assets/img/intro.png">
     <h2>註冊以查看朋友的相片和動態。</h2>
     <button id="facebookLogin" type="button" class="btn btn-primary">Facebook 登入</button>
 </div>
 
-<div class="content" hidden>
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <!-- snapost -->
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1029651822605900" data-ad-slot="5743904279" data-ad-format="auto"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+<div id="content" class="content" hidden>
     <div class="msg-form" ondragover="javascript: dragHandler(event);" ondrop="javascript: dropImage(event);">
         <div class="form-group">
             <input type="file" class="file" id="file" accept="image/*">
