@@ -184,8 +184,15 @@ p {
     padding: 10px 20px;
 }
 
-.comment li {
-    padding: 10px 20px;
+.comment {
+    padding: 0 20px;
+    margin-bottom: 10px;
+}
+
+#list li .comment li {
+    border: 0px;
+    margin: 0px;
+    border-bottom: 3px;
 }
 
 .file {

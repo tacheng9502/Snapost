@@ -82,8 +82,8 @@ jQuery(document).ready(function ($) {
                 '</div>' +
                 '<p id="' + postKey + '_body">' + postBody + '</p>' +
                 '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
-                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-default" onclick="" >' +
-                '<i id="' + postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit"></i></button>' + likeCount + '</div></br>' +
+                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="" >' +
+                '<i id="' + postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit"></i></button>' + likeCount + '</div>' +
                 '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
                 '<div class="msg-input"><div class="input-group">' +
                 '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
@@ -104,10 +104,9 @@ jQuery(document).ready(function ($) {
                 '</div>' +
                 '<p id="' + postKey + '_body">' + postBody + '</p>' +
                 '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
-                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-default" onclick="" >' +
-                '<i id="' + postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit"></i></button>' + likeCount + '</div></br>' +
+                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="" >' +
+                '<i id="' + postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit"></i></button>' + likeCount + '</div>' +
                 '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
-                '</li>' +
                 '<div class="msg-input"><div class="input-group">' +
                 '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
                 '<span class="input-group-btn">' +
