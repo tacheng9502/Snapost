@@ -113,7 +113,8 @@ p {
 }
 
 .content {
-    width: 700px;
+    max-width: 602px;
+    width: 100%;
     margin: 40px auto;
 }
 
@@ -136,24 +137,26 @@ p {
 
 .msg-form {
     padding: 40px;
-    border: 1px solid #ccc;
+    border: 1px solid #eee;
     border-radius: 4px;
     margin: 0 0 40px 0;
     overflow: hidden;
 }
 
-.msg li {
+#list li {
     margin: 20px 0;
-    padding: 30px 40px;
-    border: 1px solid #ccc;
+    border: 1px solid #eee;
     border-radius: 4px;
 }
 
+#list p {
+    padding: 10px 20px;
+}
+
 .info {
-    padding-bottom: 8px;
-    margin-bottom: 15px;
-    border-bottom: 1px solid #ccc;
     overflow: hidden;
+    padding: 14px 20px 0px 20px;
+    border-bottom: 1px solid #eee;
 }
 
 .info img {
@@ -192,11 +195,6 @@ p {
 .profile:hover {
     background-color:#035ca0;
 }
-
-#list p {
-    margin-bottom: 10px;
-}
-
 
 /* Clear Float */
 
