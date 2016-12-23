@@ -180,6 +180,14 @@ p {
     padding: 14px 20px;
 }
 
+.postMenu {
+    padding: 10px 20px;
+}
+
+.comment li {
+    padding: 10px 20px;
+}
+
 .file {
     visibility: hidden;
     position: absolute;

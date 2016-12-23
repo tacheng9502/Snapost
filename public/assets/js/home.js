@@ -82,16 +82,16 @@ jQuery(document).ready(function ($) {
                 '</div>' +
                 '<p id="' + postKey + '_body">' + postBody + '</p>' +
                 '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
-                '<div><button id="' + postKey + '_like" class="btn btn-default" onclick="" >' +
+                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-default" onclick="" >' +
                 '<i id="' + postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit"></i></button>' + likeCount + '</div></br>' +
+                '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
+                '</li>' +
                 '<div class="msg-input"><div class="input-group">' +
                 '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
                 '<span class="input-group-btn">' +
                 '<button id="' + postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button"><i class="fa fa-paper-plane fa-fw" aria-hidden="true"></i>&nbsp;發送</button>' +
                 '</span>' +
-                '</div></div>' +
-                '<ul id="' + postKey + '_commentList" class="msg"></ul>' +
-                '</li>';
+                '</div></div>';
         } else {
             var html =
                 '<li id="' + postKey + '">' +
@@ -104,16 +104,16 @@ jQuery(document).ready(function ($) {
                 '</div>' +
                 '<p id="' + postKey + '_body">' + postBody + '</p>' +
                 '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
-                '<div><button id="' + postKey + '_like" class="btn btn-default" onclick="" >' +
+                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-default" onclick="" >' +
                 '<i id="' + postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit"></i></button>' + likeCount + '</div></br>' +
+                '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
+                '</li>' +
                 '<div class="msg-input"><div class="input-group">' +
                 '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
                 '<span class="input-group-btn">' +
                 '<button id="' + postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button"><i class="fa fa-paper-plane fa-fw" aria-hidden="true"></i>&nbsp;發送</button>' +
                 '</span>' +
-                '</div></div>' +
-                '<ul id="' + postKey + '_commentList" class="msg"></ul>' +
-                '</li>';
+                '</div></div>';
         }
 
         var commentsRef = firebase.database().ref('post-comments/' + postKey);
