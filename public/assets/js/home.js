@@ -83,11 +83,7 @@ jQuery(document).ready(function ($) {
                 '<p id="' + postKey + '_body">' + postBody + '</p>' +
                 '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
                 '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="" >' +
-<<<<<<< HEAD
                 '<i id="' + postKey + '_like" class="fa fa-heart-o fa-fw" onclick="clickLike(event)"></i></button>' + likeCount + '</div>' +
-=======
-                '<i id="' + postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit">' + likeCount + '</i></button></div>' +
->>>>>>> 9a34fa963a83a74b691436d680eaf91aee4fff9f
                 '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
                 '<div class="msg-input"><div class="input-group">' +
                 '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
@@ -109,11 +105,7 @@ jQuery(document).ready(function ($) {
                 '<p id="' + postKey + '_body">' + postBody + '</p>' +
                 '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
                 '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="" >' +
-<<<<<<< HEAD
                 '<i id="' + postKey + '_like" class="fa fa-heart-o fa-fw" onclick="clickLike(event)"></i></button>' + likeCount + '</div>' +
-=======
-                '<i id="' + postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit">' + likeCount + '</i></button></div>' +
->>>>>>> 9a34fa963a83a74b691436d680eaf91aee4fff9f
                 '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
                 '<div class="msg-input"><div class="input-group">' +
                 '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
@@ -132,7 +124,7 @@ jQuery(document).ready(function ($) {
 
         var likeCountRef = firebase.database().ref('posts/' + postKey + '/likeCount');
         likeCountRef.on('value', function (snapshot) {
-            $('i#'+postKey+'_like').text('&nbsp'+snapshot.val());
+            $('i#'+postKey+'_like').html('&nbsp'+snapshot.val());
         });
 
         listeningFirebaseRefs.push(commentsRef);
