@@ -153,10 +153,13 @@ p {
     padding: 10px 20px;
 }
 
+.postImage {
+    width: 100%;
+}
+
 .info {
     overflow: hidden;
     padding: 14px 20px 0px 20px;
-    border-bottom: 1px solid #eee;
 }
 
 .info img {
@@ -171,6 +174,10 @@ p {
     color: #bbb;
     font-style: italic;
     font-size: 13px;
+}
+
+.msg-input {
+    padding: 14px 20px;
 }
 
 .file {
