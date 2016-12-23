@@ -57,10 +57,10 @@ jQuery(document).ready(function ($) {
             $(html).insertBefore($("#list:first-child"));
         });
         postsRef.on('child_changed', function (data) {
-            $('#'+data.key+'_body').text(data.val().postBody);
+            $('#' + data.key + '_body').text(data.val().postBody);
         });
         postsRef.on('child_removed', function (data) {
-            $('#'+data.key).remove();
+            $('#' + data.key).remove();
         });
 
         listeningFirebaseRefs.push(postsRef);
@@ -100,6 +100,14 @@ jQuery(document).ready(function ($) {
                 '<ul id="' + postKey + '_commentList" class="msg"></ul>' +
                 '</li>';
 
+            var commentsRef = firebase.database().ref('post-comments/' + postKey);
+            commentsRef.on('child_added', function (data) {
+                var html = createCommentElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime);
+                $('#' + postKey + '_commentList').append(html);
+            });
+
+            listeningFirebaseRefs.push(commentsRef);
+
             return html;
         } else {
             var html =
@@ -124,8 +132,23 @@ jQuery(document).ready(function ($) {
                 '<ul id="' + postKey + '_commentList" class="msg"></ul>' +
                 '</li>';
 
+            var commentsRef = firebase.database().ref('post-comments/' + postKey);
+            commentsRef.on('child_added', function (data) {
+                var html = createCommentElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime);
+                $('#' + postKey + '_commentList').append(html);
+            });
+
+            listeningFirebaseRefs.push(commentsRef);
+
             return html;
         }
+    }
+
+    function createCommentElement(commentKey, userId, userName, userImage, commentBody, commentTime) {
+        var date = new Date(parseInt(commentTime));
+        var html =
+            '<li id =' + commentKey + '>' + userName + ':' + commentBody + '</li>';
+        return html;
     }
 
     $("#img_input").on('click', function () {
