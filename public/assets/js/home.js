@@ -6,7 +6,7 @@ jQuery(document).ready(function ($) {
             userId = user.uid;
             userName = user.displayName;
             userImage = user.photoURL;
-            $('#intro').attr("hidden",true);
+            $('#intro').attr("hidden", true);
             $('#content').removeAttr("hidden");
             $('#userInfo').html(
                 '<img src="' + userImage + '" class="img-circle" width="30px">&nbsp;&nbsp;' +
@@ -18,7 +18,7 @@ jQuery(document).ready(function ($) {
             userName = null;
             userImage = null;
             $('#intro').removeAttr("hidden");
-            $('#content').attr("hidden",true);
+            $('#content').attr("hidden", true);
         }
     });
 
@@ -36,6 +36,56 @@ jQuery(document).ready(function ($) {
             console.log(errorCode);
         });
     })
+
+    function startDatabaseQueries() {
+
+        var recentPostsRef = firebase.database().ref('posts').limitToLast(100);
+        var fetchPosts = function (postsRef) {
+            postsRef.on('child_added', function (data) {
+                var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+                $(html).insertBefore($("#list:first-child"));
+            });
+        };
+
+        // Fetching and displaying all posts of each sections.
+        fetchPosts(recentPostsRef);
+    }
+
+    function createPostElement(postKey, userId, userName, userImage, postBody, postTime, postImage, likeCount) {
+
+        var date = new Date(parseInt(postTime));
+        var html =
+            '<li>' +
+            '<div class="info">' +
+            '<a href="/profile?u=' + userId + '" >' +
+            '<img src="' + userImage + '" class="img-circle" width="25px">' +
+            '<h2 id="' + postKey + '_userName">' + userName + '</h2>' +
+            '</a>' +
+            '<span id="' + postKey + '_postTime" class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>' +
+            '<div id="' + postKey + '_operate" class="navi pull-right">' +
+            '<button id="' + postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
+            '<i id="' + postKey + '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i>' +
+            '</button>&nbsp;' +
+            '<button id="' + postKey + '_delete" class="btn btn-default" onclick="clickDelete(event)" >' +
+            '<i id="' + postKey + '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i>' +
+            '</button>' +
+            '</div>' +
+            '</div>' +
+            '<p id="' + postKey + '_body">' + postBody + '</p>' +
+            '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
+            '<button id="' + postKey + '_like" class="btn btn-default" onclick="" >' +
+            '<i id="' + postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit"></i></button>' + likeCount + '</br>' +
+            '<div class="input-group">' +
+            '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
+            '<span class="input-group-btn">' +
+            '<button id="' + postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button">發送</button>' +
+            '</span>' +
+            '</div>' +
+            '<ul id="' + postKey + '_commentList" class="msg"></ul>' +
+            '</li>';
+
+        return html;
+    }
 
     function showPost() {
 
