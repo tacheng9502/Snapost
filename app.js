@@ -30,8 +30,7 @@ app.use(static(path.join(__dirname, 'public')));
 app.use(favicon(__dirname + '/public/favicon.ico'));
 
 //路徑設定，有get與post指令
-app.get('/', page.login);
-app.get('/index', page.index);
+app.get('/', page.index);
 app.get('/profile', page.profile);
 app.get('/background',page.background);
 

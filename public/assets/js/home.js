@@ -1,6 +1,42 @@
 jQuery(document).ready(function ($) {
     var newImageFile, userName, userImage, userId;
 
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            userId = user.uid;
+            userName = user.displayName;
+            userImage = user.photoURL;
+            $('.intro').attr('display')='none';
+            $('.content').attr('display')='';
+            $('#userInfo').html(
+                '<img src="' + userImage + '" class="img-circle" width="30px">&nbsp;&nbsp;' +
+                '<span>' + userName + '</span>'
+            );
+            showPost();
+        } else {
+            userId = null;
+            userName = null;
+            userImage = null;
+            $('.intro').attr('display')='';
+            $('.content').attr('display')='none';
+        }
+    });
+
+    $('#facebookLogin').on('click', function (event) {
+        event.preventDefault();
+        var provider = new firebase.auth.FacebookAuthProvider();
+        firebase.auth().signInWithPopup(provider).then(function (result) {
+            var token = result.credential.accessToken;
+            var user = result.user;
+        }).catch(function (error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            var email = error.email;
+            var credential = error.credential;
+            console.log(errorCode);
+        });
+    })
+
     function showPost() {
 
         firebase.database().ref('posts').once("value", function (snapshot) {
@@ -92,21 +128,6 @@ jQuery(document).ready(function ($) {
             console.log("The read failed: " + errorObject.code);
         });
     }
-
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (!user) {
-            window.location.href = 'https://snapost.herokuapp.com/';
-        } else {
-            userName = user.displayName;
-            userImage = user.photoURL;
-            userId = user.uid;
-            $('#userInfo').html(
-                '<img src="' + userImage + '" class="img-circle" width="30px">&nbsp;&nbsp;' +
-                '<span>' + userName + '</span>'
-            );
-            showPost();
-        }
-    });
 
     $("#img_input").on('click', function () {
         var file = $(this).parent().parent().parent().find('.file');
@@ -340,7 +361,7 @@ jQuery(document).ready(function ($) {
         var postKey = event.target.id.slice(0, -5);
         firebase.database().ref('/post-likes/' + postKey + '/' + userId).once("value", function (snapshot) {
             console.log(snapshot);
-            if (snapshot.val()!=null) {
+            if (snapshot.val() != null) {
                 var deletes = {};
                 deletes['/post-likes/' + postKey + '/' + userId] = null;
                 firebase.database().ref().update(deletes);
@@ -349,7 +370,6 @@ jQuery(document).ready(function ($) {
                 });
             } else {
                 var likeData = {
-                    userId: userId,
                     userName: userName
                 };
                 var updates = {};
