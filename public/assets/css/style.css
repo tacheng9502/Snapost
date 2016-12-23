@@ -142,18 +142,16 @@ p {
     overflow: hidden;
 }
 
-.msg li {
+#list li {
     margin: 20px 0;
-    padding: 30px 40px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
 .info {
-    padding-bottom: 8px;
     margin-bottom: 15px;
-    border-bottom: 1px solid #ccc;
     overflow: hidden;
+    padding: 14px 20px;
 }
 
 .info img {
