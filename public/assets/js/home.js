@@ -57,10 +57,10 @@ jQuery(document).ready(function ($) {
             $(html).insertBefore($("#list:first-child"));
         });
         postsRef.on('child_changed', function (data) {
-            $('#'+data.key+'_body').text(data.val().postBody);
+            $('#' + data.key + '_body').text(data.val().postBody);
         });
         postsRef.on('child_removed', function (data) {
-            $('#'+data.key).remove();
+            $('#' + data.key).remove();
         });
 
         listeningFirebaseRefs.push(postsRef);
@@ -100,6 +100,20 @@ jQuery(document).ready(function ($) {
                 '<ul id="' + postKey + '_commentList" class="msg"></ul>' +
                 '</li>';
 
+            var commentsRef = firebase.database().ref('post-comments/' + postKey);
+            commentsRef.once("value", function (snapshot) {
+                snapshot.forEach(function (data) {
+                    var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+                    $('#' + postKey + '_commentList').append(html);
+                });
+            });
+            commentsRef.on('child_added', function (data) {
+                var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+                $('#' + postKey + '_commentList').append(html);
+            });
+
+            listeningFirebaseRefs.push(commentsRef);
+
             return html;
         } else {
             var html =
@@ -124,8 +138,29 @@ jQuery(document).ready(function ($) {
                 '<ul id="' + postKey + '_commentList" class="msg"></ul>' +
                 '</li>';
 
+            var commentsRef = firebase.database().ref('post-comments/' + postKey);
+            commentsRef.once("value", function (snapshot) {
+                snapshot.forEach(function (data) {
+                    var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+                    $('#' + postKey + '_commentList').append(html);
+                });
+            });
+            commentsRef.on('child_added', function (data) {
+                var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+                $('#' + postKey + '_commentList').append(html);
+            });
+
+            listeningFirebaseRefs.push(commentsRef);
+
             return html;
         }
+    }
+
+    function createCommentElement(commentKey, userId, userName, userImage, commentBody, commentTime) {
+        var date = new Date(parseInt(commentTime));
+        var html =
+            '<li id =' + commentKey + '>' + userName + ':' + commentBody + '</li>';
+        return html;
     }
 
     $("#img_input").on('click', function () {
@@ -230,7 +265,7 @@ jQuery(document).ready(function ($) {
                     $('#newPost_body').val("");
                     $("#img_preview").empty();
                     newImageFile = null;
-                    
+
 
                     var thisYear = date.getFullYear();
                     var thisMonth = date.getMonth() + 1;
@@ -328,7 +363,7 @@ jQuery(document).ready(function ($) {
                 firebase.database().ref('statistic/' + timeArray[0] + '-' + timeArray[1] + '/postCount').transaction(function (currentCount) {
                     return currentCount - 1;
                 });
-       
+
             });
     }
 
