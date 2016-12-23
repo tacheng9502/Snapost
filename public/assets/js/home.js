@@ -101,12 +101,6 @@ jQuery(document).ready(function ($) {
                 '</li>';
 
             var commentsRef = firebase.database().ref('post-comments/' + postKey);
-            commentsRef.once("value", function (snapshot) {
-                snapshot.forEach(function (data) {
-                    var html = createCommentElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime);
-                $('#' + postKey + '_commentList').append(html);
-                });
-            });
             commentsRef.on('child_added', function (data) {
                 var html = createCommentElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime);
                 $('#' + postKey + '_commentList').append(html);
@@ -139,12 +133,6 @@ jQuery(document).ready(function ($) {
                 '</li>';
 
             var commentsRef = firebase.database().ref('post-comments/' + postKey);
-            commentsRef.once("value", function (snapshot) {
-                snapshot.forEach(function (data) {
-                    var html = createCommentElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime);
-                    $('#' + postKey + '_commentList').append(html);
-                });
-            });
             commentsRef.on('child_added', function (data) {
                 var html = createCommentElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime);
                 $('#' + postKey + '_commentList').append(html);
