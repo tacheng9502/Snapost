@@ -111,7 +111,7 @@ jQuery(document).ready(function ($) {
                 '<span class="input-group-btn">' +
                 '<button id="' + postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button"><i class="fa fa-paper-plane fa-fw" aria-hidden="true"></i>&nbsp;發送</button>' +
                 '</span>' +
-                '</div</div>' +
+                '</div></div>' +
                 '<ul id="' + postKey + '_commentList" class="msg"></ul>' +
                 '</li>';
         }
