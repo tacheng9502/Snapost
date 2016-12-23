@@ -45,16 +45,9 @@ jQuery(document).ready(function ($) {
     function startDatabaseQueries() {
 
         var postsRef = firebase.database().ref('posts').limitToLast(50);
-        postsRef.once("value", function (snapshot) {
-            snapshot.forEach(function (data) {
-                var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-                $('#list').append(html);
-            });
-        });
-
         postsRef.on('child_added', function (data) {
             var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-            $(html).insertBefore($("#list:first-child"));
+            $('#list').append(html);
         });
         postsRef.on('child_changed', function (data) {
             $('#' + data.key + '_body').text(data.val().postBody);
@@ -99,16 +92,6 @@ jQuery(document).ready(function ($) {
                 '</div>' +
                 '<ul id="' + postKey + '_commentList" class="msg"></ul>' +
                 '</li>';
-
-            var commentsRef = firebase.database().ref('post-comments/' + postKey);
-            commentsRef.on('child_added', function (data) {
-                var html = createCommentElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime);
-                $('#' + postKey + '_commentList').append(html);
-            });
-
-            listeningFirebaseRefs.push(commentsRef);
-
-            return html;
         } else {
             var html =
                 '<li id="' + postKey + '">' +
@@ -131,17 +114,17 @@ jQuery(document).ready(function ($) {
                 '</div>' +
                 '<ul id="' + postKey + '_commentList" class="msg"></ul>' +
                 '</li>';
-
-            var commentsRef = firebase.database().ref('post-comments/' + postKey);
-            commentsRef.on('child_added', function (data) {
-                var html = createCommentElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime);
-                $('#' + postKey + '_commentList').append(html);
-            });
-
-            listeningFirebaseRefs.push(commentsRef);
-
-            return html;
         }
+
+        var commentsRef = firebase.database().ref('post-comments/' + postKey);
+        commentsRef.on('child_added', function (data) {
+            var html = createCommentElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime);
+            $('#' + postKey + '_commentList').append(html);
+        });
+
+        listeningFirebaseRefs.push(commentsRef);
+
+        return html;
     }
 
     function createCommentElement(commentKey, userId, userName, userImage, commentBody, commentTime) {
@@ -242,7 +225,8 @@ jQuery(document).ready(function ($) {
                         userImage: userImage,
                         postBody: postBody,
                         postTime: postTime,
-                        postImage: downloadURL
+                        postImage: downloadURL,
+                        likeCount: 0
                     };
 
                     var sets = {};
