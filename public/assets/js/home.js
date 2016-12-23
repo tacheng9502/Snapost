@@ -42,8 +42,10 @@ jQuery(document).ready(function ($) {
         var postsRef = firebase.database().ref('posts').limitToLast(50);
         postsRef.ref('posts').once("value", function (snapshot) {
             $('#list').children().remove();
-            var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-            $(html).insertBefore($("#list:first-child"));
+            snapshot.forEach(function (data) {
+                var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+                $(html).insertBefore($("#list:first-child"));
+            });
         });
         postsRef.on('child_added', function (data) {
             var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
