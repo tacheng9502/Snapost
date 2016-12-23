@@ -83,7 +83,7 @@ jQuery(document).ready(function ($) {
                 '<p id="' + postKey + '_body">' + postBody + '</p>' +
                 '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
                 '<div><button id="' + postKey + '_like" class="btn btn-default" onclick="" >' +
-                '<i id="' + postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit"></i></button>' + likeCount + '</div></br>' +
+                '<i id="' + postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit">' + likeCount + '</i></button></div></br>' +
                 '<div class="msg-input"><div class="input-group">' +
                 '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
                 '<span class="input-group-btn">' +
@@ -105,7 +105,7 @@ jQuery(document).ready(function ($) {
                 '<p id="' + postKey + '_body">' + postBody + '</p>' +
                 '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
                 '<button id="' + postKey + '_like" class="btn btn-default" onclick="" >' +
-                '<i id="' + postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit"></i></button>' + likeCount + '</br>' +
+                '<i id="' + postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit">' + likeCount + '</i></button></br>' +
                 '<div class="input-group">' +
                 '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
                 '<span class="input-group-btn">' +
@@ -122,7 +122,13 @@ jQuery(document).ready(function ($) {
             $('#' + postKey + '_commentList').append(html);
         });
 
+        var likeCounttRef = firebase.database().ref('posts/' + postKey + '/likeCount');
+        likeCounttRef.on('value', function (snapshot) {
+            $('i#'+postKey+'_like').text('&nbsp'+snapshot.val());
+        });
+
         listeningFirebaseRefs.push(commentsRef);
+        listeningFirebaseRefs.push(starCountRef);
 
         return html;
     }
