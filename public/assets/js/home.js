@@ -1,9 +1,10 @@
 jQuery(document).ready(function ($) {
-    var newImageFile, userName, userImage, userId;
+    var newImageFile, userName, userImage, currentUserId;
+    var listeningFirebaseRefs = [];
 
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-            userId = user.uid;
+            currentUserId = user.uid;
             userName = user.displayName;
             userImage = user.photoURL;
             $('#intro').attr("hidden", true);
@@ -14,11 +15,15 @@ jQuery(document).ready(function ($) {
             );
             startDatabaseQueries();
         } else {
-            userId = null;
+            currentUserId = null;
             userName = null;
             userImage = null;
             $('#intro').removeAttr("hidden");
             $('#content').attr("hidden", true);
+            listeningFirebaseRefs.forEach(function (ref) {
+                ref.off();
+            });
+            listeningFirebaseRefs = [];
         }
     });
 
@@ -40,144 +45,87 @@ jQuery(document).ready(function ($) {
     function startDatabaseQueries() {
 
         var postsRef = firebase.database().ref('posts').limitToLast(50);
-        postsRef.endAt().once("value", function (snapshot) {
+        postsRef.once("value", function (snapshot) {
             snapshot.forEach(function (data) {
                 var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
                 $('#list').append(html);
             });
         });
+
         postsRef.on('child_added', function (data) {
             var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
             $(html).insertBefore($("#list:first-child"));
         });
+        postsRef.on('child_changed', function (data) {
+            $('#'+data.key+'_body').text(data.val().postBody);
+        });
+        postsRef.on('child_removed', function (data) {
+            $('#'+data.key).remove();
+        });
+
+        listeningFirebaseRefs.push(postsRef);
     }
 
     function createPostElement(postKey, userId, userName, userImage, postBody, postTime, postImage, likeCount) {
 
         var date = new Date(parseInt(postTime));
-        var html =
-            '<li>' +
-            '<div class="info">' +
-            '<a href="/profile?u=' + userId + '" >' +
-            '<img src="' + userImage + '" class="img-circle" width="25px">' +
-            '<h2 id="' + postKey + '_userName">' + userName + '</h2>' +
-            '</a>' +
-            '<span id="' + postKey + '_postTime" class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>' +
-            '<div id="' + postKey + '_operate" class="navi pull-right">' +
-            '<button id="' + postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
-            '<i id="' + postKey + '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i>' +
-            '</button>&nbsp;' +
-            '<button id="' + postKey + '_delete" class="btn btn-default" onclick="clickDelete(event)" >' +
-            '<i id="' + postKey + '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i>' +
-            '</button>' +
-            '</div>' +
-            '</div>' +
-            '<p id="' + postKey + '_body">' + postBody + '</p>' +
-            '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
-            '<button id="' + postKey + '_like" class="btn btn-default" onclick="" >' +
-            '<i id="' + postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit"></i></button>' + likeCount + '</br>' +
-            '<div class="input-group">' +
-            '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
-            '<span class="input-group-btn">' +
-            '<button id="' + postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button">發送</button>' +
-            '</span>' +
-            '</div>' +
-            '<ul id="' + postKey + '_commentList" class="msg"></ul>' +
-            '</li>';
+        if (currentUserId === userId) {
+            var html =
+                '<li id="' + postKey + '">' +
+                '<div class="info">' +
+                '<a id="' + postKey + '_profile" href="/profile?u=' + userId + '" >' +
+                '<img id="' + postKey + '_userImage" src="' + userImage + '" class="img-circle" width="25px">' +
+                '<h2 id="' + postKey + '_userName">' + userName + '</h2>' +
+                '</a>' +
+                '<span id="' + postKey + '_postTime" class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>' +
+                '<div id="' + postKey + '_operate" class="navi pull-right">' +
+                '<button id="' + postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
+                '<i id="' + postKey + '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i>' +
+                '</button>&nbsp;' +
+                '<button id="' + postKey + '_delete" class="btn btn-default" onclick="clickDelete(event)" >' +
+                '<i id="' + postKey + '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i>' +
+                '</button>' +
+                '</div>' +
+                '</div>' +
+                '<p id="' + postKey + '_body">' + postBody + '</p>' +
+                '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
+                '<button id="' + postKey + '_like" class="btn btn-default" onclick="" >' +
+                '<i id="' + postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit"></i></button>' + likeCount + '</br>' +
+                '<div class="input-group">' +
+                '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
+                '<span class="input-group-btn">' +
+                '<button id="' + postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button">發送</button>' +
+                '</span>' +
+                '</div>' +
+                '<ul id="' + postKey + '_commentList" class="msg"></ul>' +
+                '</li>';
 
-        return html;
-    }
+            return html;
+        } else {
+            var html =
+                '<li id="' + postKey + '">' +
+                '<div class="info">' +
+                '<a id="' + postKey + '_profile" href="/profile?u=' + userId + '" >' +
+                '<img id="' + postKey + '_userImage" src="' + userImage + '" class="img-circle" width="25px">' +
+                '<h2 id="' + postKey + '_userName">' + userName + '</h2>' +
+                '</a>' +
+                '<span id="' + postKey + '_postTime" class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>' +
+                '</div>' +
+                '<p id="' + postKey + '_body">' + postBody + '</p>' +
+                '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
+                '<button id="' + postKey + '_like" class="btn btn-default" onclick="" >' +
+                '<i id="' + postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit"></i></button>' + likeCount + '</br>' +
+                '<div class="input-group">' +
+                '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
+                '<span class="input-group-btn">' +
+                '<button id="' + postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button">發送</button>' +
+                '</span>' +
+                '</div>' +
+                '<ul id="' + postKey + '_commentList" class="msg"></ul>' +
+                '</li>';
 
-    function showPost() {
-
-        firebase.database().ref('posts').once("value", function (snapshot) {
-            $('#list').children().remove();
-            var array = [];
-            snapshot.forEach(function (data) {
-                var post = {
-                    postKey: data.key,
-                    userId: data.val().userId,
-                    userName: data.val().userName,
-                    userImage: data.val().userImage,
-                    postBody: data.val().postBody,
-                    postTime: data.val().postTime,
-                    postImage: data.val().postImage,
-                    likeCount: data.val().likeCount
-                };
-                array.push(post);
-                array.reverse();
-            });
-
-            for (var i = 0; i < array.length; i++) {
-                var date = new Date(parseInt(array[i].postTime));
-                if (userId === array[i].userId) {
-                    $('#list').append(
-                        '<li>' +
-                        '<div class="info"><a href="/profile?u=' + array[i].userId + '" >' +
-                        '<img src="' + array[i].userImage + '" class="img-circle" width="25px">' +
-                        '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2></a>' +
-                        '<span id="' + array[i].postKey + '_postTime" class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>' +
-                        '<div id="' + array[i].postKey + '_operate" class="navi pull-right">' +
-                        '<button id="' + array[i].postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
-                        '<i id="' + array[i].postKey + '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i></button>&nbsp;' +
-                        '<button id="' + array[i].postKey + '_delete" class="btn btn-default" onclick="clickDelete(event)" >' +
-                        '<i id="' + array[i].postKey + '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i></button>' +
-                        '</div></div>' +
-                        '<p id="' + array[i].postKey + '_body">' + array[i].postBody + '</p>' +
-                        '<img id="' + array[i].postKey + '_postImage" class="postImage" src="' + array[i].postImage + '"/>' +
-                        '<button id="' + array[i].postKey + '_like" class="btn btn-default" onclick="" >' +
-                        '<i id="' + array[i].postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit"></i></button>' + array[i].likeCount + '</br>' +
-                        '<div class="input-group">' +
-                        '<input id="' + array[i].postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
-                        '<span class="input-group-btn">' +
-                        '<button id="' + array[i].postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button">發送</button>' +
-                        '</span>' +
-                        '</div>' +
-                        '<ul id="' + array[i].postKey + '_commentList" class="msg"></ul>' +
-                        '</li>'
-                    );
-                } else {
-                    $('#list').append(
-                        '<li>' +
-                        '<div class="info"><a href="/profile?u=' + array[i].userId + '" >' +
-                        '<img src="' + array[i].userImage + '" class="img-circle" width="25px">' +
-                        '<h2 id="' + array[i].postKey + '_userName">' + array[i].userName + '</h2></a>' +
-                        '<span id="' + array[i].postKey + '_postTime" class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>' +
-                        '</div>' +
-                        '<p id="' + array[i].postKey + '_body">' + array[i].postBody + '</p>' +
-                        '<img id="' + array[i].postKey + '_postImage" class="postImage" src="' + array[i].postImage + '"/>' +
-                        '<button id="' + array[i].postKey + '_like" class="btn btn-default" onclick="" >' +
-                        '<i id="' + array[i].postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)" title="edit"></i></button>' + array[i].likeCount + '</br>' +
-                        '<div class="input-group">' +
-                        '<input id="' + array[i].postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
-                        '<span class="input-group-btn">' +
-                        '<button id="' + array[i].postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button">發送</button>' +
-                        '</span>' +
-                        '</div>' +
-                        '<ul id="' + array[i].postKey + '_commentList" class="msg"></ul>' +
-                        '</li>'
-                    );
-                }
-
-                var parentKey = array[i].postKey;
-                firebase.database().ref('/post-comments/' + parentKey).once("value", function (snapshot) {
-                    snapshot.forEach(function (data) {
-                        var comment = {
-                            userId: data.val().userId,
-                            userName: data.val().userName,
-                            userImage: data.val().userImage,
-                            commentBody: data.val().commentBody,
-                            commentTime: data.val().commentTime
-                        };
-                        $('#' + parentKey + '_commentList').append(
-                            '<li>' + comment.userName + '：' + comment.commentBody + '</li>'
-                        );
-                    });
-                });
-            }
-        }, function (errorObject) {
-            console.log("The read failed: " + errorObject.code);
-        });
+            return html;
+        }
     }
 
     $("#img_input").on('click', function () {
@@ -216,7 +164,7 @@ jQuery(document).ready(function ($) {
 
     $('#userInfo').on('click', function (event) {
         event.preventDefault();
-        window.location.href = "/profile?u=" + userId;
+        window.location.href = "/profile?u=" + currentUserId;
     });
 
     $('#writeNewPost').on('click', function (event) {
@@ -266,7 +214,7 @@ jQuery(document).ready(function ($) {
                     var downloadURL = uploadTask.snapshot.downloadURL;
                     // A post entry.
                     var postData = {
-                        userId: userId,
+                        userId: currentUserId,
                         userName: userName,
                         userImage: userImage,
                         postBody: postBody,
@@ -282,7 +230,7 @@ jQuery(document).ready(function ($) {
                     $('#newPost_body').val("");
                     $("#img_preview").empty();
                     newImageFile = null;
-                    showPost();
+                    
 
                     var thisYear = date.getFullYear();
                     var thisMonth = date.getMonth() + 1;
@@ -330,7 +278,7 @@ jQuery(document).ready(function ($) {
         var postImage = $('#' + postKey + '_postImage').attr('src');
 
         var postData = {
-            userId: userId,
+            userId: currentUserId,
             userName: userName,
             userImage: userImage,
             postBody: postBody,
@@ -341,7 +289,7 @@ jQuery(document).ready(function ($) {
         var updates = {};
         updates['/posts/' + postKey] = postData;
         firebase.database().ref().update(updates);
-        showPost();
+
     }
 
     window.clickUpdate = function (event) {
@@ -380,7 +328,7 @@ jQuery(document).ready(function ($) {
                 firebase.database().ref('statistic/' + timeArray[0] + '-' + timeArray[1] + '/postCount').transaction(function (currentCount) {
                     return currentCount - 1;
                 });
-                showPost();
+       
             });
     }
 
@@ -393,7 +341,7 @@ jQuery(document).ready(function ($) {
         var newCommentKey = firebase.database().ref().child('post-comments').push().key;
 
         var commentData = {
-            userId: userId,
+            userId: currentUserId,
             userName: userName,
             userImage: userImage,
             commentBody: commentBody,
@@ -404,17 +352,16 @@ jQuery(document).ready(function ($) {
         updates['/post-comments/' + postKey + '/' + newCommentKey] = commentData;
         firebase.database().ref().update(updates);
         $('#' + postKey + '_commentBody').val("");
-        showPost();
     }
 
     window.clickLike = function (event) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -5);
-        firebase.database().ref('/post-likes/' + postKey + '/' + userId).once("value", function (snapshot) {
+        firebase.database().ref('/post-likes/' + postKey + '/' + currentUserId).once("value", function (snapshot) {
             console.log(snapshot);
             if (snapshot.val() != null) {
                 var deletes = {};
-                deletes['/post-likes/' + postKey + '/' + userId] = null;
+                deletes['/post-likes/' + postKey + '/' + currentUserId] = null;
                 firebase.database().ref().update(deletes);
                 firebase.database().ref('/posts/' + postKey + '/' + 'likeCount').transaction(function (currentCount) {
                     return currentCount - 1;
@@ -424,7 +371,7 @@ jQuery(document).ready(function ($) {
                     userName: userName
                 };
                 var updates = {};
-                updates['/post-likes/' + postKey + '/' + userId] = likeData;
+                updates['/post-likes/' + postKey + '/' + currentUserId] = likeData;
                 firebase.database().ref().update(updates);
                 firebase.database().ref('/posts/' + postKey + '/' + 'likeCount').transaction(function (currentCount) {
                     return currentCount + 1;
