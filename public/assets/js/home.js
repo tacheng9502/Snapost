@@ -83,7 +83,7 @@ jQuery(document).ready(function ($) {
                 '<p id="' + postKey + '_body">' + postBody + '</p>' +
                 '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
                 '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="" >' +
-                '<i id="' + postKey + '_like" class="fa fa-heart-o fa-fw" onclick="clickLike(event)"></i></button>' + likeCount + '</div>' +
+                '<i id="' + postKey + '_like" class="fa fa-heart-o fa-fw" onclick="clickLike(event)">&nbsp' + likeCount + '</i></button></div>' +
                 '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
                 '<div class="msg-input"><div class="input-group">' +
                 '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
@@ -105,7 +105,7 @@ jQuery(document).ready(function ($) {
                 '<p id="' + postKey + '_body">' + postBody + '</p>' +
                 '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
                 '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="" >' +
-                '<i id="' + postKey + '_like" class="fa fa-heart-o fa-fw" onclick="clickLike(event)"></i></button>' + likeCount + '</div>' +
+                '<i id="' + postKey + '_like" class="fa fa-heart-o fa-fw" onclick="clickLike(event)">&nbsp' + likeCount + '</i></button></div>' +
                 '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
                 '<div class="msg-input"><div class="input-group">' +
                 '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
