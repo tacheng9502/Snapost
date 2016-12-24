@@ -132,8 +132,10 @@ jQuery(document).ready(function ($) {
         likeStatusRef.on('value', function (snapshot) {
             if (snapshot.val() != null) {
                 $('i#' + postKey + '_like').attr("class", "fa fa-heart");
+                console.log(postKey+" is liked");
             } else {
                 $('i#' + postKey + '_like').attr("class", "fa fa-heart-o fa-fw");
+                console.log(postKey+" is unliked");
             }
         });
 
@@ -374,6 +376,7 @@ jQuery(document).ready(function ($) {
             function () {
                 var deletes = {};
                 deletes['/posts/' + postKey] = null;
+                deletes['/post-comments/' + postKey] = null;
                 firebase.database().ref().update(deletes);
                 swal("已刪除", "留言已經成功刪除", "success");
                 firebase.database().ref('statistic/' + timeArray[0] + '-' + timeArray[1] + '/postCount').transaction(function (currentCount) {
