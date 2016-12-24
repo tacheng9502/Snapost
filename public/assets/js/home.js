@@ -130,12 +130,9 @@ jQuery(document).ready(function ($) {
         var likeStatusRef = firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId);
         likeStatusRef.on('value', function (snapshot) {
             if (snapshot.val() != null) {
-                console.log(snapshot.val());
-                $('i#' + postKey + '_like').removeClass("fa fa-heart-o fa-fw");
-                $('i#' + postKey + '_like').addClass("fa fa-heart");
+                $('i#' + postKey + '_like').attr("class", "fa fa-heart");
             } else {
-                $('i#' + postKey + '_like').removeClass("fa fa-heart");
-                $('i#' + postKey + '_like').addClass("fa fa-heart-o fa-fw");
+                $('i#' + postKey + '_like').attr("class", "fa fa-heart-o fa-fw");
             }
         });
 
