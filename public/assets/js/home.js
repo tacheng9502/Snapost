@@ -47,7 +47,7 @@ jQuery(document).ready(function ($) {
         var postsRef = firebase.database().ref('posts').limitToLast(50);
         postsRef.on('child_added', function (data) {
             var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-            $('#list').append(html);
+            $('#list').prepend(html);
         });
         postsRef.on('child_changed', function (data) {
             $('#' + data.key + '_body').text(data.val().postBody);
