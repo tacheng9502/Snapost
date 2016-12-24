@@ -129,7 +129,7 @@ jQuery(document).ready(function ($) {
 
         var likeStatusRef = firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId);
         likeStatusRef.on('value', function (snapshot) {
-            changeLikeStatus(snapshot.val());
+            changeLikeStatus(postKey, snapshot.val());
         });
 
         listeningFirebaseRefs.push(commentsRef);
@@ -146,7 +146,7 @@ jQuery(document).ready(function ($) {
         return html;
     }
 
-    function changeLikeStatus(value) {
+    function changeLikeStatus(postKey, value) {
         if (value != null) {
             $('i#' + postKey + '_like').attr("class", "fa fa-heart");
         } else {
