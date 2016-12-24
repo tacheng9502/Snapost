@@ -130,7 +130,11 @@ jQuery(document).ready(function ($) {
 
         var likeStatusRef = firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId);
         likeStatusRef.on('value', function (snapshot) {
-            changeLikeStatus(postKey, snapshot.val());
+            if (snapshot.val() != null) {
+                $('i#' + postKey + '_like').attr("class", "fa fa-heart");
+            } else {
+                $('i#' + postKey + '_like').attr("class", "fa fa-heart-o fa-fw");
+            }
         });
 
         listeningFirebaseRefs.push(commentsRef);
@@ -145,14 +149,6 @@ jQuery(document).ready(function ($) {
         var html =
             '<li id =' + commentKey + '>' + userName + ':' + commentBody + '</li>';
         return html;
-    }
-
-    function changeLikeStatus(postKey, value) {
-        if (value != null) {
-            $('i#' + postKey + '_like').attr("class", "fa fa-heart");
-        } else {
-            $('i#' + postKey + '_like').attr("class", "fa fa-heart-o fa-fw");
-        }
     }
 
     function showAdvertisment() {
