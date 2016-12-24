@@ -61,17 +61,23 @@ jQuery(document).ready(function ($) {
     }
 
     function createPostElement(postKey, userId, userName, userImage, postBody, postTime, postImage, likeCount) {
-
         var date = new Date(parseInt(postTime));
+        var likeStatus;
+        firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId).once("value", function (snapshot) {
+            likeStatus = snapshot.val();
+        });
+
+        var html =
+            '<li id="' + postKey + '">' +
+            '<div class="info">' +
+            '<a id="' + postKey + '_profile" href="/profile?u=' + userId + '" >' +
+            '<img id="' + postKey + '_userImage" src="' + userImage + '" class="img-circle" width="25px">' +
+            '<h2 id="' + postKey + '_userName">' + userName + '</h2>' +
+            '</a>' +
+            '<span id="' + postKey + '_postTime" class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>';
+
         if (currentUserId === userId) {
-            var html =
-                '<li id="' + postKey + '">' +
-                '<div class="info">' +
-                '<a id="' + postKey + '_profile" href="/profile?u=' + userId + '" >' +
-                '<img id="' + postKey + '_userImage" src="' + userImage + '" class="img-circle" width="25px">' +
-                '<h2 id="' + postKey + '_userName">' + userName + '</h2>' +
-                '</a>' +
-                '<span id="' + postKey + '_postTime" class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>' +
+            html = html +
                 '<div id="' + postKey + '_operate" class="navi pull-right">' +
                 '<button id="' + postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
                 '<i id="' + postKey + '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i>' +
@@ -79,43 +85,33 @@ jQuery(document).ready(function ($) {
                 '<button id="' + postKey + '_delete" class="btn btn-default" onclick="clickDelete(event)" >' +
                 '<i id="' + postKey + '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i>' +
                 '</button>' +
-                '</div>' +
-                '</div>' +
-                '<p id="' + postKey + '_body">' + postBody + '</p>' +
-                '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
-                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="clickLike(event)" >' +
-                '<i id="' + postKey + '_like" onclick="clickLike(event)"></i></button></div>' +
-                '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
-                '<div class="msg-input"><div class="input-group">' +
-                '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
-                '<span class="input-group-btn">' +
-                '<button id="' + postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button"><i class="fa fa-paper-plane fa-fw" aria-hidden="true"></i>&nbsp;發送</button>' +
-                '</span>' +
-                '</div></div>' +
-                '</li>';
-        } else {
-            var html =
-                '<li id="' + postKey + '">' +
-                '<div class="info">' +
-                '<a id="' + postKey + '_profile" href="/profile?u=' + userId + '" >' +
-                '<img id="' + postKey + '_userImage" src="' + userImage + '" class="img-circle" width="25px">' +
-                '<h2 id="' + postKey + '_userName">' + userName + '</h2>' +
-                '</a>' +
-                '<span id="' + postKey + '_postTime" class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>' +
-                '</div>' +
-                '<p id="' + postKey + '_body">' + postBody + '</p>' +
-                '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
-                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="clickLike(event)" >' +
-                '<i id="' + postKey + '_like" onclick="clickLike(event)"></i></button></div>' +
-                '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
-                '<div class="msg-input"><div class="input-group">' +
-                '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
-                '<span class="input-group-btn">' +
-                '<button id="' + postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button"><i class="fa fa-paper-plane fa-fw" aria-hidden="true"></i>&nbsp;發送</button>' +
-                '</span>' +
-                '</div></div>' +
-                '</li>';
+                '</div>';
         }
+
+        html = html +
+            '</div>' +
+            '<p id="' + postKey + '_body">' + postBody + '</p>' +
+            '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>';
+
+        if (likeStatus != null) {
+            html = html +
+                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="clickLike(event)" >' +
+                '<i id="' + postKey + '_like" class="fa fa-heart" onclick="clickLike(event)"></i></button></div>';
+        } else {
+            html = html +
+                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="clickLike(event)" >' +
+                '<i id="' + postKey + '_like" class="fa fa-heart-o fa-fw" onclick="clickLike(event)"></i></button></div>';
+        }
+
+        html = html +
+            '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
+            '<div class="msg-input"><div class="input-group">' +
+            '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
+            '<span class="input-group-btn">' +
+            '<button id="' + postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button"><i class="fa fa-paper-plane fa-fw" aria-hidden="true"></i>&nbsp;發送</button>' +
+            '</span>' +
+            '</div></div>' +
+            '</li>';
 
         var commentsRef = firebase.database().ref('post-comments/' + postKey);
         commentsRef.on('child_added', function (data) {
