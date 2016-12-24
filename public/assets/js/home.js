@@ -166,10 +166,8 @@ jQuery(document).ready(function ($) {
                 array.push(html);
             });
 
-            var interval = 3;
-            for (var i = 0; i < array.length; i++) {
-                $("#list").append(array[i]);
-                interval = interval + interval;
+            for (var i = 1; i <= array.length; i++) {
+                $("#list:nth-child("+(3*i)+")").append(array[i-1]);
             }
         });
     }
