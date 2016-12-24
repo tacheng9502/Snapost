@@ -167,7 +167,7 @@ jQuery(document).ready(function ($) {
             });
 
             for (var i = 1; i <= array.length; i++) {
-                $("#list li:nth-child("+(3*i)+")").append(array[i-1]);
+                $("#list li:nth-child("+(3*i+1)+")").prepend(array[i-1]);
             }
         });
     }
