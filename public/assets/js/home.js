@@ -83,8 +83,8 @@ jQuery(document).ready(function ($) {
                 '</div>' +
                 '<p id="' + postKey + '_body">' + postBody + '</p>' +
                 '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
-                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="" >' +
-                '<i id="' + postKey + '_like" onclick="clickLike(event)">&nbsp' + likeCount + '</i></button></div>' +
+                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="clickLike(event)" >' +
+                '<i id="' + postKey + '_like" onclick="clickLike(event)"></i></button></div>' +
                 '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
                 '<div class="msg-input"><div class="input-group">' +
                 '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
@@ -105,8 +105,8 @@ jQuery(document).ready(function ($) {
                 '</div>' +
                 '<p id="' + postKey + '_body">' + postBody + '</p>' +
                 '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
-                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="" >' +
-                '<i id="' + postKey + '_like" onclick="clickLike(event)">&nbsp' + likeCount + '</i></button></div>' +
+                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="clickLike(event)" >' +
+                '<i id="' + postKey + '_like" onclick="clickLike(event)"></i></button></div>' +
                 '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
                 '<div class="msg-input"><div class="input-group">' +
                 '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
@@ -125,17 +125,15 @@ jQuery(document).ready(function ($) {
 
         var likeCountRef = firebase.database().ref('posts/' + postKey + '/likeCount');
         likeCountRef.on('value', function (snapshot) {
-            $('i#' + postKey + '_like').html('&nbsp' + snapshot.val());
+            $('button#' + postKey + '_like').html('&nbsp' + snapshot.val());
         });
 
         var likeStatusRef = firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId);
         likeStatusRef.on('value', function (snapshot) {
             if (snapshot.val() != null) {
                 $('i#' + postKey + '_like').attr("class", "fa fa-heart");
-                console.log(postKey+" is liked");
             } else {
                 $('i#' + postKey + '_like').attr("class", "fa fa-heart-o fa-fw");
-                console.log(postKey+" is unliked");
             }
         });
 
