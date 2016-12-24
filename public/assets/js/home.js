@@ -96,11 +96,11 @@ jQuery(document).ready(function ($) {
         if (likeStatus != null) {
             html = html +
                 '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="clickLike(event)" >' +
-                '<i id="' + postKey + '_like" class="fa fa-heart" onclick="clickLike(event)"></i></button></div>';
+                '<i id="' + postKey + '_like" class="fa fa-heart" onclick="clickLike(event)">&nbsp' + snapshot.val()+ '</i></button></div>';
         } else {
             html = html +
                 '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="clickLike(event)" >' +
-                '<i id="' + postKey + '_like" class="fa fa-heart-o fa-fw" onclick="clickLike(event)"></i></button></div>';
+                '<i id="' + postKey + '_like" class="fa fa-heart-o fa-fw" onclick="clickLike(event)">&nbsp' + snapshot.val()+ '</i></button></div>';
         }
 
         html = html +
@@ -121,7 +121,7 @@ jQuery(document).ready(function ($) {
 
         var likeCountRef = firebase.database().ref('posts/' + postKey + '/likeCount');
         likeCountRef.on('value', function (snapshot) {
-            $('button#' + postKey + '_like').html('&nbsp' + snapshot.val());
+            $('i#' + postKey + '_like').text('&nbsp' + snapshot.val());
         });
 
         var likeStatusRef = firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId);
