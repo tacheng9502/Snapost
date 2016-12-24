@@ -57,32 +57,7 @@ jQuery(document).ready(function ($) {
         });
 
         listeningFirebaseRefs.push(postsRef);
-
-        var advertsRef = firebase.database().ref('adverts').limitToLast(50);
-        advertsRef.once('value', function (snapshot) {
-            var array=[];
-            snapshot.forEach(function (data) {
-                var html =
-                '<li id="' + data.key + '">' +
-                '<div class="info">' +
-                '<a id="' + data.key + '_profile" href="*" >' +
-                '<h2 id="' + data.key + '_userName">' + data.val().sponsorName + '</h2>' +
-                '</a>' +
-                '<span id="' + data.key + '_postTime" class="time">sponsor</span>' +
-                '</div>' +
-                '<img id="' + data.key + '_postImage" class="postImage" src="' + data.val().postImage + '"/>' +
-                '</li>';
-
-                array.push(html);
-            });
-
-            var interval = 3;
-            for(var i=0; i<array.length; i++){
-                $( "#list:nth-child("+interval+")" ).append(array[i]);
-                interval = interval + interval;
-            }
-            
-        });
+        showAdvertisment();
     }
 
     function createPostElement(postKey, userId, userName, userImage, postBody, postTime, postImage, likeCount) {
@@ -178,6 +153,34 @@ jQuery(document).ready(function ($) {
         } else {
             $('i#' + postKey + '_like').attr("class", "fa fa-heart-o fa-fw");
         }
+    }
+
+    function showAdvertisment(){
+        var advertsRef = firebase.database().ref('adverts').limitToLast(50);
+        advertsRef.once('value', function (snapshot) {
+            var array=[];
+            snapshot.forEach(function (data) {
+                var html =
+                '<li id="' + data.key + '">' +
+                '<div class="info">' +
+                '<a id="' + data.key + '_profile" href="*" >' +
+                '<h2 id="' + data.key + '_userName">' + data.val().sponsorName + '</h2>' +
+                '</a>' +
+                '<span id="' + data.key + '_postTime" class="time">sponsor</span>' +
+                '</div>' +
+                '<img id="' + data.key + '_postImage" class="postImage" src="' + data.val().postImage + '"/>' +
+                '</li>';
+
+                array.push(html);
+            });
+
+            var interval = 3;
+            for(var i=0; i<array.length; i++){
+                $( "#list:nth-child("+interval+")" ).append(array[i]);
+                interval = interval + interval;
+            }
+            
+        });
     }
 
     $("#img_input").on('click', function () {
