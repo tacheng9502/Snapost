@@ -95,11 +95,11 @@ jQuery(document).ready(function ($) {
 
         if (likeStatus != null) {
             html = html +
-                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="clickLike(event)" >' +
+                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link">' +
                 '<i id="' + postKey + '_like" class="fa fa-heart" onclick="clickLike(event)">&nbsp' + likeCount + '</i></button></div>';
         } else {
             html = html +
-                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link" onclick="clickLike(event)" >' +
+                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link">' +
                 '<i id="' + postKey + '_like" class="fa fa-heart-o fa-fw" onclick="clickLike(event)">&nbsp' + likeCount + '</i></button></div>';
         }
 
