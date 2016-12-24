@@ -121,7 +121,7 @@ jQuery(document).ready(function ($) {
 
         var likeCountRef = firebase.database().ref('posts/' + postKey + '/likeCount');
         likeCountRef.on('value', function (snapshot) {
-            $('i#' + postKey + '_like').text('&nbsp' + snapshot.val());
+            $('i#' + postKey + '_like').html('&nbsp' + snapshot.val());
         });
 
         var likeStatusRef = firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId);
