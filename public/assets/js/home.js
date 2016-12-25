@@ -121,15 +121,15 @@ jQuery(document).ready(function ($) {
             html = html +
                 '<div class="postMenu">' +
                 '<button class="like"><i id="' + postKey + '_like" class="fa fa-heart" onclick="clickLike(event)">&nbsp;&nbsp;' + likeCount + '</i></button>' +
-                '<button class="comment-btn"><i id="' + postKey + '_commentFocus" class="fa fa-comment" onclick="commentFocus(event)"></i>&nbsp;留言</i></button>' +
-                '<button id="share" class="share"><i class="fa fa-share"></i>&nbsp;分享</i></button>' +
+                '<button class="comment-btn"><i id="' + postKey + '_commentFocus" class="fa fa-comment" onclick="commentFocus(event)">&nbsp;留言</i></button>' +
+                '<button id="share" class="share"><i class="fa fa-share">&nbsp;分享</i></button>' +
                 '</div>';
         } else {
             html = html +
                 '<div class="postMenu">' +
                 '<button class="like"><i id="' + postKey + '_like" class="fa fa-heart" onclick="clickLike(event)">&nbsp;&nbsp;' + likeCount + '</i></button>' +
-                '<button class="comment-btn"><i id="' + postKey + '_commentFocus" class="fa fa-comment" onclick="commentFocus(event)"></i>&nbsp;留言</i></button>' +
-                '<button id="share" class="share">' + '<i class="fa fa-share"></i>&nbsp;分享</i></button>' +
+                '<button class="comment-btn"><i id="' + postKey + '_commentFocus" class="fa fa-comment" onclick="commentFocus(event)">&nbsp;留言</i></button>' +
+                '<button id="share" class="share"><i class="fa fa-share">&nbsp;分享</i></button>' +
                 '</div>';
         }
 
