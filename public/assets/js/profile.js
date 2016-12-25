@@ -46,9 +46,9 @@ jQuery(document).ready(function ($) {
       });
 
       var postRef = firebase.database().ref('users/'+queryId+'/userPost');
-      postRef.on('value', function (data) {
+      postRef.once('value', function (data) {
         data.forEach(function(childdata){
-          var postKey = childdata.key();
+          var postKey = childdata.key;
           var postImage = childdata.val();
           var html =
               '<li id="' + postKey + '">' +
@@ -63,7 +63,7 @@ jQuery(document).ready(function ($) {
 
   function showFan(){
     var fanRef = firebase.database().ref('users/'+queryId+'userFan');
-    fanRef.on('value', function (data) {
+    fanRef.once('value', function (data) {
       $("#result").empty();
       data.forEach(function (childdata){
         var fanID = childdata.key();
@@ -78,7 +78,7 @@ jQuery(document).ready(function ($) {
 
   function showFollow(){
     var followRef = firebase.database().ref('users/'+queryId+'userFollow');
-    fanRef.on('value', function (data) {
+    fanRef.once('value', function (data) {
       $("#result").empty();
       data.forEach(function (childdata){
         var followID = childdata.key();
@@ -265,16 +265,6 @@ jQuery(document).ready(function ($) {
               });
       });
   });
-
-  $('#userFans').on('click', function (event){
-    event.preventDefault();
-    showFan();
-  });
-
-  $('#userFollowers').on('click', function (event){
-    event.preventDefault();
-    showFollow();
-  })
 
   window.dragHandler = function (e) {
       e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
