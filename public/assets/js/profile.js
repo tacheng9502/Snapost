@@ -462,12 +462,14 @@ jQuery(document).ready(function ($) {
   window.clickUnFollow = function (event){
     event.preventDefault();
     var targetUser = event.target.id.slice(0,-2);
+    console.log(targetUser);
     var a = '#' + targetUser + '_f';
     if($(a).val()==0){
       unFollow(targetUser, a);
     }else{
       var p = targetUser + "_name_f";
       var targetUserName = $(p).text();
+      console.log(targetUserName);
       doFollow(targetUser, targetUserName);
       $(a).empty();
       $(a).toggleClass('btn-primary btn-default');
