@@ -33,7 +33,29 @@ jQuery(document).ready(function ($) {
         firebase.auth().signInWithPopup(provider).then(function (result) {
             var token = result.credential.accessToken;
             var user = result.user;
-            console.log(user);
+
+            firebase.database().ref('users/' + user.uid + '/userName/').once("value", function (snapshot) {
+                if (snapshot.val() == null) {
+                    var userData = {
+                        userId: user.uid,
+                        userName: user.displayName,
+                        userImage: user.photoURL,
+                        userPostCount: 0,
+                        userFanCount: 0,
+                        userFollowCount: 0
+                    };
+                    var updates = {};
+                    updates['/users/' + userId + '/'] = userData;
+                    firebase.database().ref().update(updates);
+                    var date = new Date();
+                    var thisYear = date.getFullYear();
+                    var thisMonth = date.getMonth() + 1;
+                    firebase.database().ref('/statistic/' + thisYear + '-' + thisMonth + '/' + 'userCount').transaction(function (currentCount) {
+                        return currentCount + 1;
+                    });
+                }
+            });
+
 
         }).catch(function (error) {
             var errorCode = error.code;
