@@ -45,7 +45,7 @@ jQuery(document).ready(function ($) {
                         userFollowCount: 0
                     };
                     var updates = {};
-                    updates['/users/' + userId + '/'] = userData;
+                    updates['/users/' + user.uid + '/'] = userData;
                     firebase.database().ref().update(updates);
                     var date = new Date();
                     var thisYear = date.getFullYear();
