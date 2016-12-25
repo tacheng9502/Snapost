@@ -180,15 +180,39 @@ p {
 }
 
 .msg-input {
-    padding: 14px 20px;
+    padding: 0px 19px 14px 19px;
 }
 
 .postMenu {
-    padding: 10px 20px;
+    padding: 14px 20px 0px 20px;
+}
+
+.postMenu button {
+    font-family: "微軟正黑體";
+    font-weight: bold;
+    border: 0px;
+    background-color: transparent;
+    font-size: 14px;
+    padding: 0px;
+    cursor: pointer;
+}
+
+.like {
+    color: #dc0000;
+}
+
+.like:hover {
+    color: #c70202;
 }
 
 .comment {
-    padding: 0 20px;
+    padding: 10px 20px;
+}
+
+.comment a {
+    color: #0068B7;
+    font-weight: bold;
+    margin-right: 5px;
 }
 
 #list li .comment li {
