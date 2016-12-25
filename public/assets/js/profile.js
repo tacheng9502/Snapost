@@ -14,8 +14,6 @@ jQuery(document).ready(function ($) {
         '<span>' + userName + '</span>'
       );
       if ((queryId = window.location.search.substr(3)) != currentUserId){
-        console.log(queryId);
-        console.log(currentUserId);
         $('.posting_area').empty();
       }
       startDatabaseQueries();
@@ -40,19 +38,25 @@ jQuery(document).ready(function ($) {
 
   function startDatabaseQueries() {
 
-      var postsRef = firebase.database().ref('posts').orderByChild('userId').equalTo(queryId).limitToLast(50);
-      postsRef.on('child_added', function (data) {
-          var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-          $('#list').prepend(html);
+      var profileRef = firebase.database().ref('users/'+queryId);
+      profileRef.on('child_added', function (data) {
+        var postCount = data.val().userPostCount;
+        var followCount = data.val().userFollowCount;
+        var fanCount = data.val().userFanCount;
+        $("#user_posts").append(postCount);
+        $("#user_fans").append(fanCount);
+        $("#user_followers").append(followCount);
+          // var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+          // $('#list').prepend(html);
       });
-      postsRef.on('child_changed', function (data) {
+      profileRef.on('child_changed', function (data) {
           $('#' + data.key + '_body').text(data.val().postBody);
       });
-      postsRef.on('child_removed', function (data) {
+      profileRef.on('child_removed', function (data) {
           $('#' + data.key).remove();
       });
 
-      listeningFirebaseRefs.push(postsRef);
+      listeningFirebaseRefs.push(profileRef);
   }
 
   function createPostElement(postKey, userId, userName, userImage, postBody, postTime, postImage, likeCount) {
@@ -232,10 +236,12 @@ jQuery(document).ready(function ($) {
 
   $('#userFans').on('click', function (event){
     event.preventDefault();
+    var fansDetail = firebase.database().ref('fans').orderByChild('userId').equalTo(queryId);
   });
 
   $('#userFollowers').on('click', function (event){
     event.preventDefault();
+    var followerDetail = firebase.database().ref('follower').orderByChild('userId').equalTo(queryId);
   })
 
   window.dragHandler = function (e) {
