@@ -203,8 +203,7 @@ jQuery(document).ready(function ($) {
     }
 
     $("#img_input").on('click', function () {
-        var file = $(this).parent().parent().parent().find('.file');
-        file.trigger('click');
+        $('#file').trigger('click');
     });
 
     $("#file").on("change", function (event) {
