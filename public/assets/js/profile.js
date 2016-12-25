@@ -56,7 +56,7 @@ jQuery(document).ready(function ($) {
           $('#' + data.key).remove();
       });
 
-      listeningFirebaseRefs.push(postsRef);
+      listeningFirebaseRefs.push(profileRef);
   }
 
   function createPostElement(postKey, userId, userName, userImage, postBody, postTime, postImage, likeCount) {
