@@ -70,14 +70,23 @@ jQuery(document).ready(function ($) {
     $("#result").empty();
     var fanRef = firebase.database().ref('users/'+queryId+'/userFan');
     fanRef.once('value', function (data) {
-      data.forEach(function (childdata){
-        var fanID = childdata.key;
-        var fanName = childdata.val();
-        var html =
-            '<tr><td><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a></td>'+
-            '<td><button id="' + fanID +'" class="btn btn-default" onclick="clickUnfan(event)">移除粉絲</button></td>';
-        $("#result").append(html);
-      });
+      if(queryId == currentUserId){
+          data.forEach(function (childdata){
+            var fanID = childdata.key;
+            var fanName = childdata.val();
+            var html =
+                '<tr><td><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a></td>'+
+                '<td><button id="' + fanID +'" class="btn btn-default" onclick="clickUnfan(event)">移除粉絲</button></td>';
+            $("#result").append(html);
+          });
+      }else{
+          data.forEach(function (childdata){
+            var fanID = childdata.key;
+            var fanName = childdata.val();
+            var html = '<tr><td><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a></td><td></td></tr>';
+            $("#result").append(html);
+          });
+      }
     });
   }
 
@@ -85,14 +94,23 @@ jQuery(document).ready(function ($) {
     $("#result").empty();
     var followRef = firebase.database().ref('users/'+queryId+'/userFollow');
     followRef.once('value', function (data) {
-      data.forEach(function (childdata){
-        var followID = childdata.key;
-        var followName = childdata.val();
-        var html =
-            '<tr><td><a href="/profile?u=' + followID + '"><p>' + followName + '</p></a></td>'+
-            '<td><button id="' + followID +'" class="btn btn-default" onclick="clickUnfan(event)">取消追蹤</button></td>';
-        $("#result").append(html);
-      })
+      if(queryId == currentUserId){
+        data.forEach(function (childdata){
+          var followID = childdata.key;
+          var followName = childdata.val();
+          var html =
+              '<tr><td><a href="/profile?u=' + followID + '"><p>' + followName + '</p></a></td>'+
+              '<td><button id="' + followID +'" class="btn btn-default" onclick="clickUnfan(event)" value="0">取消追蹤</button></td>';
+          $("#result").append(html);
+        });
+      }else {
+        data.forEach(function (childdata){
+          var followID = childdata.key;
+          var followName = childdata.val();
+          var html = '<tr><td><a href="/profile?u=' + followID + '"><p>' + followName + '</p></a></td><td></td></tr>';
+          $("#result").append(html);
+        });
+      }
     });
   }
 
@@ -181,6 +199,47 @@ jQuery(document).ready(function ($) {
       var html =
           '<li id =' + commentKey + '>' + userName + ':' + commentBody + '</li>';
       return html;
+  }
+
+  function unFollow(i){
+    var a = 0;
+    swal({
+            title: "確定要取消追蹤?",
+            text: "對方會很傷心喔QQ",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "刪除",
+            closeOnConfirm: false
+          },
+          function () {
+              var dels = {};
+              dels['/users/' + currentUserId + '/userFollow/' + i] = null;
+              dels['/users/' + i + '/userFan/' + currentUserId] = null;
+              firebase.database().ref().update(dels);
+              firebase.database().ref('/users/' + currentUserId + '/userFollowCount').transaction(function (currentCount) {
+                return currentCount - 1;
+              });
+              firebase.database().ref('/users/' + i + '/userFanCount').transaction(function (currentCount) {
+                return currentCount - 1;
+              });
+              swal("取消追蹤", "退追蹤了啦QQ", "success");
+              a=1;
+          });
+          return a;
+  }
+
+  function doFollow(i,j){
+    var sets = {};
+    sets['/users/' + currentUserId + '/userFollow/' + i] = j;
+    sets['/users/' + i + '/userFan/' + currentUserId] = userName;
+    firebase.database().ref().update(sets);
+    firebase.database().ref('/users/' + currentUserId + '/userFollowCount').transaction(function (currentCount) {
+      return currentCount + 1;
+    });
+    firebase.database().ref('/users/' + i + '/userFanCount').transaction(function (currentCount) {
+      return currentCount + 1;
+    });
   }
 
   $('#clearNewPost').on('click', function (event) {
@@ -345,47 +404,29 @@ jQuery(document).ready(function ($) {
   window.clickfan = function (event) {
     event.preventDefault();
     if($("#follow").val()==1){
-      var sets = {};
-      sets['/users/' + currentUserId + '/userFollow/' + queryId] = queryName;
-      sets['/users/' + queryId + '/userFan/' + currentUserId] = userName;
-      firebase.database().ref().update(sets);
-      firebase.database().ref('/users/' + currentUserId + '/userFollowCount').transaction(function (currentCount) {
-        return currentCount + 1;
-      });
-      firebase.database().ref('/users/' + queryId + '/userFanCount').transaction(function (currentCount) {
-        return currentCount + 1;
-      });
+      doFollow(queryId, queryName);
       $("#follow").empty();
       $("#follow").toggleClass('btn-default btn-primary');
       $("#follow").append("取消追蹤");
       $("#follow").val(0);
     }else{
-      swal({
-              title: "確定要取消追蹤?",
-              text: "對方會很傷心喔QQ",
-              type: "warning",
-              showCancelButton: true,
-              confirmButtonColor: "#DD6B55",
-              confirmButtonText: "刪除",
-              closeOnConfirm: false
-            },
-            function () {
-                var dels = {};
-                dels['/users/' + currentUserId + '/userFollow/' + queryId] = null;
-                dels['/users/' + queryId + '/userFan/' + currentUserId] = null;
-                firebase.database().ref().update(dels);
-                firebase.database().ref('/users/' + currentUserId + '/userFollowCount').transaction(function (currentCount) {
-                  return currentCount - 1;
-                });
-                firebase.database().ref('/users/' + queryId + '/userFanCount').transaction(function (currentCount) {
-                  return currentCount - 1;
-                });
-                swal("取消追蹤", "退追蹤了啦QQ", "success");
-                $("#follow").empty();
-                $("#follow").toggleClass('btn-primary btn-default');
-                $("#follow").append("加入追蹤");
-                $("#follow").val(1);
-            });
+      if(unFollow(queryId)==1){
+        $("#follow").empty();
+        $("#follow").toggleClass('btn-primary btn-default');
+        $("#follow").append("加入追蹤");
+        $("#follow").val(1);
+      }
+    }
+  }
+
+  window.clickUnfan = function (event){
+    event.preventDefault();
+    var targetUser = event.target.id;
+    if(unFollow(queryId)==1){
+      $("#" + targetUser).empty();
+      $("#" + targetUser).toggleClass('btn-primary btn-default');
+      $("#" + targetUser).append("加入追蹤");
+      $("#" + targetUser).val(1);
     }
   }
 })
