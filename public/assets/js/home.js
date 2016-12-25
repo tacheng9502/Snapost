@@ -295,11 +295,13 @@ jQuery(document).ready(function ($) {
                     sets['/posts/' + newPostKey] = postData;
                     sets['/users/' + currentUserId + '/userPost/' + newPostKey] = downloadURL;
                     firebase.database().ref().update(sets);
+                    firebase.database().ref('/users/' + currentUserId + '/userPostCount').transaction(function (currentCount) {
+                        return currentCount + 1;
+                    });
                     $('.form-control').val("");
                     $('#newPost_body').val("");
                     $("#img_preview").empty();
                     newImageFile = null;
-
 
                     var thisYear = date.getFullYear();
                     var thisMonth = date.getMonth() + 1;
@@ -396,6 +398,9 @@ jQuery(document).ready(function ($) {
                 deletes['/users/' + currentUserId + '/userPost/' + postKey] = null;
                 firebase.database().ref().update(deletes);
                 swal("已刪除", "留言已經成功刪除", "success");
+                firebase.database().ref('/users/' + currentUserId + '/userPostCount').transaction(function (currentCount) {
+                    return currentCount - 1;
+                });
                 firebase.database().ref('statistic/' + timeArray[0] + '-' + timeArray[1] + '/postCount').transaction(function (currentCount) {
                     return currentCount - 1;
                 });
