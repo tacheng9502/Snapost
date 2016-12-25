@@ -145,6 +145,10 @@ p {
     background: #fff;
 }
 
+#img_preview {
+    margin-bottom: 30px;
+}
+
 #list li {
     margin: 20px 0;
     border: 1px solid #ddd;
