@@ -33,6 +33,8 @@ jQuery(document).ready(function ($) {
         firebase.auth().signInWithPopup(provider).then(function (result) {
             var token = result.credential.accessToken;
             var user = result.user;
+            console.log(user);
+
         }).catch(function (error) {
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -167,7 +169,7 @@ jQuery(document).ready(function ($) {
             });
 
             for (var i = 1; i <= array.length; i++) {
-                $("#list li:nth-child("+(3*i)+")").after(array[i-1]);
+                $("#list li:nth-child(" + (3 * i) + ")").after(array[i - 1]);
             }
         });
     }
