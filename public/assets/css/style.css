@@ -187,6 +187,24 @@ p {
     padding: 10px 20px 0px 20px;
 }
 
+.postMenu button {
+    font-family: "微軟正黑體";
+    font-weight: bold;
+    border: 0px;
+    background-color: transparent;
+    font-size: 14px;
+    padding: 0px;
+    cursor: pointer;
+}
+
+.like {
+    color: red;
+}
+
+.like:hover {
+
+}
+
 .comment {
     padding: 10px 20px;
 }
