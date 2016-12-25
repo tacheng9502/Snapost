@@ -208,7 +208,6 @@ jQuery(document).ready(function ($) {
     });
 
     $("#file").on("change", function (event) {
-        $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
         var reader = new FileReader();
         reader.readAsDataURL(event.target.files[0]); // 讀取檔案
         reader.onload = function (arg) {
@@ -230,7 +229,6 @@ jQuery(document).ready(function ($) {
 
     $('#clearNewPost').on('click', function (event) {
         event.preventDefault();
-        $('.form-control').val("");
         $('#newPost_body').val("");
         $("#img_preview").empty();
         newImageFile = null;
@@ -307,7 +305,6 @@ jQuery(document).ready(function ($) {
                     firebase.database().ref('/users/' + currentUserId + '/userPostCount').transaction(function (currentCount) {
                         return currentCount + 1;
                     });
-                    $('.form-control').val("");
                     $('#newPost_body').val("");
                     $("#img_preview").empty();
                     newImageFile = null;
