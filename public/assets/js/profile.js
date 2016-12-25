@@ -422,7 +422,7 @@ jQuery(document).ready(function ($) {
   window.clickUnfan = function (event){
     event.preventDefault();
     var targetUser = event.target.id;
-    if(unFollow(queryId)==1){
+    if(unFollow(targetUser)==1){
       $("#" + targetUser).empty();
       $("#" + targetUser).toggleClass('btn-primary btn-default');
       $("#" + targetUser).append("加入追蹤");
