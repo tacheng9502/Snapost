@@ -1,5 +1,6 @@
 .croppie-container {
     width: 100%;
+    margin-top: 20px;
 }
 .croppie-container .cr-image {
 	z-index: -1;
@@ -45,14 +46,14 @@
 	text-align: center;
 }
 .croppie-result {
-	position: relative; 
+	position: relative;
 	overflow: hidden;
 }
 .croppie-result img {
 	position: absolute;
 }
 .croppie-container .cr-image,
-.croppie-container .cr-overlay, 
+.croppie-container .cr-overlay,
 .croppie-container .cr-viewport {
   -webkit-transform: translateZ(0);
   -moz-transform: translateZ(0);
