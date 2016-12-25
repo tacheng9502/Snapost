@@ -210,13 +210,13 @@ jQuery(document).ready(function ($) {
             $("#img_preview").empty().append(img);
             newImageFile = $('.preview').croppie({
                 viewport: {
-                    width: 600,
-                    height: 600,
+                    width: 400,
+                    height: 400,
                     type: 'square'
                 },
                 boundary: {
-                    width: 600,
-                    height: 600
+                    width: 400,
+                    height: 400
                 }
             });
         }
