@@ -423,7 +423,7 @@ jQuery(document).ready(function ($) {
   window.clickUnfan = function (event){
     event.preventDefault();
     var targetUser = event.target.id;
-    var a = '"#' + targetUser + '"';
+    var a = '#' + targetUser + '';
     if($(a).val()==0){
       if(unFollow(targetUser)==1){
         console.log(a);
