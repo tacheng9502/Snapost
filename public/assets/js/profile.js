@@ -72,6 +72,7 @@ jQuery(document).ready(function ($) {
             '<tr><td><a href="/profile?u=' + fanID + '">' + fanName + '</a></td>'+
             '<td><button id="' + fanID +'" class="btn btn-default" onclick="clickUnfan(event)">移除粉絲</button></td>';
         $("#result").append(html);
+        console.log(html);
       });
     });
   }
@@ -87,6 +88,7 @@ jQuery(document).ready(function ($) {
             '<tr><td><a href="/profile?u=' + followID + '">' + followName + '</a></td>'+
             '<td><button id="' + followID +'" class="btn btn-default" onclick="clickUnfan(event)">取消追蹤</button></td>';
         $("#result").append(html);
+        console.log(html);
       })
     });
   }
@@ -269,13 +271,11 @@ jQuery(document).ready(function ($) {
   $('#fans').on('click', function (event) {
       event.preventDefault();
       showFan();
-      console.log("click!fan");
   });
 
   $('#followers').on('click', function (event) {
       event.preventDefault();
       showFollow();
-      console.log("click!fol");
   });
 
   window.dragHandler = function (e) {
