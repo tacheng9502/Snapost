@@ -13,6 +13,8 @@ jQuery(document).ready(function ($) {
         '<span>' + userName + '</span>'
       );
       if ((queryId = window.location.search.substr(3)) != userId){
+        console.log(queryId);
+        console.log(userId);
         $('.posting_area').empty();
       }
       startDatabaseQueries();
