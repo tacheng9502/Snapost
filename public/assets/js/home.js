@@ -293,7 +293,7 @@ jQuery(document).ready(function ($) {
 
                     var sets = {};
                     sets['/posts/' + newPostKey] = postData;
-
+                    sets['/users/' + currentUserId + '/userPost/' + newPostKey] = downloadURL;
                     firebase.database().ref().update(sets);
                     $('.form-control').val("");
                     $('#newPost_body').val("");
@@ -393,6 +393,7 @@ jQuery(document).ready(function ($) {
                 var deletes = {};
                 deletes['/posts/' + postKey] = null;
                 deletes['/post-comments/' + postKey] = null;
+                deletes['/users/' + currentUserId + '/userPost/' + postKey] = null;
                 firebase.database().ref().update(deletes);
                 swal("已刪除", "留言已經成功刪除", "success");
                 firebase.database().ref('statistic/' + timeArray[0] + '-' + timeArray[1] + '/postCount').transaction(function (currentCount) {
