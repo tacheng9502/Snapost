@@ -75,8 +75,8 @@ jQuery(document).ready(function ($) {
             var fanID = childdata.key;
             var fanName = childdata.val();
             var html =
-                '<tr><td><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a></td>'+
-                '<td><button id="' + fanID +'" class="btn btn-default" onclick="clickUnfan(event)">移除粉絲</button></td>';
+                '<tr id="' + fanID + '_tr"><td><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a></td>'+
+                '<td><button id="' + fanID +'_fan" class="btn btn-default" onclick="clickUnfan(event)">移除粉絲</button></td>';
             $("#result").append(html);
           });
       }else{
@@ -99,8 +99,8 @@ jQuery(document).ready(function ($) {
           var followID = childdata.key;
           var followName = childdata.val();
           var html =
-              '<tr><td><a href="/profile?u=' + followID + '"><p id="' + followID + '_name">' + followName + '</p></a></td>'+
-              '<td><button id="' + followID +'" class="btn btn-default" onclick="clickUnfan(event)" value="0">取消追蹤</button></td>';
+              '<tr><td><a href="/profile?u=' + followID + '"><p id="' + followID + '_name_f">' + followName + '</p></a></td>'+
+              '<td><button id="' + followID +'_f" class="btn btn-default" onclick="clickUnFollow(event)" value="0">取消追蹤</button></td>';
           $("#result").append(html);
         });
       }else {
@@ -201,7 +201,11 @@ jQuery(document).ready(function ($) {
       return html;
   }
 
-  function unFollow(i,j){
+  function unFan(i){
+
+  }
+
+  function unFollow(i, j){
     swal({
             title: "確定要取消追蹤?",
             text: "對方會很傷心喔QQ",
@@ -227,7 +231,7 @@ jQuery(document).ready(function ($) {
           });
   }
 
-  function doFollow(i,j){
+  function doFollow(i, j){
     var sets = {};
     sets['/users/' + currentUserId + '/userFollow/' + i] = j;
     sets['/users/' + i + '/userFan/' + currentUserId] = userName;
@@ -240,18 +244,17 @@ jQuery(document).ready(function ($) {
     });
   }
 
-  function changeButton(j){
-    console.log(j);
+  function changeButton(i){
     if (j==null){
       $("#follow").empty();
       $("#follow").toggleClass('btn-primary btn-default');
       $("#follow").append("加入追蹤");
       $("#follow").val(1);
     }else {
-      $(j).empty();
-      $(j).toggleClass('btn-default btn-primary');
-      $(j).append("加入追蹤");
-      $(j).val(1);
+      $(i).empty();
+      $(i).toggleClass('btn-default btn-primary');
+      $(i).append("加入追蹤");
+      $(i).val(1);
     }
   }
 
@@ -429,14 +432,43 @@ jQuery(document).ready(function ($) {
 
   window.clickUnfan = function (event){
     event.preventDefault();
-    var targetUser = event.target.id;
+    var targetUser = event.target.id.slice(0,-4);
+    var targetUserTr = "#" + targetUser + "_tr";
+    swal({
+            title: "確定要刪除?",
+            text: "對方會很傷心喔QQ",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "刪除",
+            closeOnConfirm: false
+          },
+          function () {
+              var dels = {};
+              dels['/users/' + currentUserId + '/userFan/' + i] = null;
+              dels['/users/' + i + '/userFollow/' + currentUserId] = null;
+              firebase.database().ref().update(dels);
+              firebase.database().ref('/users/' + currentUserId + '/userFanCount').transaction(function (currentCount) {
+                return currentCount - 1;
+              });
+              firebase.database().ref('/users/' + i + '/userFollow').transaction(function (currentCount) {
+                return currentCount - 1;
+              });
+              swal("刪除成功", "恭喜你少了一位粉絲", "success");
+              $(targetUserTr).remove();
+          });
+  };
+
+  window.clickUnFollow = function (event){
+    event.preventDefault();
+    var targetUser = event.target.id.slice(0,-2);
     var a = '#' + targetUser + '';
     if($(a).val()==0){
       console.log(a);
       unFollow(targetUser, a);
     }else{
-      var p = targetUser + "_name";
-      var targetUserName = $(p).val();
+      var p = targetUser + "_name_f";
+      var targetUserName = $(p).text();
       doFollow(targetUser, targetUserName);
       $(a).empty();
       $(a).toggleClass('btn-primary btn-default');
