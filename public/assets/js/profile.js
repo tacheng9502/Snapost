@@ -62,9 +62,9 @@ jQuery(document).ready(function ($) {
   }
 
   function showFan(){
+    $("#result").empty();
     var fanRef = firebase.database().ref('users/'+queryId+'userFan');
     fanRef.once('value', function (data) {
-      $("#result").empty();
       data.forEach(function (childdata){
         var fanID = childdata.key;
         var fanName = childdata.val();
@@ -77,9 +77,9 @@ jQuery(document).ready(function ($) {
   }
 
   function showFollow(){
+    $("#result").empty();
     var followRef = firebase.database().ref('users/'+queryId+'userFollow');
-    fanRef.once('value', function (data) {
-      $("#result").empty();
+    followRef.once('value', function (data) {
       data.forEach(function (childdata){
         var followID = childdata.key;
         var followName = childdata.val();
