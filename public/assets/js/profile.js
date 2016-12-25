@@ -225,9 +225,9 @@ jQuery(document).ready(function ($) {
               });
               swal("取消追蹤", "退追蹤了啦QQ", "success");
               a=1;
+              return a;
           });
       console.log(a);
-      return a;
   }
 
   function doFollow(i,j){
