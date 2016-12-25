@@ -151,9 +151,9 @@ jQuery(document).ready(function ($) {
         var likeStatusRef = firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId);
         likeStatusRef.on('value', function (snapshot) {
             if (snapshot.val() != null) {
-                $('i#' + postKey + '_like').attr("class", "fa fa-heart");
-            } else {
                 $('i#' + postKey + '_like').attr("class", "fa fa-heart fa-heart-click");
+            } else {
+                $('i#' + postKey + '_like').attr("class", "fa fa-heart");
             }
         });
 
