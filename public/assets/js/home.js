@@ -253,7 +253,10 @@ jQuery(document).ready(function ($) {
 
         newImageFile.croppie('result', {
             type: 'blob',
-            size: {width: 600,height: 600},
+            size: {
+                width: 600,
+                height: 600
+            },
             format: 'jpeg'
         }).then(function (resp) {
             var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(resp, metadata);
@@ -349,24 +352,20 @@ jQuery(document).ready(function ($) {
     window.sendUpdate = function (event) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -5);
-        var date = new Date();
-        var postTime = date.getTime();
         var postBody = $('#' + postKey + '_newBody').val();
-        var postImage = $('#' + postKey + '_postImage').attr('src');
-
-        var postData = {
-            userId: currentUserId,
-            userName: userName,
-            userImage: userImage,
-            postBody: postBody,
-            postTime: postTime,
-            postImage: postImage
-        };
 
         var updates = {};
-        updates['/posts/' + postKey] = postData;
+        updates['/posts/' + postKey + '/postBody'] = postBody;
         firebase.database().ref().update(updates);
 
+        $('#' + updateId + '_operate').html(
+            '<button id="' + postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
+            '<i id="' + postKey + '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i>' +
+            '</button>&nbsp;' +
+            '<button id="' + postKey + '_delete" class="btn btn-default" onclick="clickDelete(event)" >' +
+            '<i id="' + postKey + '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i>' +
+            '</button>'
+        );
     }
 
     window.clickUpdate = function (event) {
