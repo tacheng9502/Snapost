@@ -233,7 +233,7 @@ jQuery(document).ready(function ($) {
     event.preventDefault();
   });
 
-  #('#userFollowers').on('click', function (event){
+  $('#userFollowers').on('click', function (event){
     event.preventDefault();
   })
 
