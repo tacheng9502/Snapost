@@ -234,6 +234,10 @@ p {
     border-bottom: 3px;
 }
 
+#file {
+    visibility: hidden;
+}
+
 .form-control[disabled] {
     background-color: #fff;
     cursor: default;
