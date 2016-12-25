@@ -201,8 +201,7 @@ jQuery(document).ready(function ($) {
       return html;
   }
 
-  function unFollow(i){
-    var a = 0;
+  function unFollow(i,j){
     swal({
             title: "確定要取消追蹤?",
             text: "對方會很傷心喔QQ",
@@ -224,10 +223,8 @@ jQuery(document).ready(function ($) {
                 return currentCount - 1;
               });
               swal("取消追蹤", "退追蹤了啦QQ", "success");
-              a=1;
-              return a;
+              changeButton(1, j);
           });
-      console.log(a);
   }
 
   function doFollow(i,j){
@@ -241,6 +238,20 @@ jQuery(document).ready(function ($) {
     firebase.database().ref('/users/' + i + '/userFanCount').transaction(function (currentCount) {
       return currentCount + 1;
     });
+  }
+
+  function changeButton(i,j){
+    if (i==1){
+      $("#follow").empty();
+      $("#follow").toggleClass('btn-primary btn-default');
+      $("#follow").append("加入追蹤");
+      $("#follow").val(1);
+    }else {
+      $(j).empty();
+      $(j).toggleClass('btn-default btn-primary');
+      $(j).append("加入追蹤");
+      $(j).val(1);
+    }
   }
 
   $('#clearNewPost').on('click', function (event) {
@@ -411,12 +422,7 @@ jQuery(document).ready(function ($) {
       $("#follow").append("取消追蹤");
       $("#follow").val(0);
     }else{
-      if(unFollow(queryId)==1){
-        $("#follow").empty();
-        $("#follow").toggleClass('btn-primary btn-default');
-        $("#follow").append("加入追蹤");
-        $("#follow").val(1);
-      }
+      unFollow(queryId, null);
     }
   };
 
@@ -425,19 +431,11 @@ jQuery(document).ready(function ($) {
     var targetUser = event.target.id;
     var a = '#' + targetUser + '';
     if($(a).val()==0){
-      if(unFollow(targetUser)==1){
-        console.log(a);
-        $(a).empty();
-        $(a).toggleClass('btn-default btn-primary');
-        $(a).append("加入追蹤");
-        $(a).val(1);
-      }
+      unFollow(targetUser, a);
     }else{
       var p = targetUser + "_name";
       var targetUserName = $(p).val();
       doFollow(targetUser, targetUserName);
-      console.log(targetUser);
-      console.log(targetUserName);
       $(a).empty();
       $(a).toggleClass('btn-primary btn-default');
       $(a).append("取消追蹤");
