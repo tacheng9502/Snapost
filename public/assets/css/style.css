@@ -165,6 +165,10 @@ p {
     padding: 14px 20px 0px 20px;
 }
 
+.info h2 {
+    color: #23527c;
+}
+
 .info img {
     vertical-align: text-bottom;
 }
@@ -198,12 +202,16 @@ p {
     margin-right: 20px;
 }
 
-.like {
+.like, .comment-btn, .share {
+    color: #777;
+}
+
+.fa-heart-click {
     color: #dc0000;
 }
 
-.like:hover {
-    color: #c70202;
+.like:hover, .comment-btn:hover, .share:hover {
+    color: #292929;
 }
 
 .comment {
@@ -214,6 +222,10 @@ p {
     color: #0068B7;
     font-weight: bold;
     margin-right: 5px;
+}
+
+.comment a:hover {
+    color: #23527c;
 }
 
 #list li .comment li {

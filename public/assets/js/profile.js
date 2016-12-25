@@ -38,8 +38,8 @@ jQuery(document).ready(function ($) {
 
   function startDatabaseQueries() {
 
-      var profileRef = firebase.database().ref('users/'+queryId);
-      profileRef.on('child_added', function (data) {
+      var profileRef = firebase.database().ref('users/'+queryId+"/");
+      profileRef.on("value", function (data) {
         $("#user_posts").append(data.val().userPostCount);
         $("#user_fans").append(data.val().userFanCount);
         $("#user_followers").append(data.val().userFollowCount);
