@@ -1,6 +1,7 @@
 jQuery(document).ready(function ($) {
-  var userName, userImage, currentUserId, queryId;
+  var userName, userImage, currentUserId;
   var listeningFirebaseRefs = [];
+  var queryId = window.location.search.substr(3);
 
   firebase.auth().onAuthStateChanged(function (user) {
     if (!user) {
@@ -13,9 +14,6 @@ jQuery(document).ready(function ($) {
         '<img src="' + userImage + '" class="img-circle" width="30px">&nbsp;&nbsp;' +
         '<span>' + userName + '</span>'
       );
-      if ((queryId = window.location.search.substr(3)) != currentUserId){
-        $('.posting_area').empty();
-      }
       startDatabaseQueries();
     }
   });
@@ -46,11 +44,17 @@ jQuery(document).ready(function ($) {
           // var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
           // $('#list').prepend(html);
       });
-      profileRef.on('child_changed', function (data) {
-          $('#' + data.key + '_body').text(data.val().postBody);
-      });
-      profileRef.on('child_removed', function (data) {
-          $('#' + data.key).remove();
+      var postRef = firebase.database().ref('user/'+queryId+"/userPost");
+      postRef.on("value",function (data) {
+        data.forEach(function(childdata){
+          var postKey = childdata.key();
+          var postImage = childdata.val();
+          var html =
+              '<li id="' + postKey + '">' +
+              '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
+              '</li>';
+          $("#list").append(html);
+        });
       });
 
       listeningFirebaseRefs.push(profileRef);
