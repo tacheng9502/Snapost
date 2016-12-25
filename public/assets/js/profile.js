@@ -1,5 +1,6 @@
 jQuery(document).ready(function ($) {
   var userName, userImage, userId, queryId;
+  var listeningFirebaseRefs = [];
 
   firebase.auth().onAuthStateChanged(function (user) {
     if (!user) {
