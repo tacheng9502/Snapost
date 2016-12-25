@@ -66,7 +66,7 @@ jQuery(document).ready(function ($) {
     fanRef.once('value', function (data) {
       $("#result").empty();
       data.forEach(function (childdata){
-        var fanID = childdata.key();
+        var fanID = childdata.key;
         var fanName = childdata.val();
         var html =
             '<tr><td><a href="/profile?u=' + fanID + '">' + fanName + '</a></td>'+
@@ -81,7 +81,7 @@ jQuery(document).ready(function ($) {
     fanRef.once('value', function (data) {
       $("#result").empty();
       data.forEach(function (childdata){
-        var followID = childdata.key();
+        var followID = childdata.key;
         var followName = childdata.val();
         var html =
             '<tr><td><a href="/profile?u=' + followID + '">' + followName + '</a></td>'+
@@ -264,6 +264,16 @@ jQuery(document).ready(function ($) {
                   });
               });
       });
+  });
+
+  $('#user_fans').on('click', function (event) {
+      event.preventDefault();
+      showFan();
+  });
+
+  $('#user_followers').on('click', function (event) {
+      event.preventDefault();
+      showFollow();
   });
 
   window.dragHandler = function (e) {
