@@ -362,6 +362,8 @@ jQuery(document).ready(function ($) {
             '<i id="' + postKey + '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i>' +
             '</button>'
         );
+
+        $('#' + postKey + '_body').html(postBody);
     }
 
     window.clickUpdate = function (event) {
