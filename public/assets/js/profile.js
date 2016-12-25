@@ -99,7 +99,7 @@ jQuery(document).ready(function ($) {
           var followID = childdata.key;
           var followName = childdata.val();
           var html =
-              '<tr><td><a href="/profile?u=' + followID + '"><p>' + followName + '</p></a></td>'+
+              '<tr><td><a href="/profile?u=' + followID + '"><p id="' + followID + '_name">' + followName + '</p></a></td>'+
               '<td><button id="' + followID +'" class="btn btn-default" onclick="clickUnfan(event)" value="0">取消追蹤</button></td>';
           $("#result").append(html);
         });
@@ -422,12 +422,24 @@ jQuery(document).ready(function ($) {
   window.clickUnfan = function (event){
     event.preventDefault();
     var targetUser = event.target.id;
-    console.log(targetUser);
-    if(unFollow(targetUser)==1){
-      $("#" + targetUser).empty();
-      $("#" + targetUser).toggleClass('btn-primary btn-default');
-      $("#" + targetUser).append("加入追蹤");
-      $("#" + targetUser).val(1);
+    var a = '#' + targetUser;
+    if($(a).val()==0){
+      if(unFollow(targetUser)==1){
+        $(a).empty();
+        $(a).toggleClass('btn-default btn-primary');
+        $(a).append("加入追蹤");
+        $(a).val(1);
+      }
+    }else{
+      var p = targetUser + "_name";
+      var targetUserName = $(p).val();
+      doFollow(targetUser, targetUserName);
+      console.log(targetUser);
+      console.log(targetUserName);
+      $(a).empty();
+      $(a).toggleClass('btn-primary btn-default');
+      $(a).append("取消追蹤");
+      $(a).val(0);
     }
   };
 })
