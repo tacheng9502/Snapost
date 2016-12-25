@@ -38,11 +38,16 @@ jQuery(document).ready(function ($) {
 
       var profileRef = firebase.database().ref('users/'+queryId+"/");
       profileRef.on('value', function (data) {
-        $("#user_posts").append(data.val().userPostCount);
-        $("#user_fans").append(data.val().userFanCount);
-        $("#user_followers").append(data.val().userFollowCount);
-          // var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-          // $('#list').prepend(html);
+        $("#user_posts").empty();
+        $("#user_fans").empty();
+        $("#user_followers").empty();
+        var a,b,c;
+        (data.val().userPostCount == null)?(a=0):(a=data.val().userPostCount);
+        (data.val().userFanCount == null)?(b=0):(b=data.val().userFanCount);
+        (data.val().userFollowCount == null)?(c=0):(c=data.val().userFollowCount);
+        $("#user_posts").append(a);
+        $("#user_fans").append(b);
+        $("#user_followers").append(c);
       });
 
       var postRef = firebase.database().ref('users/'+queryId+'/userPost');
@@ -69,7 +74,7 @@ jQuery(document).ready(function ($) {
         var fanID = childdata.key;
         var fanName = childdata.val();
         var html =
-            '<tr><td><a href="/profile?u=' + fanID + '">' + fanName + '</a></td>'+
+            '<tr><td><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a></td>'+
             '<td><button id="' + fanID +'" class="btn btn-default" onclick="clickUnfan(event)">移除粉絲</button></td>';
         $("#result").append(html);
       });
@@ -84,7 +89,7 @@ jQuery(document).ready(function ($) {
         var followID = childdata.key;
         var followName = childdata.val();
         var html =
-            '<tr><td><a href="/profile?u=' + followID + '">' + followName + '</a></td>'+
+            '<tr><td><a href="/profile?u=' + followID + '"><p>' + followName + '</p></a></td>'+
             '<td><button id="' + followID +'" class="btn btn-default" onclick="clickUnfan(event)">取消追蹤</button></td>';
         $("#result").append(html);
       })
