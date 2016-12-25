@@ -245,7 +245,7 @@ jQuery(document).ready(function ($) {
   }
 
   function changeButton(i){
-    if (j==null){
+    if (i==null){
       $("#follow").empty();
       $("#follow").toggleClass('btn-primary btn-default');
       $("#follow").append("加入追蹤");
