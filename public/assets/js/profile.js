@@ -240,7 +240,8 @@ jQuery(document).ready(function ($) {
     });
   }
 
-  function changeButton(i,j){
+  function changeButton(j){
+    console.log(j);
     if (j==null){
       $("#follow").empty();
       $("#follow").toggleClass('btn-primary btn-default');
@@ -431,6 +432,7 @@ jQuery(document).ready(function ($) {
     var targetUser = event.target.id;
     var a = '#' + targetUser + '';
     if($(a).val()==0){
+      console.log(a);
       unFollow(targetUser, a);
     }else{
       var p = targetUser + "_name";
