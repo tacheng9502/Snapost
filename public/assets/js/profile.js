@@ -467,9 +467,9 @@ jQuery(document).ready(function ($) {
     if($(a).val()==0){
       unFollow(targetUser, a);
     }else{
-      var p = targetUser + "_name_f";
+      var p = '#' + targetUser + "_name_f";
       var targetUserName = $(p).text();
-      console.log(targetUserName);
+      console.log(p);
       doFollow(targetUser, targetUserName);
       $(a).empty();
       $(a).toggleClass('btn-primary btn-default');
