@@ -120,11 +120,11 @@ jQuery(document).ready(function ($) {
         if (likeStatus != null) {
             html = html +
                 '<div class="postMenu"><button id="' + postKey + '_like" class="like">' +
-                '<i id="' + postKey + '_like" class="fa fa-heart" onclick="clickLike(event)">&nbsp;&nbsp;' + likeCount + '</i></button><button id="comment" class="comment">' + '<i class="fa fa-commenting-o"></i>&nbsp;&nbsp;留言</i></button><button id="share" class="share">' + '<i class="fa fa-share"></i>&nbsp;&nbsp;分享</i></button></div>';
+                '<i id="' + postKey + '_like" class="fa fa-heart" onclick="clickLike(event)">&nbsp;&nbsp;' + likeCount + '</i></button><button id="comment" class="comment">' + '<i class="fa fa-comment"></i>&nbsp;留言</i></button><button id="share" class="share">' + '<i class="fa fa-share"></i>&nbsp;分享</i></button></div>';
         } else {
             html = html +
                 '<div class="postMenu"><button id="' + postKey + '_like" class="like">' +
-                '<i id="' + postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)">&nbsp;&nbsp;' + likeCount + '</i></button><button id="comment" class="comment">' + '<i class="fa fa-commenting-o"></i>&nbsp;&nbsp;留言</i></button><button id="share" class="share">' + '<i class="fa fa-share"></i>&nbsp;&nbsp;分享</i></button></div>';
+                '<i id="' + postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)">&nbsp;&nbsp;' + likeCount + '</i></button><button id="comment" class="comment">' + '<i class="fa fa-comment"></i>&nbsp;留言</i></button><button id="share" class="share">' + '<i class="fa fa-share"></i>&nbsp;分享</i></button></div>';
         }
 
         html = html +
@@ -153,7 +153,7 @@ jQuery(document).ready(function ($) {
             if (snapshot.val() != null) {
                 $('i#' + postKey + '_like').attr("class", "fa fa-heart");
             } else {
-                $('i#' + postKey + '_like').attr("class", "fa fa-heart-o fa-fw");
+                $('i#' + postKey + '_like').attr("class", "fa fa-heart-o");
             }
         });
 
