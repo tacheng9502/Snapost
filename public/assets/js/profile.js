@@ -87,7 +87,7 @@ jQuery(document).ready(function ($) {
             '<tr><td><a href="/profile?u=' + followID + '">' + followName + '</a></td>'+
             '<td><button id="' + followID +'" class="btn btn-default" onclick="clickUnfan(event)">取消追蹤</button></td>';
         $("#result").append(html);
-      });
+      })
     });
   }
 
@@ -266,14 +266,16 @@ jQuery(document).ready(function ($) {
       });
   });
 
-  $('#user_fans').on('click', function (event) {
+  $('#fans').on('click', function (event) {
       event.preventDefault();
       showFan();
+      console.log("click!fan");
   });
 
-  $('#user_followers').on('click', function (event) {
+  $('#followers').on('click', function (event) {
       event.preventDefault();
       showFollow();
+      console.log("click!fol");
   });
 
   window.dragHandler = function (e) {
