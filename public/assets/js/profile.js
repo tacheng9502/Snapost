@@ -223,7 +223,7 @@ jQuery(document).ready(function ($) {
                 return currentCount - 1;
               });
               swal("取消追蹤", "退追蹤了啦QQ", "success");
-              changeButton(1, j);
+              changeButton(j);
           });
   }
 
@@ -241,7 +241,7 @@ jQuery(document).ready(function ($) {
   }
 
   function changeButton(i,j){
-    if (i==1){
+    if (j==null){
       $("#follow").empty();
       $("#follow").toggleClass('btn-primary btn-default');
       $("#follow").append("加入追蹤");
