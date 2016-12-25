@@ -53,11 +53,11 @@ jQuery(document).ready(function ($) {
         isFollow.once('value', function (data){
           if (data.val() == null){
             $("#follow").append("加入追蹤");
-            $("#follow").val(0);
+            $("#follow").val(1);
           }else{
             $("#follow").toggleClass('btn-primary btn-default');
             $("#follow").append("取消追蹤");
-            $("#follow").val(1);
+            $("#follow").val(0);
           }
         })
       }else{
