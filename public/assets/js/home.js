@@ -247,7 +247,7 @@ jQuery(document).ready(function ($) {
 
         newImageFile.croppie('result', {
             type: 'blob',
-            size: 'viewport',
+            size: {width: 600,height: 600},
             format: 'jpeg'
         }).then(function (resp) {
             var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(resp, metadata);
@@ -326,13 +326,13 @@ jQuery(document).ready(function ($) {
             $("#img_preview").empty().append(img);
             newImageFile = $('.preview').croppie({
                 viewport: {
-                    width: 600,
-                    height: 600,
+                    width: 400,
+                    height: 400,
                     type: 'square'
                 },
                 boundary: {
-                    width: 600,
-                    height: 600
+                    width: 400,
+                    height: 400
                 }
             });
         }
