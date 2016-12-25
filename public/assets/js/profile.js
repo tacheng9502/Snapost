@@ -1,5 +1,5 @@
 jQuery(document).ready(function ($) {
-  var userName, userImage, userId, queryId;
+  var userName, userImage, currentUserId, queryId;
   var listeningFirebaseRefs = [];
 
   firebase.auth().onAuthStateChanged(function (user) {
@@ -8,14 +8,14 @@ jQuery(document).ready(function ($) {
     } else {
       userName = user.displayName;
       userImage = user.photoURL;
-      userId = user.uid;
+      currentUserId = user.uid;
       $('#userInfo').html(
         '<img src="' + userImage + '" class="img-circle" width="30px">&nbsp;&nbsp;' +
         '<span>' + userName + '</span>'
       );
-      if ((queryId = window.location.search.substr(3)) != userId){
+      if ((queryId = window.location.search.substr(3)) != currentUserId){
         console.log(queryId);
-        console.log(userId);
+        console.log(currentUserId);
         $('.posting_area').empty();
       }
       startDatabaseQueries();
