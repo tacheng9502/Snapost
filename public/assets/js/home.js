@@ -120,11 +120,11 @@ jQuery(document).ready(function ($) {
         if (likeStatus != null) {
             html = html +
                 '<div class="postMenu"><button id="' + postKey + '_like" class="like">' +
-                '<i id="' + postKey + '_like" class="fa fa-heart" onclick="clickLike(event)">&nbsp;&nbsp;' + likeCount + '</i></button></div>';
+                '<i id="' + postKey + '_like" class="fa fa-heart" onclick="clickLike(event)">&nbsp;&nbsp;' + likeCount + '</i></button><button id="comment" class="comment">' + '<i class="fa fa-commenting-o" aria-hidden="true"></i>&nbsp;&nbsp;留言</i></button></div>';
         } else {
             html = html +
                 '<div class="postMenu"><button id="' + postKey + '_like" class="like">' +
-                '<i id="' + postKey + '_like" class="fa fa-heart-o fa-fw" onclick="clickLike(event)">&nbsp;&nbsp;' + likeCount + '</i></button></div>';
+                '<i id="' + postKey + '_like" class="fa fa-heart-o fa-fw" onclick="clickLike(event)">&nbsp;&nbsp;' + likeCount + '</i></button><button id="comment" class="comment">' + '<i class="fa fa-commenting-o" aria-hidden="true"></i>&nbsp;&nbsp;留言</i></button></div>';
         }
 
         html = html +

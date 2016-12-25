@@ -4,6 +4,7 @@
 <div id="totalpost"></div>
 <div id="chart"></div>
 <div id="post"></div>
+<div id="usercount"></div>
 <script>
 jQuery(document).ready(function ($) {
 var totalpost=0;
@@ -36,7 +37,7 @@ function creategauge(val){
 
 
 
-    function createLine(array){
+    function createBar(array){
         var total=0;
         var chart = c3.generate({
             data: {
@@ -54,11 +55,10 @@ function creategauge(val){
                 }
         });
         for(var i=0;i<array.length;i++){
-            total=total+array[i].postCount;
             chart.load({
                 columns:[
-                    [array[i].time.toString(),array[i].postCount],
-                    ['x',"貼文數量"]
+                    [array[i].time.toString(),array[i].userCount],
+                    ['x',"每月新進人數"]
                 ]
             });
         };
@@ -112,10 +112,11 @@ function creategauge(val){
             var post = {
                     time: data.key,
                     postCount: data.val().postCount,
+                    usercount: data.val().userCount,
                 };
                 array.push(post);
         });
-        createLine(array);
+        createBar(array);
         createspline(array);
     });
 

@@ -38,19 +38,22 @@ jQuery(document).ready(function ($) {
 
   function startDatabaseQueries() {
 
-      var postsRef = firebase.database().ref('posts').orderByChild('userId').equalTo(queryId).limitToLast(50);
-      postsRef.on('child_added', function (data) {
-          var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-          $('#list').prepend(html);
+      var profileRef = firebase.database().ref('users/'+queryId);
+      profileRef.on('child_added', function (data) {
+        $("#user_posts").append(data.val().userPostCount);
+        $("#user_fans").append(data.val().userFanCount);
+        $("#user_followers").append(data.val().userFollowCount);
+          // var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+          // $('#list').prepend(html);
       });
-      postsRef.on('child_changed', function (data) {
+      profileRef.on('child_changed', function (data) {
           $('#' + data.key + '_body').text(data.val().postBody);
       });
-      postsRef.on('child_removed', function (data) {
+      profileRef.on('child_removed', function (data) {
           $('#' + data.key).remove();
       });
 
-      listeningFirebaseRefs.push(postsRef);
+      listeningFirebaseRefs.push(profileRef);
   }
 
   function createPostElement(postKey, userId, userName, userImage, postBody, postTime, postImage, likeCount) {
