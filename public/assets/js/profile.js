@@ -64,13 +64,15 @@ jQuery(document).ready(function ($) {
       });
 
       if(queryId != currentUserId){
-        var isFollow = firebase.database().ref('users'+currentUserId+'/userFollow').orderByKey().equalTo(queryId);
+        var isFollow = firebase.database().ref('users/'+currentUserId+'/userFollow').orderByKey().equalTo(queryId);
         if (isFollow == null){
           $("#follow").append("追蹤");
         }else{
           $("#follow").toggleClass('btn-primary btn-default');
-          $("follow").append("取消追蹤");
+          $("#follow").append("取消追蹤");
         }
+      }else{
+        $("#follow").remove();
       }
       //listeningFirebaseRefs.push(profileRef);
   }
