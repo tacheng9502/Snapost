@@ -131,6 +131,10 @@ p {
     margin-bottom: 20px;
 }
 
+.intro h2:hover {
+    color: #23527c;
+}
+
 .intro img {
     display: block;
     margin: 10px auto;
@@ -206,6 +210,14 @@ p {
     color: #c70202;
 }
 
+.comment-btn, .share {
+    color: #777;
+}
+
+.comment-btn:hover, .share:hover {
+    color: #292929;
+}
+
 .comment {
     padding: 10px 20px;
 }
@@ -214,6 +226,10 @@ p {
     color: #0068B7;
     font-weight: bold;
     margin-right: 5px;
+}
+
+.comment a:hover {
+    color: #23527c;
 }
 
 #list li .comment li {
