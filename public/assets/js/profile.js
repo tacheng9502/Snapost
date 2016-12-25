@@ -53,11 +53,11 @@ jQuery(document).ready(function ($) {
         isFollow.once('value', function (data){
           if (data.val() == null){
             $("#follow").append("加入追蹤");
-            $("#follow").val(1);
+            $("#follow").val("1");
           }else{
             $("#follow").toggleClass('btn-primary btn-default');
             $("#follow").append("取消追蹤");
-            $("#follow").val(0);
+            $("#follow").val("0");
           }
         })
       }else{
@@ -349,10 +349,10 @@ jQuery(document).ready(function ($) {
       sets['/users/' + currentUserId + '/userFollow/' + queryId] = queryName;
       sets['/users/' + queryId + '/userFan/' + currentUserId] = userName;
       firebase.database().ref().update(sets);
-      firebase.database().ref('/users/' + currentUserId + '/userFanCount').transaction(function (currentCount) {
+      firebase.database().ref('/users/' + currentUserId + '/userFollowCount').transaction(function (currentCount) {
         return currentCount + 1;
       });
-      firebase.database().ref('/users/' + queryId + '/userFollowCount').transaction(function (currentCount) {
+      firebase.database().ref('/users/' + queryId + '/userFanCount').transaction(function (currentCount) {
         return currentCount + 1;
       });
       $("#follow").empty();
@@ -374,10 +374,10 @@ jQuery(document).ready(function ($) {
                 dels['/users/' + currentUserId + '/userFollow/' + queryId] = null;
                 dels['/users/' + queryId + '/userFan/' + currentUserId] = null;
                 firebase.database().ref().update(dels);
-                firebase.database().ref('/users/' + currentUserId + '/userFanCount').transaction(function (currentCount) {
+                firebase.database().ref('/users/' + currentUserId + '/userFollowCount').transaction(function (currentCount) {
                   return currentCount - 1;
                 });
-                firebase.database().ref('/users/' + queryId + '/userFollowCount').transaction(function (currentCount) {
+                firebase.database().ref('/users/' + queryId + '/userFanCount').transaction(function (currentCount) {
                   return currentCount - 1;
                 });
                 swal("取消追蹤", "退追蹤了啦QQ", "success");
