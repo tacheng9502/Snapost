@@ -40,12 +40,9 @@ jQuery(document).ready(function ($) {
 
       var profileRef = firebase.database().ref('users/'+queryId);
       profileRef.on('child_added', function (data) {
-        var postCount = data.val().userPostCount;
-        var followCount = data.val().userFollowCount;
-        var fanCount = data.val().userFanCount;
-        $("#user_posts").append(postCount);
-        $("#user_fans").append(fanCount);
-        $("#user_followers").append(followCount);
+        $("#user_posts").append(data.val().userPostCount);
+        $("#user_fans").append(data.val().userFanCount);
+        $("#user_followers").append(data.val().userFollowCount);
           // var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
           // $('#list').prepend(html);
       });

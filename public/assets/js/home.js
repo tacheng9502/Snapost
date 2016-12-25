@@ -120,11 +120,11 @@ jQuery(document).ready(function ($) {
         if (likeStatus != null) {
             html = html +
                 '<div class="postMenu"><button id="' + postKey + '_like" class="like">' +
-                '<i id="' + postKey + '_like" class="fa fa-heart" onclick="clickLike(event)">&nbsp;&nbsp;' + likeCount + '</i></button><button id="comment" class="comment">' + '<i class="fa fa-commenting-o" aria-hidden="true"></i>&nbsp;&nbsp;留言</i></button></div>';
+                '<i id="' + postKey + '_like" class="fa fa-heart" onclick="clickLike(event)">&nbsp;&nbsp;' + likeCount + '</i></button><button id="comment" class="comment">' + '<i class="fa fa-commenting-o"></i>&nbsp;&nbsp;留言</i></button><button id="share" class="share">' + '<i class="fa fa-share"></i>&nbsp;&nbsp;分享</i></button></div>';
         } else {
             html = html +
                 '<div class="postMenu"><button id="' + postKey + '_like" class="like">' +
-                '<i id="' + postKey + '_like" class="fa fa-heart-o fa-fw" onclick="clickLike(event)">&nbsp;&nbsp;' + likeCount + '</i></button><button id="comment" class="comment">' + '<i class="fa fa-commenting-o" aria-hidden="true"></i>&nbsp;&nbsp;留言</i></button></div>';
+                '<i id="' + postKey + '_like" class="fa fa-heart-o" onclick="clickLike(event)">&nbsp;&nbsp;' + likeCount + '</i></button><button id="comment" class="comment">' + '<i class="fa fa-commenting-o"></i>&nbsp;&nbsp;留言</i></button><button id="share" class="share">' + '<i class="fa fa-share"></i>&nbsp;&nbsp;分享</i></button></div>';
         }
 
         html = html +
@@ -293,7 +293,7 @@ jQuery(document).ready(function ($) {
 
                     var sets = {};
                     sets['/posts/' + newPostKey] = postData;
-
+                    sets['/users/' + currentUserId + '/userPost/' + newPostKey] = downloadURL;
                     firebase.database().ref().update(sets);
                     $('.form-control').val("");
                     $('#newPost_body').val("");
@@ -393,6 +393,7 @@ jQuery(document).ready(function ($) {
                 var deletes = {};
                 deletes['/posts/' + postKey] = null;
                 deletes['/post-comments/' + postKey] = null;
+                deletes['/users/' + currentUserId + '/userPost/' + postKey] = null;
                 firebase.database().ref().update(deletes);
                 swal("已刪除", "留言已經成功刪除", "success");
                 firebase.database().ref('statistic/' + timeArray[0] + '-' + timeArray[1] + '/postCount').transaction(function (currentCount) {
