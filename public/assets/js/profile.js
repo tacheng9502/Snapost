@@ -445,13 +445,13 @@ jQuery(document).ready(function ($) {
           },
           function () {
               var dels = {};
-              dels['/users/' + currentUserId + '/userFan/' + i] = null;
-              dels['/users/' + i + '/userFollow/' + currentUserId] = null;
+              dels['/users/' + currentUserId + '/userFan/' + targetUser] = null;
+              dels['/users/' + targetUser + '/userFollow/' + currentUserId] = null;
               firebase.database().ref().update(dels);
               firebase.database().ref('/users/' + currentUserId + '/userFanCount').transaction(function (currentCount) {
                 return currentCount - 1;
               });
-              firebase.database().ref('/users/' + i + '/userFollow').transaction(function (currentCount) {
+              firebase.database().ref('/users/' + targetUser + '/userFollow').transaction(function (currentCount) {
                 return currentCount - 1;
               });
               swal("刪除成功", "恭喜你少了一位粉絲", "success");
