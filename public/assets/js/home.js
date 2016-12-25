@@ -153,7 +153,7 @@ jQuery(document).ready(function ($) {
             if (snapshot.val() != null) {
                 $('i#' + postKey + '_like').attr("class", "fa fa-heart");
             } else {
-                $('i#' + postKey + '_like').attr("class", "fa fa-heart-click");
+                $('i#' + postKey + '_like').attr("class", "fa fa-heart fa-heart-click");
             }
         });
 
