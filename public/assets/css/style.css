@@ -131,10 +131,6 @@ p {
     margin-bottom: 20px;
 }
 
-.intro h2:hover {
-    color: #23527c;
-}
-
 .intro img {
     display: block;
     margin: 10px auto;
@@ -167,6 +163,10 @@ p {
 .info {
     overflow: hidden;
     padding: 14px 20px 0px 20px;
+}
+
+.info h2 {
+    color: #23527c;
 }
 
 .info img {
