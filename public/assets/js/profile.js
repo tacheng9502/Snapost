@@ -399,7 +399,7 @@ jQuery(document).ready(function ($) {
               });
           }
       });
-  }
+  };
 
   window.clickfan = function (event) {
     event.preventDefault();
@@ -417,16 +417,17 @@ jQuery(document).ready(function ($) {
         $("#follow").val(1);
       }
     }
-  }
+  };
 
   window.clickUnfan = function (event){
     event.preventDefault();
     var targetUser = event.target.id;
+    console.log(targetUser);
     if(unFollow(targetUser)==1){
       $("#" + targetUser).empty();
       $("#" + targetUser).toggleClass('btn-primary btn-default');
       $("#" + targetUser).append("加入追蹤");
       $("#" + targetUser).val(1);
     }
-  }
+  };
 })
