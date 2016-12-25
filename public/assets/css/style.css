@@ -248,7 +248,7 @@ p {
     cursor: default;
 }
 
-.profile {
+#userInfo {
     display:block;
     padding:9.5px 20px;
     color:white;
@@ -257,7 +257,7 @@ p {
     top: 0;
 }
 
-.profile:hover {
+#userInfo:hover {
     background-color:#035ca0;
 }
 
