@@ -358,7 +358,7 @@ jQuery(document).ready(function ($) {
         updates['/posts/' + postKey + '/postBody'] = postBody;
         firebase.database().ref().update(updates);
 
-        $('#' + updateId + '_operate').html(
+        $('#' + postKey + '_operate').html(
             '<button id="' + postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
             '<i id="' + postKey + '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i>' +
             '</button>&nbsp;' +
