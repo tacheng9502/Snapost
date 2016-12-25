@@ -180,15 +180,21 @@ p {
 }
 
 .msg-input {
-    padding: 14px 20px;
+    padding: 0px 20px 14px 20px;
 }
 
 .postMenu {
-    padding: 10px 20px;
+    padding: 10px 20px 0px 20px;
 }
 
 .comment {
-    padding: 0 20px;
+    padding: 10px 20px;
+}
+
+.comment a {
+    color: #0068B7;
+    font-weight: bold;
+    margin-right: 5px;
 }
 
 #list li .comment li {

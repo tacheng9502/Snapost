@@ -143,7 +143,7 @@ jQuery(document).ready(function ($) {
     function createCommentElement(commentKey, userId, userName, userImage, commentBody, commentTime) {
         var date = new Date(parseInt(commentTime));
         var html =
-            '<li id =' + commentKey + '><a href="/profile?u=' + userId + '" >' + userName + '</a>：' + commentBody + '</li>';
+            '<li id =' + commentKey + '><a href="/profile?u=' + userId + '" >' + userName + '</a><span>' + commentBody + '</span></li>';
         return html;
     }
 
