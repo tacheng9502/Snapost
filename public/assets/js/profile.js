@@ -451,7 +451,7 @@ jQuery(document).ready(function ($) {
               firebase.database().ref('/users/' + currentUserId + '/userFanCount').transaction(function (currentCount) {
                 return currentCount - 1;
               });
-              firebase.database().ref('/users/' + targetUser + '/userFollow').transaction(function (currentCount) {
+              firebase.database().ref('/users/' + targetUser + '/userFollowCount').transaction(function (currentCount) {
                 return currentCount - 1;
               });
               swal("刪除成功", "恭喜你少了一位粉絲", "success");
@@ -462,9 +462,8 @@ jQuery(document).ready(function ($) {
   window.clickUnFollow = function (event){
     event.preventDefault();
     var targetUser = event.target.id.slice(0,-2);
-    var a = '#' + targetUser + '';
+    var a = '#' + targetUser + '_f';
     if($(a).val()==0){
-      console.log(a);
       unFollow(targetUser, a);
     }else{
       var p = targetUser + "_name_f";
