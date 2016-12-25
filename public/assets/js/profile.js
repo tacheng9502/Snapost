@@ -38,13 +38,11 @@ jQuery(document).ready(function ($) {
 
   function startDatabaseQueries() {
 
-      var profileRef = firebase.database().ref('users/'+queryId);
+      var profileRef = firebase.database().ref('users/'+queryId+"/");
       profileRef.on('child_added', function (data) {
-        console.log(data);
-        console.log(data.val().userPostCount);
-        $("#user_posts").append(data.val().userPostCount);
-        $("#user_fans").append(data.val().userFanCount);
-        $("#user_followers").append(data.val().userFollowCount);
+        $("#user_posts").append(data.userPostCount);
+        $("#user_fans").append(data.userFanCount);
+        $("#user_followers").append(data.userFollowCount);
           // var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
           // $('#list').prepend(html);
       });
