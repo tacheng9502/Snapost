@@ -14,8 +14,6 @@ jQuery(document).ready(function ($) {
         '<span>' + userName + '</span>'
       );
       if ((queryId = window.location.search.substr(3)) != currentUserId){
-        console.log(queryId);
-        console.log(currentUserId);
         $('.posting_area').empty();
       }
       startDatabaseQueries();
@@ -232,10 +230,12 @@ jQuery(document).ready(function ($) {
 
   $('#userFans').on('click', function (event){
     event.preventDefault();
+    var fansDetail = firebase.database().ref('fans').orderByChild('userId').equalTo(queryId);
   });
 
   $('#userFollowers').on('click', function (event){
     event.preventDefault();
+    var followerDetail = firebase.database().ref('follower').orderByChild('userId').equalTo(queryId);
   })
 
   window.dragHandler = function (e) {
