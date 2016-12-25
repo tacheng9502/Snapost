@@ -52,12 +52,12 @@ jQuery(document).ready(function ($) {
         var isFollow = firebase.database().ref('users/'+currentUserId+'/userFollow').orderByKey().equalTo(queryId);
         isFollow.once('value', function (data){
           if (data.val() == null){
-            $("#follow").append("追蹤");
-            $("#follow").val(1);
+            $("#follow").append("加入追蹤");
+            $("#follow").val(0);
           }else{
             $("#follow").toggleClass('btn-primary btn-default');
             $("#follow").append("取消追蹤");
-            $("#follow").val(0);
+            $("#follow").val(1);
           }
         })
       }else{
@@ -344,7 +344,7 @@ jQuery(document).ready(function ($) {
 
   window.clickfan = function (event) {
     event.preventDefault();
-    if($("#follow").val()){
+    if($("#follow").val()==1){
       var sets = {};
       sets['/users/' + currentUserId + '/userFollow/' + queryId] = queryName;
       sets['/users/' + queryId + '/userFan/' + currentUserId] = userName;
@@ -356,7 +356,7 @@ jQuery(document).ready(function ($) {
         return currentCount + 1;
       });
       $("#follow").empty();
-      $("#follow").toggleClass('btn-primary btn-default');
+      $("#follow").toggleClass('btn-default btn-primary');
       $("#follow").append("取消追蹤");
       $("#follow").val(0);
     }else{
@@ -381,8 +381,11 @@ jQuery(document).ready(function ($) {
                   return currentCount - 1;
                 });
                 swal("取消追蹤", "退追蹤了啦QQ", "success");
-            }
-            )
+                $("#follow").empty();
+                $("#follow").toggleClass('btn-primary btn-default');
+                $("#follow").append("加入追蹤");
+                $("#follow").val(1);
+            });
     }
   }
 })
