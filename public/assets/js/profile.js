@@ -46,7 +46,7 @@ jQuery(document).ready(function ($) {
       });
       var postRef = firebase.database().ref('user/'+queryId+"/userPost");
       postRef.on("value",function (data) {
-        data.forEach(function (childdata)){
+        data.forEach(function(childdata){
           var postKey = childdata.key();
           var postImage = childdata.val();
           var html =
@@ -54,7 +54,7 @@ jQuery(document).ready(function ($) {
               '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
               '</li>';
           $("#list").append(html);
-        }
+        });
       }
 
       listeningFirebaseRefs.push(profileRef);
