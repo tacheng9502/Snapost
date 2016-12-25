@@ -63,7 +63,7 @@ jQuery(document).ready(function ($) {
 
   function showFan(){
     $("#result").empty();
-    var fanRef = firebase.database().ref('users/'+queryId+'userFan');
+    var fanRef = firebase.database().ref('users/'+queryId+'/userFan');
     fanRef.once('value', function (data) {
       data.forEach(function (childdata){
         var fanID = childdata.key;
@@ -72,14 +72,13 @@ jQuery(document).ready(function ($) {
             '<tr><td><a href="/profile?u=' + fanID + '">' + fanName + '</a></td>'+
             '<td><button id="' + fanID +'" class="btn btn-default" onclick="clickUnfan(event)">移除粉絲</button></td>';
         $("#result").append(html);
-        console.log(html);
       });
     });
   }
 
   function showFollow(){
     $("#result").empty();
-    var followRef = firebase.database().ref('users/'+queryId+'userFollow');
+    var followRef = firebase.database().ref('users/'+queryId+'/userFollow');
     followRef.once('value', function (data) {
       data.forEach(function (childdata){
         var followID = childdata.key;
@@ -88,7 +87,6 @@ jQuery(document).ready(function ($) {
             '<tr><td><a href="/profile?u=' + followID + '">' + followName + '</a></td>'+
             '<td><button id="' + followID +'" class="btn btn-default" onclick="clickUnfan(event)">取消追蹤</button></td>';
         $("#result").append(html);
-        console.log(html);
       })
     });
   }
