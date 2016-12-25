@@ -202,19 +202,15 @@ p {
     margin-right: 20px;
 }
 
-.like {
-    color: #dc0000;
-}
-
-.like:hover {
-    color: #c70202;
-}
-
-.comment-btn, .share {
+.like .comment-btn, .share {
     color: #777;
 }
 
-.comment-btn:hover, .share:hover {
+.fa-heart-click {
+    color: #dc0000;
+}
+
+.like:hover, .comment-btn:hover, .share:hover {
     color: #292929;
 }
 
