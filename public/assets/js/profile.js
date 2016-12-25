@@ -226,7 +226,8 @@ jQuery(document).ready(function ($) {
               swal("取消追蹤", "退追蹤了啦QQ", "success");
               a=1;
           });
-          return a;
+      console.log(a);
+      return a;
   }
 
   function doFollow(i,j){
@@ -422,9 +423,10 @@ jQuery(document).ready(function ($) {
   window.clickUnfan = function (event){
     event.preventDefault();
     var targetUser = event.target.id;
-    var a = '#' + targetUser;
+    var a = '"#' + targetUser + '"';
     if($(a).val()==0){
       if(unFollow(targetUser)==1){
+        console.log(a);
         $(a).empty();
         $(a).toggleClass('btn-default btn-primary');
         $(a).append("加入追蹤");
