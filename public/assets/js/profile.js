@@ -38,7 +38,7 @@ jQuery(document).ready(function ($) {
 
   function startDatabaseQueries() {
 
-      var profileRef = firebase.database().ref('users').equalTo(queryId);
+      var profileRef = firebase.database().ref('users/'+queryId);
       profileRef.on('child_added', function (data) {
         var postCount = data.val().userPostCount;
         var followCount = data.val().userFollowCount;
