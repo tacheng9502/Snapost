@@ -1,5 +1,5 @@
 jQuery(document).ready(function ($) {
-  var userName, userImage, currentUserId;
+  var userName, userImage, currentUserId, queryName;
   var listeningFirebaseRefs = [];
   var queryId = window.location.search.substr(3);
 
@@ -18,26 +18,11 @@ jQuery(document).ready(function ($) {
     }
   });
 
-  $("#img_input").on('click', function () {
-    var file = $(this).parent().parent().parent().find('.file');
-    file.trigger('click');
-  });
-
-  $("#file").on("change", function (event) {
-    $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
-    newImageFile = event.target.files[0]; //獲得圖片資源
-    var reader = new FileReader();
-    reader.readAsDataURL(newImageFile); // 讀取檔案
-    reader.onload = function (arg) {
-      var img = '<img class="preview" width="300px" src="' + arg.target.result + '" alt="preview"/>';
-      $("#img_preview").empty().append(img);
-    }
-  });
-
   function startDatabaseQueries() {
 
       var profileRef = firebase.database().ref('users/'+queryId+"/");
       profileRef.on('value', function (data) {
+        queryName = data.val().userName;
         $("#user_posts").empty();
         $("#user_fans").empty();
         $("#user_followers").empty();
@@ -68,9 +53,11 @@ jQuery(document).ready(function ($) {
         isFollow.once('value', function (data){
           if (data.val() == null){
             $("#follow").append("追蹤");
+            $("#follow").val(1);
           }else{
             $("#follow").toggleClass('btn-primary btn-default');
             $("#follow").append("取消追蹤");
+            $("#follow").val(0);
           }
         })
       }else{
@@ -207,81 +194,6 @@ jQuery(document).ready(function ($) {
   $('#userInfo').on('click', function (event) {
       event.preventDefault();
       window.location.href = "/profile?u=" + currentUserId;
-  });
-
-  $('#writeNewPost').on('click', function (event) {
-      event.preventDefault();
-      var postBody = $('#newPost_body').val();
-      var date = new Date();
-      var postTime = date.getTime();
-      var newPostKey = firebase.database().ref().child('posts').push().key;
-      var metadata = {
-          contentType: 'image/jpeg'
-      };
-
-      newImageFile.croppie('result', {
-          type: 'blob',
-          size: 'viewport',
-          format: 'jpeg'
-      }).then(function (resp) {
-          var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(resp, metadata);
-          uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-              function (snapshot) {
-                  var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                  console.log('Upload is ' + progress + '% done');
-                  switch (snapshot.state) {
-                      case firebase.storage.TaskState.PAUSED:
-                          console.log('Upload is paused');
-                          break;
-                      case firebase.storage.TaskState.RUNNING:
-                          console.log('Upload is running');
-                          break;
-                  }
-              },
-              function (error) {
-                  switch (error.code) {
-                      case 'storage/unauthorized':
-                          // User doesn't have permission to access the object
-                          break;
-                      case 'storage/canceled':
-                          // User canceled the upload
-                          break;
-                      case 'storage/unknown':
-                          // Unknown error occurred, inspect error.serverResponse
-                          break;
-                  }
-              },
-              function () {
-                  // Upload completed successfully, now we can get the download URL
-                  var downloadURL = uploadTask.snapshot.downloadURL;
-                  // A post entry.
-                  var postData = {
-                      userId: currentUserId,
-                      userName: userName,
-                      userImage: userImage,
-                      postBody: postBody,
-                      postTime: postTime,
-                      postImage: downloadURL,
-                      likeCount: 0
-                  };
-
-                  var sets = {};
-                  sets['/posts/' + newPostKey] = postData;
-
-                  firebase.database().ref().update(sets);
-                  $('.form-control').val("");
-                  $('#newPost_body').val("");
-                  $("#img_preview").empty();
-                  newImageFile = null;
-
-
-                  var thisYear = date.getFullYear();
-                  var thisMonth = date.getMonth() + 1;
-                  firebase.database().ref('statistic/' + thisYear + '-' + thisMonth + '/postCount').transaction(function (currentCount) {
-                      return currentCount + 1;
-                  });
-              });
-      });
   });
 
   $('#fans').on('click', function (event) {
@@ -432,5 +344,45 @@ jQuery(document).ready(function ($) {
 
   window.clickfan = function (event) {
     event.preventDefault();
+    if($("#follow").val()){
+      var sets = {};
+      sets['/users/' + currentUserId + '/userFollow/' + queryId] = queryName;
+      sets['/users/' + queryId + '/userFan/' + currentUserId] = userName;
+      firebase.database().ref().update(sets);
+      firebase.database().ref('/users/' + currentUserId + '/userFanCount').transaction(function (currentCount) {
+        return currentCount + 1;
+      });
+      firebase.database().ref('/users/' + queryId + '/userFollowCount').transaction(function (currentCount) {
+        return currentCount + 1;
+      });
+      $("#follow").empty();
+      $("#follow").toggleClass('btn-primary btn-default');
+      $("#follow").append("取消追蹤");
+      $("#follow").val(0);
+    }else{
+      swal({
+              title: "確定要取消追蹤?",
+              text: "對方會很傷心喔QQ",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "刪除",
+              closeOnConfirm: false
+            },
+            function () {
+                var dels = {};
+                dels['/users/' + currentUserId + '/userFollow/' + queryId] = null;
+                dels['/users/' + queryId + '/userFan/' + currentUserId] = null;
+                firebase.database().ref().update(dels);
+                firebase.database().ref('/users/' + currentUserId + '/userFanCount').transaction(function (currentCount) {
+                  return currentCount - 1;
+                });
+                firebase.database().ref('/users/' + queryId + '/userFollowCount').transaction(function (currentCount) {
+                  return currentCount - 1;
+                });
+                swal("取消追蹤", "退追蹤了啦QQ", "success");
+            }
+            )
+    }
   }
 })
