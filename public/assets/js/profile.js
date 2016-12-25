@@ -43,6 +43,9 @@ jQuery(document).ready(function ($) {
         var postCount = data.val().userPostCount;
         var followCount = data.val().userFollowCount;
         var fanCount = data.val().userFanCount;
+        console.log(postCount);
+        console.log(followCount);
+        console.log(fanCount);
         $("#user_posts").append(postCount);
         $("#user_fans").append(fanCount);
         $("#user_followers").append(followCount);
