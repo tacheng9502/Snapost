@@ -184,7 +184,7 @@ p {
 }
 
 .postMenu {
-    padding: 14px 20px 0px 20px;
+    padding: 14px 21px 0px 21px;
 }
 
 .postMenu button {
@@ -195,6 +195,7 @@ p {
     font-size: 14px;
     padding: 0px;
     cursor: pointer;
+    margin-right: 20px;
 }
 
 .like {
