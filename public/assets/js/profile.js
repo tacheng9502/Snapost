@@ -55,7 +55,7 @@ jQuery(document).ready(function ($) {
               '</li>';
           $("#list").append(html);
         });
-      };
+      });
 
       listeningFirebaseRefs.push(profileRef);
   }
