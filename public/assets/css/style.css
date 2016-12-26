@@ -274,7 +274,7 @@ p {
     border-radius: 4px;
     margin: 0 0 40px 0;
     background: #fff;
-    padding: 30px 50px 6px 50px;
+    padding: 30px 50px;
 }
 
 .user-box h2 {
@@ -292,7 +292,7 @@ p {
 
 #result {
     margin-top: 25px;
-    margin-bottom: 18px;
+    display: none;
 }
 
 #result a {
