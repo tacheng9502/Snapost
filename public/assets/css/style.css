@@ -297,6 +297,11 @@ p {
 
 #result li {
     margin-bottom: 6px;
+    overflow: hidden;
+}
+
+#result li:last-child {
+    margin-bottom: 0px;
 }
 
 #result a {
