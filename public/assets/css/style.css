@@ -269,16 +269,20 @@ p {
     margin: 40px auto;
 }
 
+#ninebox {
+    overflow: hidden;
+}
+
 #ninebox li {
     margin: 0px 10px 10px 0px;
     border: 1px solid #ddd;
     border-radius: 4px;
     background: #fff;
-    width: calc((100% - 30px)/3);
+    width: calc((100% - 20px)/3);
     float: left;
 }
 
-#ninebox li:nth-child(2n+1) {
+#ninebox li:nth-child(3n) {
     margin-right: 0px;
 }
 
