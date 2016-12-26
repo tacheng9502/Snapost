@@ -295,6 +295,10 @@ p {
     display: none;
 }
 
+#result li {
+    margin-bottom: 6px;
+}
+
 #result a {
     color: #0068B7;
     float: left;
