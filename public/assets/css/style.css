@@ -270,10 +270,12 @@ p {
 }
 
 #ninebox li {
-    margin: 20px 0;
+    margin: 10px 10px 10px 0px;
     border: 1px solid #ddd;
     border-radius: 4px;
     background: #fff;
+    width: calc((100% - 10px)/3);
+    float: left;
 }
 
 
