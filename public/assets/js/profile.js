@@ -5,7 +5,7 @@ jQuery(document).ready(function ($) {
 
     firebase.auth().onAuthStateChanged(function (user) {
         if (!user) {
-            window.location.href = 'https://snapost.herokuapp.com/';
+            window.location.href = 'https://immense-falls-61701.herokuapp.com/';
         } else {
             userName = user.displayName;
             userImage = user.photoURL;
@@ -22,10 +22,10 @@ jQuery(document).ready(function ($) {
 
         var profileRef = firebase.database().ref('users/' + queryId + "/");
         profileRef.on('value', function (data) {
-            var queryImage = data.val().userImage;
             var queryName = data.val().userName;
-            $("#userImage").attr("src", queryImage);
-            $("#userName").text(queryName);
+            var queryImage = data.val().userImage;
+            $("#user_img").attr("src", queryImage);
+            $('#user_name').text(queryName);
             $("#user_posts").empty();
             $("#user_fans").empty();
             $("#user_followers").empty();
@@ -71,6 +71,7 @@ jQuery(document).ready(function ($) {
     }
 
     function showFan() {
+        $("#result").toggle();
         $("#result").empty();
         var fanRef = firebase.database().ref('users/' + queryId + '/userFan');
         fanRef.once('value', function (data) {
@@ -79,14 +80,14 @@ jQuery(document).ready(function ($) {
                     var fanID = childdata.key;
                     var fanName = childdata.val();
                     var html =
-                        '<li><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a><button id="' + fanID + '_fan" class="btn btn-default" onclick="clickUnfan(event)">移除粉絲</button></li>';
+                        '<li><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a><button id="' + fanID + '_fan" class="btn btn-default btn-xs" onclick="clickUnfan(event)">移除粉絲</button></li>';
                     $("#result").append(html);
                 });
             } else {
                 data.forEach(function (childdata) {
                     var fanID = childdata.key;
                     var fanName = childdata.val();
-                    var html = '<tr><td><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a></td><td></td></tr>';
+                    var html = '<li><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a></li>';
                     $("#result").append(html);
                 });
             }
@@ -94,6 +95,7 @@ jQuery(document).ready(function ($) {
     }
 
     function showFollow() {
+        $("#result").toggle();
         $("#result").empty();
         var followRef = firebase.database().ref('users/' + queryId + '/userFollow');
         followRef.once('value', function (data) {
@@ -102,14 +104,14 @@ jQuery(document).ready(function ($) {
                     var followID = childdata.key;
                     var followName = childdata.val();
                     var html =
-                        '<li><a href="/profile?u=' + followID + '"><p id="' + followID + '_name_f">' + followName + '</p></a><button id="' + followID + '_f" class="btn btn-default" onclick="clickUnFollow(event)" value="0">取消追蹤</button></li>';
+                        '<li><a href="/profile?u=' + followID + '"><p id="' + followID + '_name_f">' + followName + '</p></a><button id="' + followID + '_f" class="btn btn-default btn-xs" onclick="clickUnFollow(event)" value="0">取消追蹤</button></li>';
                     $("#result").append(html);
                 });
             } else {
                 data.forEach(function (childdata) {
                     var followID = childdata.key;
                     var followName = childdata.val();
-                    var html = '<tr><td><a href="/profile?u=' + followID + '"><p>' + followName + '</p></a></td><td></td></tr>';
+                    var html = '<li><a href="/profile?u=' + followID + '"><p>' + followName + '</p></a></li>';
                     $("#result").append(html);
                 });
             }

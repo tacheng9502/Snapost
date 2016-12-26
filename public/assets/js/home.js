@@ -186,6 +186,7 @@ jQuery(document).ready(function ($) {
                     '<li id="' + data.key + '">' +
                     '<div class="info">' +
                     '<a id="' + data.key + '_profile" href="*" >' +
+                    '<img id="' + data.key + '_userImage" src="' + data.val().sponsorImage + '" class="img-circle" width="25px">' +
                     '<h2 id="' + data.key + '_userName">' + data.val().sponsorName + '</h2>' +
                     '</a>' +
                     '<span id="' + data.key + '_postTime" class="time">sponsor</span>' +
