@@ -277,6 +277,11 @@ p {
     padding: 30px 50px;
 }
 
+.user-profile h2 {
+    float: left;
+    height: 50%;
+}
+
 .user-photo {
     max-width: 150px;
     margin-right: 50px;
@@ -285,6 +290,7 @@ p {
 
 .user-info {
     float: left;
+    height: 50%;
 }
 
 #ninebox {
