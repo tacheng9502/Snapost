@@ -270,14 +270,17 @@ p {
 }
 
 #ninebox li {
-    margin: 10px 10px 10px 0px;
+    margin: 0px 10px 10px 0px;
     border: 1px solid #ddd;
     border-radius: 4px;
     background: #fff;
-    width: calc((100% - 10px)/3);
+    width: calc((100% - 30px)/3);
     float: left;
 }
 
+#ninebox li:nth-child(2n+1) {
+    margin-right: 0px;
+}
 
 /* Clear Float */
 
