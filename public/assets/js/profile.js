@@ -44,7 +44,7 @@ jQuery(document).ready(function ($) {
               '<li id="' + postKey + '">' +
               '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
               '</li>';
-          $("#list").append(html);
+          $("#ninebox").append(html);
         });
       });
 
