@@ -49,6 +49,7 @@ jQuery(document).ready(function ($) {
       });
 
       if(queryId != currentUserId){
+        $("#follow").show();
         var isFollow = firebase.database().ref('users/'+currentUserId+'/userFollow').orderByKey().equalTo(queryId);
         isFollow.once('value', function (data){
           if (data.val() == null){
