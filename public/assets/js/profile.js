@@ -207,8 +207,8 @@ jQuery(document).ready(function ($) {
 
   function unFollow(i, j){
     swal({
-            title: "確定要取消追蹤?",
-            text: "對方會很傷心喔QQ",
+            title: "確定要取消追蹤？",
+            text: "對方會很傷心喔 QQ",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
@@ -226,7 +226,7 @@ jQuery(document).ready(function ($) {
               firebase.database().ref('/users/' + i + '/userFanCount').transaction(function (currentCount) {
                 return currentCount - 1;
               });
-              swal("取消追蹤", "退追蹤了啦QQ", "success");
+              swal("取消追蹤", "退追蹤了啦 QQ", "success");
               changeButton(j);
           });
   }
