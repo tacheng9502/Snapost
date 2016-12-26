@@ -261,6 +261,15 @@ p {
     background-color:#035ca0;
 }
 
+/* Profile */
+
+.profile {
+    max-width: 935px;
+    width: 100%;
+    margin: 30px auto;
+}
+
+
 /* Clear Float */
 
 .clearfix:before, .clearfix:after {
