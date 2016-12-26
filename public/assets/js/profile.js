@@ -1,5 +1,5 @@
 jQuery(document).ready(function ($) {
-    var userName, userImage, currentUserId;
+    var userName, userImage, currentUserId, queryName;
     var listeningFirebaseRefs = [];
     var queryId = window.location.search.substr(3);
 
@@ -22,7 +22,7 @@ jQuery(document).ready(function ($) {
 
         var profileRef = firebase.database().ref('users/' + queryId + "/");
         profileRef.on('value', function (data) {
-            var queryName = data.val().userName;
+            queryName = data.val().userName;
             var queryImage = data.val().userImage;
             $("#user_img").attr("src", queryImage);
             $('#user_name').text(queryName);
