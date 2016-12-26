@@ -269,7 +269,7 @@ p {
     margin: 40px auto;
 }
 
-.user-profile {
+.user-box {
     border: 1px solid #ddd;
     border-radius: 4px;
     margin: 0 0 40px 0;
@@ -277,9 +277,12 @@ p {
     padding: 30px 50px;
 }
 
-.user-profile h2 {
+.user-box h2 {
     float: left;
-    height: 50%;
+}
+
+.user-profile {
+    float: left;
 }
 
 .user-photo {
@@ -289,8 +292,6 @@ p {
 }
 
 .user-info {
-    float: left;
-    height: 50%;
 }
 
 #ninebox {
