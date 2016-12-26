@@ -14,6 +14,8 @@ jQuery(document).ready(function ($) {
         '<img src="' + userImage + '" class="img-circle" width="30px">&nbsp;&nbsp;' +
         '<span>' + userName + '</span>'
       );
+      $("#user_img").attr("src", userImage);
+      $('#user_name').append(userName);
       startDatabaseQueries();
     }
   });
