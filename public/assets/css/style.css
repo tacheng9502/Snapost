@@ -290,6 +290,14 @@ p {
     display: none;
 }
 
+#result a {
+    color: #0068B7;
+}
+
+#result a:hover {
+    color: #23527c;
+}
+
 .user-profile {
     float: left;
     width: calc(100% - 232px);
