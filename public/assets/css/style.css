@@ -276,6 +276,11 @@ p {
     background: #fff;
 }
 
+.user-photo {
+    max-width: 150px;
+    margin: auto 30px;
+}
+
 #ninebox {
     overflow: hidden;
 }
