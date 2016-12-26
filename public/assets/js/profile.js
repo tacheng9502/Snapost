@@ -76,7 +76,7 @@ jQuery(document).ready(function ($) {
             var fanID = childdata.key;
             var fanName = childdata.val();
             var html =
-                '<li><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a><button id="' + fanID +'_fan" class="btn btn-default" onclick="clickUnfan(event)">移除粉絲</button></li>';
+                '<li><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a><button id="' + fanID +'_fan" class="btn btn-default btn-xs" onclick="clickUnfan(event)">移除粉絲</button></li>';
             $("#result").append(html);
           });
       }else{
@@ -99,7 +99,7 @@ jQuery(document).ready(function ($) {
           var followID = childdata.key;
           var followName = childdata.val();
           var html =
-              '<li><a href="/profile?u=' + followID + '"><p id="' + followID + '_name_f">' + followName + '</p></a><button id="' + followID +'_f" class="btn btn-default" onclick="clickUnFollow(event)" value="0">取消追蹤</button></li>';
+              '<li><a href="/profile?u=' + followID + '"><p id="' + followID + '_name_f">' + followName + '</p></a><button id="' + followID +'_f" class="btn btn-default btn-xs" onclick="clickUnFollow(event)" value="0">取消追蹤</button></li>';
           $("#result").append(html);
         });
       }else {
