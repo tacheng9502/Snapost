@@ -278,10 +278,10 @@ p {
 }
 
 .user-box h2 {
-    float: left;
     margin-left: 0;
     margin-top: 0;
-    margin-right: 40px;
+    margin-right: 0;
+    margin-bottom: 15px;
     font-size: 25px;
 }
 
@@ -291,6 +291,7 @@ p {
 
 .user-profile {
     float: left;
+    width: calc(100% - 232px);
 }
 
 .user-photo {
