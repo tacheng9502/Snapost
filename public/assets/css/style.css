@@ -269,6 +269,13 @@ p {
     margin: 40px auto;
 }
 
+.user-profile {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 0 0 40px 0;
+    background: #fff;
+}
+
 #ninebox {
     overflow: hidden;
 }
