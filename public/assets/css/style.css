@@ -274,11 +274,17 @@ p {
     border-radius: 4px;
     margin: 0 0 40px 0;
     background: #fff;
+    padding: 30px 50px;
 }
 
 .user-photo {
     max-width: 150px;
-    margin: 30px 50px;
+    margin-right: 50px;
+    float: left;
+}
+
+.user-info {
+    float: left;
 }
 
 #ninebox {
