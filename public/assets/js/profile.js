@@ -85,7 +85,7 @@ jQuery(document).ready(function ($) {
           data.forEach(function (childdata){
             var fanID = childdata.key;
             var fanName = childdata.val();
-            var html = '<tr><td><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a></td><td></td></tr>';
+            var html = '<li><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a></li>';
             $("#result").append(html);
           });
       }
@@ -108,7 +108,7 @@ jQuery(document).ready(function ($) {
         data.forEach(function (childdata){
           var followID = childdata.key;
           var followName = childdata.val();
-          var html = '<tr><td><a href="/profile?u=' + followID + '"><p>' + followName + '</p></a></td><td></td></tr>';
+          var html = '<li><a href="/profile?u=' + followID + '"><p>' + followName + '</p></a></li>';
           $("#result").append(html);
         });
       }
