@@ -308,6 +308,14 @@ p {
     width: calc(100% / 3);
 }
 
+.user-info a {
+    color: #0068B7;
+}
+
+.user-info a:hover {
+    color: #23527c;
+}
+
 .user-info h3 {
     font-size: 20px;
     font-weight: bold;
