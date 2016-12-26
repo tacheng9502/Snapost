@@ -301,6 +301,16 @@ p {
 }
 
 .user-info {
+    text-align: center;
+}
+
+.user-info li {
+    width: calc(100% / 3);
+}
+
+.user-info h3 {
+    font-size: 20px;
+    font-weight: bold;
 }
 
 #ninebox {
