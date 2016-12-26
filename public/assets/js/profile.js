@@ -1,481 +1,486 @@
 jQuery(document).ready(function ($) {
-  var userName, userImage, currentUserId, queryName;
-  var listeningFirebaseRefs = [];
-  var queryId = window.location.search.substr(3);
+    var userName, userImage, currentUserId;
+    var listeningFirebaseRefs = [];
+    var queryId = window.location.search.substr(3);
 
-  firebase.auth().onAuthStateChanged(function (user) {
-    if (!user) {
-      window.location.href = 'https://immense-falls-61701.herokuapp.com/';
-    } else {
-      userName = user.displayName;
-      userImage = user.photoURL;
-      currentUserId = user.uid;
-      $('#userInfo').html(
-        '<img src="' + userImage + '" class="img-circle" width="30px">&nbsp;&nbsp;' +
-        '<span>' + userName + '</span>'
-      );
-      startDatabaseQueries();
-    }
-  });
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (!user) {
+            window.location.href = 'https://snapost.herokuapp.com/';
+        } else {
+            userName = user.displayName;
+            userImage = user.photoURL;
+            currentUserId = user.uid;
+            $('#userInfo').html(
+                '<img src="' + userImage + '" class="img-circle" width="30px">&nbsp;&nbsp;' +
+                '<span>' + userName + '</span>'
+            );
+            startDatabaseQueries();
+        }
+    });
 
-  function startDatabaseQueries() {
+    function startDatabaseQueries() {
 
-      var profileRef = firebase.database().ref('users/'+queryId+"/");
-      profileRef.on('value', function (data) {
-        queryName = data.val().userName;
-        $("#user_posts").empty();
-        $("#user_fans").empty();
-        $("#user_followers").empty();
-        var a,b,c;
-        (data.val().userPostCount == null)?(a=0):(a=data.val().userPostCount);
-        (data.val().userFanCount == null)?(b=0):(b=data.val().userFanCount);
-        (data.val().userFollowCount == null)?(c=0):(c=data.val().userFollowCount);
-        $("#user_posts").append(a);
-        $("#user_fans").append(b);
-        $("#user_followers").append(c);
-      });
+        var profileRef = firebase.database().ref('users/' + queryId + "/");
+        profileRef.on('value', function (data) {
+            var queryName = data.val().userName;
+            var queryImage = data.val().userImage;
 
-      var postRef = firebase.database().ref('users/'+queryId+'/userPost');
-      postRef.once('value', function (data) {
-        data.forEach(function(childdata){
-          var postKey = childdata.key;
-          var postImage = childdata.val();
-          var html =
-              '<li id="' + postKey + '">' +
-              '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
-              '</li>';
-          $("#ninebox").append(html);
+            $("#userImage").attr("src", queryImage);
+            $("#userName").text(userName);
+            
+            $("#user_posts").empty();
+            $("#user_fans").empty();
+            $("#user_followers").empty();
+            var a, b, c;
+            (data.val().userPostCount == null) ? (a = 0) : (a = data.val().userPostCount);
+            (data.val().userFanCount == null) ? (b = 0) : (b = data.val().userFanCount);
+            (data.val().userFollowCount == null) ? (c = 0) : (c = data.val().userFollowCount);
+            $("#user_posts").append(a);
+            $("#user_fans").append(b);
+            $("#user_followers").append(c);
         });
-      });
 
-      if(queryId != currentUserId){
-        $("#follow").show();
-        var isFollow = firebase.database().ref('users/'+currentUserId+'/userFollow').orderByKey().equalTo(queryId);
-        isFollow.once('value', function (data){
-          if (data.val() == null){
-            $("#follow").append("加入追蹤");
-            $("#follow").val("1");
-          }else{
+        var postRef = firebase.database().ref('users/' + queryId + '/userPost');
+        postRef.once('value', function (data) {
+            data.forEach(function (childdata) {
+                var postKey = childdata.key;
+                var postImage = childdata.val();
+                var html =
+                    '<li id="' + postKey + '">' +
+                    '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
+                    '</li>';
+                $("#ninebox").append(html);
+            });
+        });
+
+        if (queryId != currentUserId) {
+            $("#follow").show();
+            var isFollow = firebase.database().ref('users/' + currentUserId + '/userFollow').orderByKey().equalTo(queryId);
+            isFollow.once('value', function (data) {
+                if (data.val() == null) {
+                    $("#follow").append("加入追蹤");
+                    $("#follow").val("1");
+                } else {
+                    $("#follow").toggleClass('btn-primary btn-default');
+                    $("#follow").append("取消追蹤");
+                    $("#follow").val("0");
+                }
+            })
+        } else {
+            $("#follow").remove();
+        }
+        //listeningFirebaseRefs.push(profileRef);
+    }
+
+    function showFan() {
+        $("#result").empty();
+        var fanRef = firebase.database().ref('users/' + queryId + '/userFan');
+        fanRef.once('value', function (data) {
+            if (queryId == currentUserId) {
+                data.forEach(function (childdata) {
+                    var fanID = childdata.key;
+                    var fanName = childdata.val();
+                    var html =
+                        '<tr id="' + fanID + '_tr"><td><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a></td>' +
+                        '<td><button id="' + fanID + '_fan" class="btn btn-default" onclick="clickUnfan(event)">移除粉絲</button></td>';
+                    $("#result").append(html);
+                });
+            } else {
+                data.forEach(function (childdata) {
+                    var fanID = childdata.key;
+                    var fanName = childdata.val();
+                    var html = '<tr><td><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a></td><td></td></tr>';
+                    $("#result").append(html);
+                });
+            }
+        });
+    }
+
+    function showFollow() {
+        $("#result").empty();
+        var followRef = firebase.database().ref('users/' + queryId + '/userFollow');
+        followRef.once('value', function (data) {
+            if (queryId == currentUserId) {
+                data.forEach(function (childdata) {
+                    var followID = childdata.key;
+                    var followName = childdata.val();
+                    var html =
+                        '<tr><td><a href="/profile?u=' + followID + '"><p id="' + followID + '_name_f">' + followName + '</p></a></td>' +
+                        '<td><button id="' + followID + '_f" class="btn btn-default" onclick="clickUnFollow(event)" value="0">取消追蹤</button></td>';
+                    $("#result").append(html);
+                });
+            } else {
+                data.forEach(function (childdata) {
+                    var followID = childdata.key;
+                    var followName = childdata.val();
+                    var html = '<tr><td><a href="/profile?u=' + followID + '"><p>' + followName + '</p></a></td><td></td></tr>';
+                    $("#result").append(html);
+                });
+            }
+        });
+    }
+
+    function createPostElement(postKey, userId, userName, userImage, postBody, postTime, postImage, likeCount) {
+        var date = new Date(parseInt(postTime));
+        var likeStatus;
+        firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId).once("value", function (snapshot) {
+            likeStatus = snapshot.val();
+        });
+
+        var html =
+            '<li id="' + postKey + '">' +
+            '<div class="info">' +
+            '<a id="' + postKey + '_profile" href="/profile?u=' + userId + '" >' +
+            '<img id="' + postKey + '_userImage" src="' + userImage + '" class="img-circle" width="25px">' +
+            '<h2 id="' + postKey + '_userName">' + userName + '</h2>' +
+            '</a>' +
+            '<span id="' + postKey + '_postTime" class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>';
+
+        if (currentUserId === userId) {
+            html = html +
+                '<div id="' + postKey + '_operate" class="navi pull-right">' +
+                '<button id="' + postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
+                '<i id="' + postKey + '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i>' +
+                '</button>&nbsp;' +
+                '<button id="' + postKey + '_delete" class="btn btn-default" onclick="clickDelete(event)" >' +
+                '<i id="' + postKey + '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i>' +
+                '</button>' +
+                '</div>';
+        }
+
+        html = html +
+            '</div>' +
+            '<p id="' + postKey + '_body">' + postBody + '</p>' +
+            '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>';
+
+        if (likeStatus != null) {
+            html = html +
+                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link">' +
+                '<i id="' + postKey + '_like" class="fa fa-heart" onclick="clickLike(event)">&nbsp' + likeCount + '</i></button></div>';
+        } else {
+            html = html +
+                '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link">' +
+                '<i id="' + postKey + '_like" class="fa fa-heart-o fa-fw" onclick="clickLike(event)">&nbsp' + likeCount + '</i></button></div>';
+        }
+
+        html = html +
+            '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
+            '<div class="msg-input"><div class="input-group">' +
+            '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
+            '<span class="input-group-btn">' +
+            '<button id="' + postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button"><i class="fa fa-paper-plane fa-fw" aria-hidden="true"></i>&nbsp;發送</button>' +
+            '</span>' +
+            '</div></div>' +
+            '</li>';
+
+        var commentsRef = firebase.database().ref('post-comments/' + postKey);
+        commentsRef.on('child_added', function (data) {
+            var html = createCommentElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime);
+            $('#' + postKey + '_commentList').append(html);
+        });
+
+        var likeCountRef = firebase.database().ref('posts/' + postKey + '/likeCount');
+        likeCountRef.on('value', function (snapshot) {
+            $('i#' + postKey + '_like').html('&nbsp' + snapshot.val());
+        });
+
+        var likeStatusRef = firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId);
+        likeStatusRef.on('value', function (snapshot) {
+            if (snapshot.val() != null) {
+                $('i#' + postKey + '_like').attr("class", "fa fa-heart");
+            } else {
+                $('i#' + postKey + '_like').attr("class", "fa fa-heart-o fa-fw");
+            }
+        });
+
+        listeningFirebaseRefs.push(commentsRef);
+        listeningFirebaseRefs.push(likeCountRef);
+        listeningFirebaseRefs.push(likeStatusRef);
+
+        return html;
+    }
+
+    function createCommentElement(commentKey, userId, userName, userImage, commentBody, commentTime) {
+        var date = new Date(parseInt(commentTime));
+        var html =
+            '<li id =' + commentKey + '>' + userName + ':' + commentBody + '</li>';
+        return html;
+    }
+
+    function unFan(i) {
+
+    }
+
+    function unFollow(i, j) {
+        swal({
+                title: "確定要取消追蹤？",
+                text: "對方會很傷心喔 QQ",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "刪除",
+                closeOnConfirm: false
+            },
+            function () {
+                var dels = {};
+                dels['/users/' + currentUserId + '/userFollow/' + i] = null;
+                dels['/users/' + i + '/userFan/' + currentUserId] = null;
+                firebase.database().ref().update(dels);
+                firebase.database().ref('/users/' + currentUserId + '/userFollowCount').transaction(function (currentCount) {
+                    return currentCount - 1;
+                });
+                firebase.database().ref('/users/' + i + '/userFanCount').transaction(function (currentCount) {
+                    return currentCount - 1;
+                });
+                swal("取消追蹤", "退追蹤了啦 QQ", "success");
+                changeButton(j);
+            });
+    }
+
+    function doFollow(i, j) {
+        var sets = {};
+        sets['/users/' + currentUserId + '/userFollow/' + i] = j;
+        sets['/users/' + i + '/userFan/' + currentUserId] = userName;
+        firebase.database().ref().update(sets);
+        firebase.database().ref('/users/' + currentUserId + '/userFollowCount').transaction(function (currentCount) {
+            return currentCount + 1;
+        });
+        firebase.database().ref('/users/' + i + '/userFanCount').transaction(function (currentCount) {
+            return currentCount + 1;
+        });
+    }
+
+    function changeButton(i) {
+        if (i == null) {
+            $("#follow").empty();
             $("#follow").toggleClass('btn-primary btn-default');
+            $("#follow").append("加入追蹤");
+            $("#follow").val(1);
+        } else {
+            $(i).empty();
+            $(i).toggleClass('btn-default btn-primary');
+            $(i).append("加入追蹤");
+            $(i).val(1);
+        }
+    }
+
+    $('#clearNewPost').on('click', function (event) {
+        event.preventDefault();
+        $('.form-control').val("");
+        $('#newPost_body').val("");
+        $("#img_preview").empty();
+        newImageFile = null;
+    });
+
+    $('#userInfo').on('click', function (event) {
+        event.preventDefault();
+        window.location.href = "/profile?u=" + currentUserId;
+    });
+
+    $('#fans').on('click', function (event) {
+        event.preventDefault();
+        showFan();
+    });
+
+    $('#followers').on('click', function (event) {
+        event.preventDefault();
+        showFollow();
+    });
+
+    window.dragHandler = function (e) {
+        e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
+        e.preventDefault();
+    }
+
+    window.dropImage = function (e) {
+        e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
+        e.preventDefault();
+        var reader = new FileReader();
+        reader.readAsDataURL(e.dataTransfer.files[0]); // 讀取檔案
+        // 渲染至頁面
+        reader.onload = function (arg) {
+            var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+            $("#img_preview").empty().append(img);
+            newImageFile = $('.preview').croppie({
+                viewport: {
+                    width: 600,
+                    height: 600,
+                    type: 'square'
+                },
+                boundary: {
+                    width: 600,
+                    height: 600
+                }
+            });
+        }
+    }
+
+    window.sendUpdate = function (event) {
+        event.preventDefault();
+        var postKey = event.target.id.slice(0, -5);
+        var date = new Date();
+        var postTime = date.getTime();
+        var postBody = $('#' + postKey + '_newBody').val();
+        var postImage = $('#' + postKey + '_postImage').attr('src');
+
+        var postData = {
+            userId: currentUserId,
+            userName: userName,
+            userImage: userImage,
+            postBody: postBody,
+            postTime: postTime,
+            postImage: postImage
+        };
+
+        var updates = {};
+        updates['/posts/' + postKey] = postData;
+        firebase.database().ref().update(updates);
+
+    }
+
+    window.clickUpdate = function (event) {
+        event.preventDefault();
+        var updateId = event.target.id.slice(0, -7);
+
+        $('#' + updateId + '_operate').html(
+            '<button id="' + updateId + '_send" class="btn btn-default" onclick="sendUpdate(event)" >' +
+            '<i id="' + updateId + '_send" class="fa fa-floppy-o" onclick="sendUpdate(event)" title="save"></i></a>'
+        );
+        var oldBody = $('#' + updateId + '_body').text();
+        $('#' + updateId + '_body').html(
+            '<textarea id="' + updateId + '_newBody" class="form-control" rows="3">' + oldBody + '</textarea>'
+        );
+    }
+
+    window.clickDelete = function (event) {
+        event.preventDefault();
+        var postKey = event.target.id.slice(0, -7);
+        var timeArray = $('#' + postKey + '_postTime').text().split("/");
+
+        swal({
+                title: "確認刪除留言?",
+                text: "刪除後留言將無法復原",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "刪除",
+                closeOnConfirm: false
+            },
+            function () {
+                var deletes = {};
+                deletes['/posts/' + postKey] = null;
+                deletes['/post-comments/' + postKey] = null;
+                firebase.database().ref().update(deletes);
+                swal("已刪除", "留言已經成功刪除", "success");
+                firebase.database().ref('statistic/' + timeArray[0] + '-' + timeArray[1] + '/postCount').transaction(function (currentCount) {
+                    return currentCount - 1;
+                });
+
+            });
+    }
+
+    window.writeNewComment = function (event) {
+        event.preventDefault();
+        var postKey = event.target.id.slice(0, -8);
+        var date = new Date();
+        var commentTime = date.getTime();
+        var commentBody = $('#' + postKey + '_commentBody').val();
+        var newCommentKey = firebase.database().ref().child('post-comments').push().key;
+
+        var commentData = {
+            userId: currentUserId,
+            userName: userName,
+            userImage: userImage,
+            commentBody: commentBody,
+            commentTime: commentTime
+        };
+
+        var updates = {};
+        updates['/post-comments/' + postKey + '/' + newCommentKey] = commentData;
+        firebase.database().ref().update(updates);
+        $('#' + postKey + '_commentBody').val("");
+    }
+
+    window.clickLike = function (event) {
+        event.preventDefault();
+        var postKey = event.target.id.slice(0, -5);
+        firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId).once("value", function (snapshot) {
+            if (snapshot.val() != null) {
+                var deletes = {};
+                deletes['posts/' + postKey + '/likes/' + currentUserId] = null;
+                firebase.database().ref().update(deletes);
+                firebase.database().ref('/posts/' + postKey + '/' + 'likeCount').transaction(function (currentCount) {
+                    return currentCount - 1;
+                });
+            } else {
+                var updates = {};
+                updates['posts/' + postKey + '/likes/' + currentUserId] = userName;
+                firebase.database().ref().update(updates);
+                firebase.database().ref('/posts/' + postKey + '/' + 'likeCount').transaction(function (currentCount) {
+                    return currentCount + 1;
+                });
+            }
+        });
+    };
+
+    window.clickfan = function (event) {
+        event.preventDefault();
+        if ($("#follow").val() == 1) {
+            doFollow(queryId, queryName);
+            $("#follow").empty();
+            $("#follow").toggleClass('btn-default btn-primary');
             $("#follow").append("取消追蹤");
-            $("#follow").val("0");
-          }
-        })
-      }else{
-        $("#follow").remove();
-      }
-      //listeningFirebaseRefs.push(profileRef);
-  }
+            $("#follow").val(0);
+        } else {
+            unFollow(queryId, null);
+        }
+    };
 
-  function showFan(){
-    $("#result").empty();
-    var fanRef = firebase.database().ref('users/'+queryId+'/userFan');
-    fanRef.once('value', function (data) {
-      if(queryId == currentUserId){
-          data.forEach(function (childdata){
-            var fanID = childdata.key;
-            var fanName = childdata.val();
-            var html =
-                '<tr id="' + fanID + '_tr"><td><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a></td>'+
-                '<td><button id="' + fanID +'_fan" class="btn btn-default" onclick="clickUnfan(event)">移除粉絲</button></td>';
-            $("#result").append(html);
-          });
-      }else{
-          data.forEach(function (childdata){
-            var fanID = childdata.key;
-            var fanName = childdata.val();
-            var html = '<tr><td><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a></td><td></td></tr>';
-            $("#result").append(html);
-          });
-      }
-    });
-  }
+    window.clickUnfan = function (event) {
+        event.preventDefault();
+        var targetUser = event.target.id.slice(0, -4);
+        var targetUserTr = "#" + targetUser + "_tr";
+        swal({
+                title: "確定要刪除?",
+                text: "對方會很傷心喔QQ",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "刪除",
+                closeOnConfirm: false
+            },
+            function () {
+                var dels = {};
+                dels['/users/' + currentUserId + '/userFan/' + targetUser] = null;
+                dels['/users/' + targetUser + '/userFollow/' + currentUserId] = null;
+                firebase.database().ref().update(dels);
+                firebase.database().ref('/users/' + currentUserId + '/userFanCount').transaction(function (currentCount) {
+                    return currentCount - 1;
+                });
+                firebase.database().ref('/users/' + targetUser + '/userFollowCount').transaction(function (currentCount) {
+                    return currentCount - 1;
+                });
+                swal("刪除成功", "恭喜你少了一位粉絲", "success");
+                $(targetUserTr).remove();
+            });
+    };
 
-  function showFollow(){
-    $("#result").empty();
-    var followRef = firebase.database().ref('users/'+queryId+'/userFollow');
-    followRef.once('value', function (data) {
-      if(queryId == currentUserId){
-        data.forEach(function (childdata){
-          var followID = childdata.key;
-          var followName = childdata.val();
-          var html =
-              '<tr><td><a href="/profile?u=' + followID + '"><p id="' + followID + '_name_f">' + followName + '</p></a></td>'+
-              '<td><button id="' + followID +'_f" class="btn btn-default" onclick="clickUnFollow(event)" value="0">取消追蹤</button></td>';
-          $("#result").append(html);
-        });
-      }else {
-        data.forEach(function (childdata){
-          var followID = childdata.key;
-          var followName = childdata.val();
-          var html = '<tr><td><a href="/profile?u=' + followID + '"><p>' + followName + '</p></a></td><td></td></tr>';
-          $("#result").append(html);
-        });
-      }
-    });
-  }
-
-  function createPostElement(postKey, userId, userName, userImage, postBody, postTime, postImage, likeCount) {
-      var date = new Date(parseInt(postTime));
-      var likeStatus;
-      firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId).once("value", function (snapshot) {
-          likeStatus = snapshot.val();
-      });
-
-      var html =
-          '<li id="' + postKey + '">' +
-          '<div class="info">' +
-          '<a id="' + postKey + '_profile" href="/profile?u=' + userId + '" >' +
-          '<img id="' + postKey + '_userImage" src="' + userImage + '" class="img-circle" width="25px">' +
-          '<h2 id="' + postKey + '_userName">' + userName + '</h2>' +
-          '</a>' +
-          '<span id="' + postKey + '_postTime" class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>';
-
-      if (currentUserId === userId) {
-          html = html +
-              '<div id="' + postKey + '_operate" class="navi pull-right">' +
-              '<button id="' + postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
-              '<i id="' + postKey + '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i>' +
-              '</button>&nbsp;' +
-              '<button id="' + postKey + '_delete" class="btn btn-default" onclick="clickDelete(event)" >' +
-              '<i id="' + postKey + '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i>' +
-              '</button>' +
-              '</div>';
-      }
-
-      html = html +
-          '</div>' +
-          '<p id="' + postKey + '_body">' + postBody + '</p>' +
-          '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>';
-
-      if (likeStatus != null) {
-          html = html +
-              '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link">' +
-              '<i id="' + postKey + '_like" class="fa fa-heart" onclick="clickLike(event)">&nbsp' + likeCount + '</i></button></div>';
-      } else {
-          html = html +
-              '<div class="postMenu"><button id="' + postKey + '_like" class="btn btn-link">' +
-              '<i id="' + postKey + '_like" class="fa fa-heart-o fa-fw" onclick="clickLike(event)">&nbsp' + likeCount + '</i></button></div>';
-      }
-
-      html = html +
-          '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
-          '<div class="msg-input"><div class="input-group">' +
-          '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
-          '<span class="input-group-btn">' +
-          '<button id="' + postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button"><i class="fa fa-paper-plane fa-fw" aria-hidden="true"></i>&nbsp;發送</button>' +
-          '</span>' +
-          '</div></div>' +
-          '</li>';
-
-      var commentsRef = firebase.database().ref('post-comments/' + postKey);
-      commentsRef.on('child_added', function (data) {
-          var html = createCommentElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime);
-          $('#' + postKey + '_commentList').append(html);
-      });
-
-      var likeCountRef = firebase.database().ref('posts/' + postKey + '/likeCount');
-      likeCountRef.on('value', function (snapshot) {
-          $('i#' + postKey + '_like').html('&nbsp' + snapshot.val());
-      });
-
-      var likeStatusRef = firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId);
-      likeStatusRef.on('value', function (snapshot) {
-          if (snapshot.val() != null) {
-              $('i#' + postKey + '_like').attr("class", "fa fa-heart");
-          } else {
-              $('i#' + postKey + '_like').attr("class", "fa fa-heart-o fa-fw");
-          }
-      });
-
-      listeningFirebaseRefs.push(commentsRef);
-      listeningFirebaseRefs.push(likeCountRef);
-      listeningFirebaseRefs.push(likeStatusRef);
-
-      return html;
-  }
-
-  function createCommentElement(commentKey, userId, userName, userImage, commentBody, commentTime) {
-      var date = new Date(parseInt(commentTime));
-      var html =
-          '<li id =' + commentKey + '>' + userName + ':' + commentBody + '</li>';
-      return html;
-  }
-
-  function unFan(i){
-
-  }
-
-  function unFollow(i, j){
-    swal({
-            title: "確定要取消追蹤？",
-            text: "對方會很傷心喔 QQ",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "刪除",
-            closeOnConfirm: false
-          },
-          function () {
-              var dels = {};
-              dels['/users/' + currentUserId + '/userFollow/' + i] = null;
-              dels['/users/' + i + '/userFan/' + currentUserId] = null;
-              firebase.database().ref().update(dels);
-              firebase.database().ref('/users/' + currentUserId + '/userFollowCount').transaction(function (currentCount) {
-                return currentCount - 1;
-              });
-              firebase.database().ref('/users/' + i + '/userFanCount').transaction(function (currentCount) {
-                return currentCount - 1;
-              });
-              swal("取消追蹤", "退追蹤了啦 QQ", "success");
-              changeButton(j);
-          });
-  }
-
-  function doFollow(i, j){
-    var sets = {};
-    sets['/users/' + currentUserId + '/userFollow/' + i] = j;
-    sets['/users/' + i + '/userFan/' + currentUserId] = userName;
-    firebase.database().ref().update(sets);
-    firebase.database().ref('/users/' + currentUserId + '/userFollowCount').transaction(function (currentCount) {
-      return currentCount + 1;
-    });
-    firebase.database().ref('/users/' + i + '/userFanCount').transaction(function (currentCount) {
-      return currentCount + 1;
-    });
-  }
-
-  function changeButton(i){
-    if (i==null){
-      $("#follow").empty();
-      $("#follow").toggleClass('btn-primary btn-default');
-      $("#follow").append("加入追蹤");
-      $("#follow").val(1);
-    }else {
-      $(i).empty();
-      $(i).toggleClass('btn-default btn-primary');
-      $(i).append("加入追蹤");
-      $(i).val(1);
-    }
-  }
-
-  $('#clearNewPost').on('click', function (event) {
-      event.preventDefault();
-      $('.form-control').val("");
-      $('#newPost_body').val("");
-      $("#img_preview").empty();
-      newImageFile = null;
-  });
-
-  $('#userInfo').on('click', function (event) {
-      event.preventDefault();
-      window.location.href = "/profile?u=" + currentUserId;
-  });
-
-  $('#fans').on('click', function (event) {
-      event.preventDefault();
-      showFan();
-  });
-
-  $('#followers').on('click', function (event) {
-      event.preventDefault();
-      showFollow();
-  });
-
-  window.dragHandler = function (e) {
-      e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
-      e.preventDefault();
-  }
-
-  window.dropImage = function (e) {
-      e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
-      e.preventDefault();
-      var reader = new FileReader();
-      reader.readAsDataURL(e.dataTransfer.files[0]); // 讀取檔案
-      // 渲染至頁面
-      reader.onload = function (arg) {
-          var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
-          $("#img_preview").empty().append(img);
-          newImageFile = $('.preview').croppie({
-              viewport: {
-                  width: 600,
-                  height: 600,
-                  type: 'square'
-              },
-              boundary: {
-                  width: 600,
-                  height: 600
-              }
-          });
-      }
-  }
-
-  window.sendUpdate = function (event) {
-      event.preventDefault();
-      var postKey = event.target.id.slice(0, -5);
-      var date = new Date();
-      var postTime = date.getTime();
-      var postBody = $('#' + postKey + '_newBody').val();
-      var postImage = $('#' + postKey + '_postImage').attr('src');
-
-      var postData = {
-          userId: currentUserId,
-          userName: userName,
-          userImage: userImage,
-          postBody: postBody,
-          postTime: postTime,
-          postImage: postImage
-      };
-
-      var updates = {};
-      updates['/posts/' + postKey] = postData;
-      firebase.database().ref().update(updates);
-
-  }
-
-  window.clickUpdate = function (event) {
-      event.preventDefault();
-      var updateId = event.target.id.slice(0, -7);
-
-      $('#' + updateId + '_operate').html(
-          '<button id="' + updateId + '_send" class="btn btn-default" onclick="sendUpdate(event)" >' +
-          '<i id="' + updateId + '_send" class="fa fa-floppy-o" onclick="sendUpdate(event)" title="save"></i></a>'
-      );
-      var oldBody = $('#' + updateId + '_body').text();
-      $('#' + updateId + '_body').html(
-          '<textarea id="' + updateId + '_newBody" class="form-control" rows="3">' + oldBody + '</textarea>'
-      );
-  }
-
-  window.clickDelete = function (event) {
-      event.preventDefault();
-      var postKey = event.target.id.slice(0, -7);
-      var timeArray = $('#' + postKey + '_postTime').text().split("/");
-
-      swal({
-              title: "確認刪除留言?",
-              text: "刪除後留言將無法復原",
-              type: "warning",
-              showCancelButton: true,
-              confirmButtonColor: "#DD6B55",
-              confirmButtonText: "刪除",
-              closeOnConfirm: false
-          },
-          function () {
-              var deletes = {};
-              deletes['/posts/' + postKey] = null;
-              deletes['/post-comments/' + postKey] = null;
-              firebase.database().ref().update(deletes);
-              swal("已刪除", "留言已經成功刪除", "success");
-              firebase.database().ref('statistic/' + timeArray[0] + '-' + timeArray[1] + '/postCount').transaction(function (currentCount) {
-                  return currentCount - 1;
-              });
-
-          });
-  }
-
-  window.writeNewComment = function (event) {
-      event.preventDefault();
-      var postKey = event.target.id.slice(0, -8);
-      var date = new Date();
-      var commentTime = date.getTime();
-      var commentBody = $('#' + postKey + '_commentBody').val();
-      var newCommentKey = firebase.database().ref().child('post-comments').push().key;
-
-      var commentData = {
-          userId: currentUserId,
-          userName: userName,
-          userImage: userImage,
-          commentBody: commentBody,
-          commentTime: commentTime
-      };
-
-      var updates = {};
-      updates['/post-comments/' + postKey + '/' + newCommentKey] = commentData;
-      firebase.database().ref().update(updates);
-      $('#' + postKey + '_commentBody').val("");
-  }
-
-  window.clickLike = function (event) {
-      event.preventDefault();
-      var postKey = event.target.id.slice(0, -5);
-      firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId).once("value", function (snapshot) {
-          if (snapshot.val() != null) {
-              var deletes = {};
-              deletes['posts/' + postKey + '/likes/' + currentUserId] = null;
-              firebase.database().ref().update(deletes);
-              firebase.database().ref('/posts/' + postKey + '/' + 'likeCount').transaction(function (currentCount) {
-                  return currentCount - 1;
-              });
-          } else {
-              var updates = {};
-              updates['posts/' + postKey + '/likes/' + currentUserId] = userName;
-              firebase.database().ref().update(updates);
-              firebase.database().ref('/posts/' + postKey + '/' + 'likeCount').transaction(function (currentCount) {
-                  return currentCount + 1;
-              });
-          }
-      });
-  };
-
-  window.clickfan = function (event) {
-    event.preventDefault();
-    if($("#follow").val()==1){
-      doFollow(queryId, queryName);
-      $("#follow").empty();
-      $("#follow").toggleClass('btn-default btn-primary');
-      $("#follow").append("取消追蹤");
-      $("#follow").val(0);
-    }else{
-      unFollow(queryId, null);
-    }
-  };
-
-  window.clickUnfan = function (event){
-    event.preventDefault();
-    var targetUser = event.target.id.slice(0,-4);
-    var targetUserTr = "#" + targetUser + "_tr";
-    swal({
-            title: "確定要刪除?",
-            text: "對方會很傷心喔QQ",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "刪除",
-            closeOnConfirm: false
-          },
-          function () {
-              var dels = {};
-              dels['/users/' + currentUserId + '/userFan/' + targetUser] = null;
-              dels['/users/' + targetUser + '/userFollow/' + currentUserId] = null;
-              firebase.database().ref().update(dels);
-              firebase.database().ref('/users/' + currentUserId + '/userFanCount').transaction(function (currentCount) {
-                return currentCount - 1;
-              });
-              firebase.database().ref('/users/' + targetUser + '/userFollowCount').transaction(function (currentCount) {
-                return currentCount - 1;
-              });
-              swal("刪除成功", "恭喜你少了一位粉絲", "success");
-              $(targetUserTr).remove();
-          });
-  };
-
-  window.clickUnFollow = function (event){
-    event.preventDefault();
-    var targetUser = event.target.id.slice(0,-2);
-    console.log(targetUser);
-    var a = '#' + targetUser + '_f';
-    if($(a).val()==0){
-      unFollow(targetUser, a);
-    }else{
-      var p = '#' + targetUser + "_name_f";
-      var targetUserName = $(p).text();
-      console.log(p);
-      doFollow(targetUser, targetUserName);
-      $(a).empty();
-      $(a).toggleClass('btn-primary btn-default');
-      $(a).append("取消追蹤");
-      $(a).val(0);
-    }
-  };
+    window.clickUnFollow = function (event) {
+        event.preventDefault();
+        var targetUser = event.target.id.slice(0, -2);
+        console.log(targetUser);
+        var a = '#' + targetUser + '_f';
+        if ($(a).val() == 0) {
+            unFollow(targetUser, a);
+        } else {
+            var p = '#' + targetUser + "_name_f";
+            var targetUserName = $(p).text();
+            console.log(p);
+            doFollow(targetUser, targetUserName);
+            $(a).empty();
+            $(a).toggleClass('btn-primary btn-default');
+            $(a).append("取消追蹤");
+            $(a).val(0);
+        }
+    };
 })
