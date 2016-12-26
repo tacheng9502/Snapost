@@ -281,7 +281,7 @@ p {
     margin-left: 0;
     margin-top: 0;
     margin-right: 0;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
     font-size: 25px;
 }
 
@@ -302,10 +302,17 @@ p {
 
 .user-info {
     text-align: center;
+    width: 50%;
 }
 
 .user-info li {
     width: calc(100% / 3);
+    float: left;
+    border-right: 1px solid #ddd;
+}
+
+.user-info li:first-child {
+    border-left: 1px solid #ddd;
 }
 
 .user-info a {
