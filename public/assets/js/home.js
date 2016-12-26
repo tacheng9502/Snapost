@@ -190,6 +190,7 @@ jQuery(document).ready(function ($) {
                     '</a>' +
                     '<span id="' + data.key + '_postTime" class="time">sponsor</span>' +
                     '</div>' +
+                    '<p id="' + data.key + '_body">' + data.val().postBody + '</p>' +
                     '<img id="' + data.key + '_postImage" class="postImage" src="' + data.val().postImage + '"/>' +
                     '</li>';
 
