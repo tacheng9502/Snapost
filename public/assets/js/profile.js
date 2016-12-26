@@ -70,7 +70,7 @@ jQuery(document).ready(function ($) {
   }
 
   function showFan(){
-    $("#result").show();
+    $("#result").toggle();
     $("#result").empty();
     var fanRef = firebase.database().ref('users/'+queryId+'/userFan');
     fanRef.once('value', function (data) {
@@ -94,7 +94,7 @@ jQuery(document).ready(function ($) {
   }
 
   function showFollow(){
-    $("#result").show();
+    $("#result").toggle();
     $("#result").empty();
     var followRef = firebase.database().ref('users/'+queryId+'/userFollow');
     followRef.once('value', function (data) {
