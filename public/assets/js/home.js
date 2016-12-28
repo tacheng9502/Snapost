@@ -471,7 +471,7 @@ jQuery(document).ready(function ($) {
         var scrollHeight = list.prop('scrollHeight');
         var maxScrollHeight = scrollHeight - height - 20;
         var least = 10;
-        if(_maxScrollHeight > _least){
+        if(maxScrollHeight > least){
             console.log("還沒到底部");
         }
 
