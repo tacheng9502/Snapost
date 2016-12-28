@@ -68,7 +68,7 @@ jQuery(document).ready(function ($) {
 
     function startDatabaseQueries() {
 
-        var postsRef = firebase.database().ref('posts').limitToLast(50);
+        var postsRef = firebase.database().ref('posts').limitToLast(8);
         postsRef.on('child_added', function (data) {
             var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
             $('#list').prepend(html);
@@ -178,7 +178,7 @@ jQuery(document).ready(function ($) {
     }
 
     function showAdvertisment() {
-        var advertsRef = firebase.database().ref('adverts').limitToLast(50);
+        var advertsRef = firebase.database().ref('adverts').limitToLast(2);
         advertsRef.once('value', function (snapshot) {
             var array = [];
             snapshot.forEach(function (data) {
@@ -199,8 +199,10 @@ jQuery(document).ready(function ($) {
             });
 
             for (var i = 1; i <= array.length; i++) {
-                $("#list li:nth-child(" + (3 * i) + ")").after(array[i - 1]);
+                $("#list li:nth-child(" + (5 * i - 1) + ")").after(array[i - 1]);
             }
+
+            loadMorePost();
         });
     }
 
@@ -461,6 +463,26 @@ jQuery(document).ready(function ($) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -13);
         $('#' + postKey + '_commentBody').trigger("focus");
+    }
+
+    function loadMorePost() {
+        var list = $('#list');
+        var height = list.height();
+        var scrollHeight = list.prop('scrollHeight');
+        var maxScrollHeight = scrollHeight - height - 20;
+        var least = 10;
+        if(_maxScrollHeight > _least){
+            console.log("還沒到底部");
+        }
+
+        // 當 #terms 中捲軸捲動時
+        $('#list').scroll(function () {
+            var $this = $(this);
+            // 如果高度已經達到指定的高度就啟用 $submit
+            if (maxScrollHeight - $this.scrollTop() <= least) {
+                console.log("到達底部");
+            }
+        });
     }
 
 });
