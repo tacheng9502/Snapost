@@ -183,7 +183,8 @@ jQuery(document).ready(function ($) {
             var array = [];
             snapshot.forEach(function (data) {
                 var html =
-                    '<li id="' + data.key + '_advertisment" onclick="clickAdvert(event,'+data.val().sponsorUrl+')">' +
+                    '<li>' +
+                    '<a id="' + data.key + '_advertisment" href="#" onclick="clickAdvert(event,'+data.val().sponsorUrl+');return false;">'+
                     '<div class="info">' +
                     '<img id="' + data.key + '_userImage" src="' + data.val().sponsorImage + '" class="img-circle" width="25px" height="25px">' +
                     '<h2 id="' + data.key + '_userName">' + data.val().sponsorName + '</h2>' +
@@ -191,6 +192,7 @@ jQuery(document).ready(function ($) {
                     '</div>' +
                     '<p id="' + data.key + '_body">' + data.val().postBody + '</p>' +
                     '<img id="' + data.key + '_postImage" class="postImage" src="' + data.val().postImage + '"/>' +
+                    '</a>'+
                     '</li>';
 
                 array.push(html);
