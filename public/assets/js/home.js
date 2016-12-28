@@ -466,10 +466,9 @@ jQuery(document).ready(function ($) {
     }
 
     function loadMorePost() {
+        console.log($(document).height());
         $(window).scroll(function () {
-            if ($(document).height() <= $(this).scrollTop() + 100) {
-                alert("End Of The Page");
-            }
+            console.log($(this).scrollTop());
         });
     }
 
