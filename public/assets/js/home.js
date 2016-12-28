@@ -184,15 +184,15 @@ jQuery(document).ready(function ($) {
             snapshot.forEach(function (data) {
                 var html =
                     '<li id="' + data.key + '">' +
+                    '<a id="' + data.key + '_advertisment" target="_blank" href="' + data.val().sponsorUrl + '" onclick="clickAdvertivment(event)">' +
                     '<div class="info">' +
-                    '<a id="' + data.key + '_profile" href="*" >' +
                     '<img id="' + data.key + '_userImage" src="' + data.val().sponsorImage + '" class="img-circle" width="25px" height="25px">' +
                     '<h2 id="' + data.key + '_userName">' + data.val().sponsorName + '</h2>' +
-                    '</a>' +
                     '<span id="' + data.key + '_postTime" class="time">sponsor</span>' +
                     '</div>' +
                     '<p id="' + data.key + '_body">' + data.val().postBody + '</p>' +
                     '<img id="' + data.key + '_postImage" class="postImage" src="' + data.val().postImage + '"/>' +
+                    '</a>' +
                     '</li>';
 
                 array.push(html);
@@ -465,12 +465,25 @@ jQuery(document).ready(function ($) {
         $('#' + postKey + '_commentBody').trigger("focus");
     }
 
+    window.clickAdvertivment() = function (event) {
+        var advertKey = event.target.id.slice(0, -13);
+        firebase.database().ref('adverts/' + advertKey + '/clicks/' + currentUserId).once("value", function (snapshot) {
+            if (snapshot.val()) {
+                var updates = {};
+                updates['adverts/' + advertKey + '/clicks/' + currentUserId] = true;
+                firebase.database().ref().update(updates);
+                firebase.database().ref('/adverts/' + advertKey + '/' + 'clickCount').transaction(function (currentCount) {
+                    return currentCount + 1;
+                });
+            }
+        });
+    }
+
     function loadMorePost() {
-        var bottomHeight = 7250;
+        var bottomHeight = 7150;
         $(window).scroll(function () {
-            if($(this).scrollTop()>=bottomHeight){
+            if ($(this).scrollTop() >= bottomHeight) {
                 alert("到達底部了");
-                bottomHeight = 100000;
             }
         });
     }
