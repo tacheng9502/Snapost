@@ -466,9 +466,9 @@ jQuery(document).ready(function ($) {
     }
 
     function loadMorePost() {
-        console.log($(document).height());
+        var bottomHeight = 7500;
         $(window).scroll(function () {
-            if($(this).scrollTop()>=7000){
+            if($(this).scrollTop()>=bottomHeight){
                 alert("到達底部了");
             }
         });
