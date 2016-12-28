@@ -466,20 +466,16 @@ jQuery(document).ready(function ($) {
     }
 
     function loadMorePost() {
-        var list = $('#list');
-        var height = list.height();
-        var scrollHeight = list.prop('scrollHeight');
-        var maxScrollHeight = scrollHeight - height;
+        var body = $('body');
+        var height = body.height();
         var least = 10;
-        if(maxScrollHeight > least){
-            console.log("還沒到底部");
-        }
 
-        // 當 #terms 中捲軸捲動時
-        list.scroll(function () {
+        body.scroll(function () {
             // 如果高度已經達到指定的高度就啟用 $submit
-            if (maxScrollHeight - list.scrollTop() <= least) {
+            if (height - $(this).scrollTop() <= least) {
                 console.log("到達底部");
+            } else {
+                console.log("距離底部還有：" + height - $(this).scrollTop());
             }
         });
     }
