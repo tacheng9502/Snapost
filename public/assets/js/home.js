@@ -468,7 +468,7 @@ jQuery(document).ready(function ($) {
     window.clickAdvert = function (event) {
         var advertKey = event.target.id.slice(0, -13);
         firebase.database().ref('adverts/' + advertKey + '/clicks/' + currentUserId).once("value", function (snapshot) {
-            if (snapshot.val()) {
+            if (snapshot.val() == null) {
                 var updates = {};
                 updates['adverts/' + advertKey + '/clicks/' + currentUserId] = true;
                 firebase.database().ref().update(updates);
