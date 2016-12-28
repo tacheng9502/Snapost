@@ -466,10 +466,11 @@ jQuery(document).ready(function ($) {
     }
 
     function loadMorePost() {
-        var bottomHeight = 7500;
+        var bottomHeight = 7250;
         $(window).scroll(function () {
             if($(this).scrollTop()>=bottomHeight){
                 alert("到達底部了");
+                bottomHeight = 100000;
             }
         });
     }
