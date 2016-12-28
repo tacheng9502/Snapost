@@ -469,17 +469,16 @@ jQuery(document).ready(function ($) {
         var list = $('#list');
         var height = list.height();
         var scrollHeight = list.prop('scrollHeight');
-        var maxScrollHeight = scrollHeight - height - 20;
+        var maxScrollHeight = scrollHeight - height;
         var least = 10;
         if(maxScrollHeight > least){
             console.log("還沒到底部");
         }
 
         // 當 #terms 中捲軸捲動時
-        $('#list').scroll(function () {
-            var $this = $(this);
+        list.scroll(function () {
             // 如果高度已經達到指定的高度就啟用 $submit
-            if (maxScrollHeight - $this.scrollTop() <= least) {
+            if (maxScrollHeight - list.scrollTop() <= least) {
                 console.log("到達底部");
             }
         });
