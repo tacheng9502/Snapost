@@ -184,7 +184,7 @@ jQuery(document).ready(function ($) {
             snapshot.forEach(function (data) {
                 var html =
                     '<li>' +
-                    '<a id="' + data.key + '_advert" href="#" onclick="clickAdvert(event);return false;">' +
+                    '<a href="#" onclick="clickAdvert(event, \''+data.key+'\', \''+data.val().sponsorUrl+'\');return false;">' +
                     '<div class="info">' +
                     '<img id="' + data.key + '_userImage" src="' + data.val().sponsorImage + '" class="img-circle" width="25px" height="25px">' +
                     '<h2 id="' + data.key + '_userName">' + data.val().sponsorName + '</h2>' +
@@ -465,9 +465,8 @@ jQuery(document).ready(function ($) {
         $('#' + postKey + '_commentBody').trigger("focus");
     }
 
-    window.clickAdvert = function (event) {
+    window.clickAdvert = function (event, advertKey, sponsorUrl) {
         event.preventDefault();
-        var advertKey = event.target.id.slice(0, -7);
         firebase.database().ref('adverts/' + advertKey + '/clicks/' + currentUserId).once("value", function (snapshot) {
             if (snapshot.val() == null) {
                 var updates = {};
@@ -478,6 +477,7 @@ jQuery(document).ready(function ($) {
                 });
             }
         });
+        window.open(sponsorUrl);
     }
 
     function loadMorePost() {
