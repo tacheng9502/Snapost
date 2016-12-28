@@ -466,18 +466,12 @@ jQuery(document).ready(function ($) {
     }
 
     function loadMorePost() {
-        var body = $('body');
-        var height = body.height();
-        var least = 10;
-
-        body.scroll(function () {
-            // 如果高度已經達到指定的高度就啟用 $submit
-            if (height - $(this).scrollTop() <= least) {
-                console.log("到達底部");
-            } else {
-                console.log("距離底部還有：" + height - $(this).scrollTop());
+        $(window).scroll(function () {
+            if ($(document).height() <= $(window).scrollTop() + $(window).height()) {
+                alert("End Of The Page");
             }
         });
     }
+
 
 });
