@@ -184,7 +184,7 @@ jQuery(document).ready(function ($) {
             snapshot.forEach(function (data) {
                 var html =
                     '<li>' +
-                    '<a id="' + data.key + '_advertisment" href="#" onclick="clickAdvert(event,' + data.val().sponsorUrl + ');return false;">' +
+                    '<a id="' + data.key + '_advertisment" href="#" onclick="clickAdvert(event);return false;">' +
                     '<div class="info">' +
                     '<img id="' + data.key + '_userImage" src="' + data.val().sponsorImage + '" class="img-circle" width="25px" height="25px">' +
                     '<h2 id="' + data.key + '_userName">' + data.val().sponsorName + '</h2>' +
@@ -465,7 +465,7 @@ jQuery(document).ready(function ($) {
         $('#' + postKey + '_commentBody').trigger("focus");
     }
 
-    window.clickAdvert = function (event, sponsorUrl) {
+    window.clickAdvert = function (event) {
         event.preventDefault();
         var advertKey = event.target.id.slice(0, -13);
         firebase.database().ref('adverts/' + advertKey + '/clicks/' + currentUserId).once("value", function (snapshot) {
@@ -478,7 +478,6 @@ jQuery(document).ready(function ($) {
                 });
             }
         });
-        windoe.open(sponsorUrl);
     }
 
     function loadMorePost() {
