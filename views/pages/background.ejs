@@ -22,7 +22,6 @@ var totalpost=0;
             },axis: {
                 x: {
                     type: 'category',
-                    categories :[adName]
                     }
                 }
         });
@@ -33,6 +32,7 @@ var totalpost=0;
             chart.load({
                 columns:[
                     [array[i].time.toString(),array[i].count],
+                    ['x',adName]
                 ]
             });
         };
