@@ -68,7 +68,7 @@ jQuery(document).ready(function ($) {
 
     function startDatabaseQueries() {
 
-        var followRef = firebase.database.ref('users/' + currentUserId + '/userFollow/');
+        var followRef = firebase.database().ref('users/' + currentUserId + '/userFollow/');
         followRef.once('value', function (snapshot) {
             snapshot.forEach(function (data) {
                 var followId = data.key
