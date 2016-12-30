@@ -227,8 +227,6 @@ jQuery(document).ready(function ($) {
             for (var i = 1; i <= array.length; i++) {
                 $("#list li:nth-child(" + (5 * i - 1) + ")").after(array[i - 1]);
             }
-
-            loadMorePost();
         });
     }
 
@@ -544,6 +542,7 @@ jQuery(document).ready(function ($) {
 
     window.onscroll = function () {
     //监听事件内容
+        console.log(getScrollHeight());
         if(getDocumentTop() == getWindowHeight() + getScrollHeight()){
             //当滚动条到底时,这里是触发内容
             //异步请求数据,局部刷新dom
