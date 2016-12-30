@@ -76,9 +76,7 @@ jQuery(document).ready(function ($) {
                 var followLastPostRef = firebase.database().ref('users/' + followId + '/userPost').limitToLast(1);
                 followLastPostRef.once('value', function (postData) {
                     if (followLastPostId != postData.key) {
-                            var html = createPostElement(postData.key, postData.val().userId, postData.val().userName, postData.val().userImage, postData.val().postBody, postData.val().postTime, postData.val().postImage, postData.val().likeCount);
-                            $('#list').prepend(html);
-                            console.log("顯示關注貼文");
+                            console.log(postData.val());
                     }
                 });
             });
