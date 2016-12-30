@@ -133,12 +133,11 @@ var totalpost=0;
                         time: data.key,
                         count: data.val()
                     };
-                    console.log(data.key);
-                    console.log(data.val());
                     array.push(post);
                 });
             });
         });
+        console.log(array);
         createAdBar(array);
         
     });
