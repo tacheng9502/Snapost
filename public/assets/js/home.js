@@ -79,19 +79,18 @@ jQuery(document).ready(function ($) {
                         if (followLastPostId != childData.key) {
                             followLastPost.push(childData.key);
                             firebase.database().ref('users/' + followId + '/userPost/'+ childData.key).limitToLast(1).once('value', function (postData) {
-                                var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+                                var html = createPostElement(postData.key, postData.val().userId, postData.val().userName, postData.val().userImage, postData.val().postBody, postData.val().postTime, postData.val().postImage, postData.val().likeCount);
                                 $('#list').prepend(html);
                             });
                             var sets = {};
-                            sets['users/' + currentUserId + '/userFollow/'+ followId + '/'] = followLastPostId;
+                            sets['users/' + currentUserId + '/userFollow/'+ followId + '/'] = postData.key;
                             firebase.database().ref().update(sets);
                         }
                     });
                 });
             });
+            showPost();
         });
-
-        showPost();
     }
 
     function showPost() {
