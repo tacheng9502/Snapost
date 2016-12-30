@@ -10,7 +10,7 @@ jQuery(document).ready(function ($) {
         }
     });
 	function startDatabaseQueries() {
-		var adRef = firebase.database.ref('/adverts');
+		var adRef = firebase.database().ref('/adverts');
         var adHtml = "";
         adRef.once('value', function(snapshot){
             $("#list").empty();
