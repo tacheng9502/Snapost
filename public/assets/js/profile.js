@@ -41,16 +41,18 @@ jQuery(document).ready(function ($) {
         var postRef = firebase.database().ref('users/' + queryId + '/userPost');
         postRef.once('value', function (data) {
             $("ninebox").empty();
+            var html
             data.forEach(function (childdata) {
                 var postKey = childdata.key;
                 var postImage = childdata.val();
-                var html =
+                html +=
                     '<li id="' + postKey + '"> ' +
                     '<img id="' + postKey + '_postImage" class="postImage" onclick="clickImg(event)" src="' + postImage + '"/>' +
                     '</li>';
-                $("#ninebox").prepend(html);
             });
+            $("#ninebox").prepend(html);
         });
+        postRef.off();
 
         if (queryId != currentUserId) {
             $("#follow").show();
@@ -490,7 +492,8 @@ jQuery(document).ready(function ($) {
         event.preventDefault();
         var refKey = event.target.id.slice(0,-10);
         console.log(refKey);
-        firebase.database().ref('posts/' + refKey + '/').on('value', function (data){
+        var postDetailRef = firebase.database().ref('posts/' + refKey + '/');
+        postDetailRef.on('value', function (data){
             var html = createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
             $("#postDetail").empty();
             $("#postDetail").append(html);
