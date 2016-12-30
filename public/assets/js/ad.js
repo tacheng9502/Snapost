@@ -1,5 +1,5 @@
 jQuery(document).ready(function ($) {
-    var userName, userImage, currentUserId, queryName;
+    var newImageFile;
     var listeningFirebaseRefs = [];
 
     firebase.auth().onAuthStateChanged(function (user) {
@@ -16,14 +16,15 @@ jQuery(document).ready(function ($) {
             $("#list").empty();
             snapshot.forEach(function (data) {
                 var name = data.key;
-                var clickCount = data.val().clickCount;
-                var sponserName = data.val().sponserName;
+                var clickCount;
+                var sponsorName = data.val().sponsorName;
+                (data.val().clickCount == null) ? (clickCount = 0) : (clickCount = data.val().clickCount);
                 adHtml += '<tr>\
                             <td>' + name + '</td>\
                             <td>' + clickCount + '</td>\
-                            <td>' + sponserName + '</td>\
-                            <td><button id="' + name + '_mod" type="button">編輯</button></td>\
-                            <td><button id="' + name + '_del" type="button">刪除</button></td>\
+                            <td>' + sponsorName + '</td>\
+                            <td><button id="' + name + '_mod" type="button" class="btn btn-primary">編輯</button></td>\
+                            <td><button id="' + name + '_del" type="button" class="btn btn-default">刪除</button></td>\
                             </tr>';
             });
             $("#list").append(adHtml);
@@ -39,10 +40,10 @@ jQuery(document).ready(function ($) {
 
     $('#writeNewPost').on('click', function (event) {
         event.preventDefault();
-        var postBody = $('#newPost_body').val();
-        var date = new Date();
-        var postTime = date.getTime();
-        var newPostKey = firebase.database().ref().child('posts').push().key;
+        var adName = $('#newAd_name').val();
+        var adBody = $('#newAd_body').val();
+        var adUrl = $('#newAd_url').val();
+        var adSponsor = $('#newAd_sponsorName').val();
         var metadata = {
             contentType: 'image/jpeg'
         };
@@ -55,7 +56,7 @@ jQuery(document).ready(function ($) {
             },
             format: 'jpeg'
         }).then(function (resp) {
-            var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(resp, metadata);
+            var uploadTask = firebase.storage().ref().child('adverts/' + adName).put(resp, metadata);
             uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
                 function (snapshot) {
                     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -87,30 +88,21 @@ jQuery(document).ready(function ($) {
                     var downloadURL = uploadTask.snapshot.downloadURL;
                     // A post entry.
                     var postData = {
-                        userId: currentUserId,
-                        userName: userName,
-                        userImage: userImage,
-                        postBody: postBody,
-                        postTime: postTime,
+                        postBody: adBody,
                         postImage: downloadURL,
-                        likeCount: 0
+                        sponsorUrl: adUrl,
+                        sponsorName: adSponsor 
                     };
 
                     var sets = {};
-                    sets['/posts/' + newPostKey] = postData;
-                    sets['/users/' + currentUserId + '/userPost/' + newPostKey] = downloadURL;
+                    sets['/adverts/' + newPostKey] = postData;
                     firebase.database().ref().update(sets);
-                    firebase.database().ref('/users/' + currentUserId + '/userPostCount').transaction(function (currentCount) {
-                        return currentCount + 1;
-                    });
-                    $('#newPost_body').val("");
+                    $('#newAd_name').val("");
+                    $('#newAd_body').val("");
+                    $('#newAd_url').val("");
+                    $('#newAd_sponsorName').val("");
                     $("#img_preview").empty();
                     newImageFile = null;
-
-                    var thisYear = date.getFullYear();
-                    var thisMonth = date.getMonth() + 1;
-                    firebase.database().ref('statistic/' + thisYear + '-' + thisMonth + '/postCount').transaction(function (currentCount) {
-                        return currentCount + 1;
                     });
                 });
         });

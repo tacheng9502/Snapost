@@ -1,19 +1,31 @@
 <script type="text/javascript" src="assets/js/ad.js"></script>
 <div id="content" class="content">
 	<div class="msg-form" ondragover="javascript: dragHandler(event);" ondrop="javascript: dropImage(event);">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+            <textarea id="newAd_name" class="form-control" rows="1" placeholder="廣告名稱"></textarea>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+            <textarea id="newAd_sponsorName" class="form-control" rows="1" placeholder="贊助商名稱"></textarea>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+            <textarea id="newAd_body" class="form-control" rows="3" placeholder="廣告文宣"></textarea>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+            <textarea id="newAd_url" class="form-control" rows="3" placeholder="目標網址"></textarea>
+        </div>
         <div class="form-group">
             <input type="file" id="file" accept="image/*">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-picture-o fa-fw" aria-hidden="true"></i></span>
-                <input type="text" class="form-control" disabled placeholder="拖曳照片上傳或點選瀏覽">
+                <input type="text" class="form-control" disabled placeholder="廣告圖片">
                 <span class="input-group-btn">
                 <button class="btn btn-primary" id="img_input" type="button"><i class="fa fa-search fa-fw" aria-hidden="true"></i>&nbsp;瀏覽</button>
                 </span>
             </div>
-        </div>
-        <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
-            <textarea id="newPost_body" class="form-control" rows="3" placeholder="留些什麼吧..."></textarea>
         </div>
         <div id="img_preview"></div>
         <div class="pull-right">
@@ -21,14 +33,14 @@
             <button id="writeNewPost" type="button" class="btn btn-primary">發佈</button>
         </div>
     </div>
-    <table>
-    	<th>
+    <table width="100%">
+    	<thead>
     		<td>廣告名稱</td>
     		<td>點擊次數</td>
     		<td>贊助商</td>
     		<td></td>
     		<td></td>
-    	</th>
+    	</thead>
     	<tbody id="list"></tbody>
     </table>
 </div>
