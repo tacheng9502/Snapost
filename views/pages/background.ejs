@@ -8,7 +8,6 @@
 jQuery(document).ready(function ($) {
 var totalpost=0;
     function createAdBar(array){
-        console.log(array);
         var chart = c3.generate({
             bindto: '#ad',
             data: {
@@ -26,13 +25,14 @@ var totalpost=0;
                 }
         });
         for(var i=0;i<array.length;i++){
+            console.log(array[i].time);
             chart.load({
                 columns:[
                     [array[i].time,array[i].count],
                     ['x',"每月新進人數"]
                 ]
             });
-            console.log(array[i].time);
+            
         };
 
     }
