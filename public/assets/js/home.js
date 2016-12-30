@@ -499,10 +499,16 @@ jQuery(document).ready(function ($) {
             event.preventDefault();
             firebase.database().ref('adverts/' + advertKey + '/clicks/' + currentUserId).once("value", function (snapshot) {
                 if (snapshot.val() == null) {
+                    var date = new Date();
+                    var thisYear = date.getFullYear();
+                    var thisMonth = date.getMonth() + 1;
                     var updates = {};
                     updates['adverts/' + advertKey + '/clicks/' + currentUserId] = true;
                     firebase.database().ref().update(updates);
-                    firebase.database().ref('/adverts/' + advertKey + '/' + 'clickCount').transaction(function (currentCount) {
+                    firebase.database().ref('/adverts/' + advertKey + '/clickCount/totalClick').transaction(function (currentCount) {
+                        return currentCount + 1;
+                    });
+                    firebase.database().ref('/adverts/' + advertKey + '/clickCount/'+ thisYear+'-'+thisMonth).transaction(function (currentCount) {
                         return currentCount + 1;
                     });
                 }
