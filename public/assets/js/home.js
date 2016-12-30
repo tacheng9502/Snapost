@@ -75,21 +75,24 @@ jQuery(document).ready(function ($) {
                 var followId = data.key
                 var followLastPostId = data.val().lastPost;
                 firebase.database().ref('users/' + followId + '/userPost/').limitToLast(1).once('value', function (childSnapshot) {
+                    console.log("childSnapshot.key："+childSnapshot.key);
                     childSnapshot.forEach(function (childData) {
                         if (followLastPostId != childData.key) {
+                            console.log("childData.key："+childData.key);
                             followLastPost.push(childData.key);
-                            firebase.database().ref('users/' + followId + '/userPost/'+ childData.key).once('value', function (postData) {
+                            firebase.database().ref('users/' + followId + '/userPost/' + childData.key).once('value', function (postData) {
+                                console.log("postData.key："+postData.key);
                                 var html = createPostElement(postData.key, postData.val().userId, postData.val().userName, postData.val().userImage, postData.val().postBody, postData.val().postTime, postData.val().postImage, postData.val().likeCount);
                                 $('#list').prepend(html);
                             });
                             var sets = {};
-                            sets['users/' + currentUserId + '/userFollow/'+ followId + '/'] = postData.key;
+                            sets['users/' + currentUserId + '/userFollow/' + followId + '/'] = postData.key;
                             firebase.database().ref().update(sets);
                         }
+                        showPost();
                     });
                 });
             });
-            showPost();
         });
     }
 
