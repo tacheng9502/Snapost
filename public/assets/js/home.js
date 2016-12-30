@@ -74,17 +74,17 @@ jQuery(document).ready(function ($) {
             snapshot.forEach(function (data) {
                 var followId = data.key
                 var followLastPostId = data.val().lastPost;
-                firebase.database().ref('users/' + followId + '/userPost/').limitToLast(1).once('value', function (childSnapshot) {
+                firebase.database().ref('users/' + followId + '/userPost/').limitToLast(1).once('value').then(function (childSnapshot) {
                     childSnapshot.forEach(function (childData) {
                         if (followLastPostId != childData.key) {
                             followLastPost.push(childData.key);
+                            showPost();
                             var html = createPostElement(childData.key, childData.val().userId, childData.val().userName, childData.val().userImage, childData.val().postBody, childData.val().postTime, childData.val().postImage, childData.val().likeCount);
                             $('#list').prepend(html);
                             var sets = {};
                             sets['users/' + currentUserId + '/userFollow/' + followId + '/'] = childData.key;
                             firebase.database().ref().update(sets);
                         }
-                        showPost();
                     });
                 });
             });
@@ -490,22 +490,24 @@ jQuery(document).ready(function ($) {
     }
 
     window.clickAdvert = function (event, advertKey, sponsorUrl) {
-        event.preventDefault();
-        firebase.database().ref('adverts/' + advertKey + '/clicks/' + currentUserId).once("value", function (snapshot) {
-            if (snapshot.val() == null) {
-                var updates = {};
-                updates['adverts/' + advertKey + '/clicks/' + currentUserId] = true;
-                firebase.database().ref().update(updates);
-                firebase.database().ref('/adverts/' + advertKey + '/' + 'clickCount').transaction(function (currentCount) {
-                    return currentCount + 1;
-                });
-            }
-        });
-        window.open(sponsorUrl);
-    }
-    //文档高度
+            event.preventDefault();
+            firebase.database().ref('adverts/' + advertKey + '/clicks/' + currentUserId).once("value", function (snapshot) {
+                if (snapshot.val() == null) {
+                    var updates = {};
+                    updates['adverts/' + advertKey + '/clicks/' + currentUserId] = true;
+                    firebase.database().ref().update(updates);
+                    firebase.database().ref('/adverts/' + advertKey + '/' + 'clickCount').transaction(function (currentCount) {
+                        return currentCount + 1;
+                    });
+                }
+            });
+            window.open(sponsorUrl);
+        }
+        //文档高度
     function getDocumentTop() {
-        var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
+        var scrollTop = 0,
+            bodyScrollTop = 0,
+            documentScrollTop = 0;
         if (document.body) {
             bodyScrollTop = document.body.scrollTop;
         }
@@ -529,7 +531,9 @@ jQuery(document).ready(function ($) {
 
     //滚动条滚动高度
     function getScrollHeight() {
-        var scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
+        var scrollHeight = 0,
+            bodyScrollHeight = 0,
+            documentScrollHeight = 0;
         if (document.body) {
             bodyScrollHeight = document.body.scrollHeight;
         }
@@ -541,9 +545,9 @@ jQuery(document).ready(function ($) {
     }
 
     window.onscroll = function () {
-    //监听事件内容
-        console.log(getDocumentTop()+" "+getWindowHeight()+" "+getScrollHeight());
-        if(getDocumentTop()+getWindowHeight() >= (getScrollHeight()*0.95)){
+        //监听事件内容
+        console.log(getDocumentTop() + " " + getWindowHeight() + " " + getScrollHeight());
+        if (getDocumentTop() + getWindowHeight() >= (getScrollHeight() * 0.95)) {
             //当滚动条到底时,这里是触发内容
             //异步请求数据,局部刷新dom
             console.log("快到底了");
