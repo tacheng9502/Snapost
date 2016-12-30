@@ -90,12 +90,12 @@ jQuery(document).ready(function ($) {
                             sets['users/' + currentUserId + '/userFollow/' + followId + '/'] = childData.key;
                             firebase.database().ref().update(sets);
                         }
-                        showPost();
-                        showAdvertisment();
                     });
                 });
             });
         });
+        showPost();
+        showAdvertisment();
     }
 
     function showPost() {
