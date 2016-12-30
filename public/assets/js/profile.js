@@ -488,9 +488,10 @@ jQuery(document).ready(function ($) {
 
     window.clickImg = function (event) {
         event.preventDefault();
-        var postKey = event.target.id;
-        firebase.database().ref('posts/' + postKey).once("value", function (data){
-            var html = createPostElement(postKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+        var refKey = event.target.id;
+        console.log(refKey);
+        firebase.database().ref('posts/' + refKey + '/').on('value', function (data){
+            var html = createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
             swal({
                 text: html,
                 html: true
