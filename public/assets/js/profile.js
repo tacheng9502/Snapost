@@ -45,7 +45,7 @@ jQuery(document).ready(function ($) {
             data.forEach(function (childdata) {
                 var postKey = childdata.key;
                 var postImage = childdata.val();
-                html +=
+                html =+
                     '<li id="' + postKey + '"> ' +
                     '<img id="' + postKey + '_postImage" class="postImage" onclick="clickImg(event)" src="' + postImage + '"/>' +
                     '</li>';
