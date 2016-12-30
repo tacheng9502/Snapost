@@ -1,13 +1,39 @@
 <link href="assets/css/c3.min.css" rel="stylesheet" type="text/css">
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="assets/js/c3.min.js"></script>
-<div id="ad"></div>
 <div id="chart"></div>
 <div id="post"></div>
+<div id="ad"></div>
 <script>
 jQuery(document).ready(function ($) {
 var totalpost=0;
+    function createAdBar(array){
+        var chart = c3.generate({
+            bindto: '#ad',
+            data: {
+                x : 'x',
+                columns: [
+                        
+                ],
+                type: 'bar'
+            },bar: {
+                width: {ratio: 0.2 }
+            },axis: {
+                x: {
+                    type: 'category',
+                    }
+                }
+        });
+        for(var i=0;i<array.length;i++){
+            chart.load({
+                columns:[
+                    [array[i].time.toString(),array[i].count],
+                    ['x',"每月新進人數"]
+                ]
+            });
+        };
 
+    }
 
 
     function createLine(array){
@@ -91,6 +117,25 @@ var totalpost=0;
         });
         createLine(array);
         createspline(array);
+    });
+
+    firebase.database().ref('adverts').once("value", function (snapshot){
+        var array = [];
+        snapshot.forEach(function(data){
+            var adName= data.key;
+            firebase.database().ref('adverts/'+adName+'/clickCount').once("value", function (snapshot){
+                snapshot.forEach(function(data){
+                    var post = {
+                        time: data.key,
+                        count: data.val(),
+                    };
+                    array.push(post);
+                    console.log(array);
+                });
+            });
+        });
+        createAdBar(array);
+        
     });
 
 
