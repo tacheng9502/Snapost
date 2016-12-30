@@ -120,15 +120,6 @@ var totalpost=0;
         createspline(array);
     });
 
-    firebase.database().ref('statistic').once("value", function (snapshot){
-        snapshot.forEach(function(data){
-                temp=data.val().postCount;
-                totalpost=totalpost+temp;
-        });
-        creategauge(totalpost);
-        
-    });
-
      firebase.database().ref('adverts').once("value", function (snapshot){
         var array = [];
         snapshot.forEach(function(data){
