@@ -129,8 +129,10 @@ var totalpost=0;
                 snapshot.forEach(function(data){
                     var post = {
                         time: data.key,
-                        count: data.val(),
+                        count: data.val()
                     };
+                    console.log(data.key);
+                    console.log(data.val());
                     array.push(post);
                 });
             });
