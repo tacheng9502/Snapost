@@ -69,7 +69,7 @@ jQuery(document).ready(function ($) {
 
     function startDatabaseQueries() {
 
-        firebase.database().ref('users/' + currentUserId + '/userFollow').once('value', function (snapshot) {
+        firebase.database().ref('users/' + currentUserId + '/userFollow').once('value').then(function (snapshot) {
             followLastPost = [];
             snapshot.forEach(function (data) {
                 var followId = data.key
@@ -82,7 +82,6 @@ jQuery(document).ready(function ($) {
                     childSnapshot.forEach(function (childData) {
                         if (followLastPostId != childData.key) {
                             followLastPost.push(childData.key);
-                            showPost();
                             firebase.database().ref('posts/' + childData.key).once('value').then(function (postData) {
                                 var html = createPostElement(postData.key, postData.val().userId, postData.val().userName, postData.val().userImage, postData.val().postBody, postData.val().postTime, postData.val().postImage, postData.val().likeCount);
                                 $('#list').prepend(html);
@@ -91,6 +90,8 @@ jQuery(document).ready(function ($) {
                             sets['users/' + currentUserId + '/userFollow/' + followId + '/'] = childData.key;
                             firebase.database().ref().update(sets);
                         }
+                        showPost();
+                        showAdvertisment();
                     });
                 });
             });
@@ -113,7 +114,6 @@ jQuery(document).ready(function ($) {
         });
 
         listeningFirebaseRefs.push(postsRef);
-        showAdvertisment();
     }
 
     function createPostElement(postKey, userId, userName, userImage, postBody, postTime, postImage, likeCount) {
