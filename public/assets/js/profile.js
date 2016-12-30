@@ -45,12 +45,12 @@ jQuery(document).ready(function ($) {
             data.forEach(function (childdata) {
                 var postKey = childdata.key;
                 var postImage = childdata.val();
-                html +=
+                html =
                     '<li id="' + postKey + '"> ' +
                     '<img id="' + postKey + '_postImage" class="postImage" onclick="clickImg(event)" src="' + postImage + '"/>' +
-                    '</li>';
+                    '</li>' + html;
             });
-            $("#ninebox").prepend(html);
+            $("#ninebox").append(html);
         });
 
         if (queryId != currentUserId) {
