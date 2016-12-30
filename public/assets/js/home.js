@@ -1,6 +1,7 @@
 jQuery(document).ready(function ($) {
     var newImageFile, userName, userImage, currentUserId;
     var listeningFirebaseRefs = [];
+    var followLastPost = [];
 
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
@@ -70,6 +71,7 @@ jQuery(document).ready(function ($) {
 
         var followRef = firebase.database().ref('users/' + currentUserId + '/userFollow/');
         followRef.once('value', function (snapshot) {
+            followLastPost = [];
             snapshot.forEach(function (data) {
                 var followId = data.key
                 var followLastPostId = data.val().lastPost;
@@ -77,8 +79,9 @@ jQuery(document).ready(function ($) {
                 followLastPostRef.once('value', function (postData) {
                     postData.forEach(function (childSnapshot) {
                         if (followLastPostId != childSnapshot.key) {
-                            console.log(childSnapshot.key);
-                            console.log(childSnapshot.val());
+                            var html = createPostElement(childSnapshot.key, childSnapshot.val().userId, childSnapshot.val().userName, childSnapshot.val().userImage, childSnapshot.val().postBody, childSnapshot.val().postTime, childSnapshot.val().postImage, childSnapshot.val().likeCount);
+                            $('#list').prepend(html);
+                            followLastPost.push(childSnapshot.key);
                         }
                     });
 
@@ -88,8 +91,10 @@ jQuery(document).ready(function ($) {
 
         var postsRef = firebase.database().ref('posts').limitToLast(8);
         postsRef.on('child_added', function (data) {
-            var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+            if(!followLastPost.includes(data.key)){
+                var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
             $('#list').prepend(html);
+            }
         });
         postsRef.on('child_changed', function (data) {
             $('#' + data.key + '_body').text(data.val().postBody);
