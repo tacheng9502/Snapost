@@ -74,14 +74,12 @@ jQuery(document).ready(function ($) {
                 var followId = data.key
                 var followLastPostId = data.val().lastPost;
                 var followLastPostRef = firebase.database().ref('users/' + followId + '/userPost').limitToLast(1);
-                followLastPostRef.once('child', function (postSnapshot) {
-                    postSnapshot.forEach(function (data) {
-                        if (followLastPostId != data.key) {
-                            var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+                followLastPostRef.once('value', function (postData) {
+                    if (followLastPostId != postData.key) {
+                            var html = createPostElement(postData.key, postData.val().userId, postData.val().userName, postData.val().userImage, postData.val().postBody, postData.val().postTime, postData.val().postImage, postData.val().likeCount);
                             $('#list').prepend(html);
                             console.log("顯示關注貼文");
-                        }
-                    });
+                    }
                 });
             });
         });
