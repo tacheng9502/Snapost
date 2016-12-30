@@ -68,6 +68,22 @@ jQuery(document).ready(function ($) {
 
     function startDatabaseQueries() {
 
+        var followRef = firebase.database.ref('users/' + currentUserId + '/userFollow/');
+        followRef.once('value', function (snapshot) {
+            snapshot.forEach(function (data) {
+                var followId = data.key
+                var followLastPostId = data.val().lastPost;
+                var followLastPostRef = firebase.database.ref('users/' + followId + '/userPost/').limitToLast(1);
+                followLastPostRef.once('value', function (snapshot) {
+                    if(followLastPostId!=snapshot.key){
+                        var html = createPostElement(snapshot.key, snapshot.val().userId, snapshot.val().userName, snapshot.val().userImage, snapshot.val().postBody, snapshot.val().postTime, snapshot.val().postImage, snapshot.val().likeCount);
+                        $('#list').prepend(html);
+                        console.log("顯示關注貼文");
+                    }
+                });
+            });
+        });
+
         var postsRef = firebase.database().ref('posts').limitToLast(8);
         postsRef.on('child_added', function (data) {
             var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
@@ -184,7 +200,7 @@ jQuery(document).ready(function ($) {
             snapshot.forEach(function (data) {
                 var html =
                     '<li>' +
-                    '<a href="#" onclick="clickAdvert(event, \''+data.key+'\', \''+data.val().sponsorUrl+'\');return false;">' +
+                    '<a href="#" onclick="clickAdvert(event, \'' + data.key + '\', \'' + data.val().sponsorUrl + '\');return false;">' +
                     '<div class="info">' +
                     '<img id="' + data.key + '_userImage" src="' + data.val().sponsorImage + '" class="img-circle" width="25px" height="25px">' +
                     '<h2 id="' + data.key + '_userName">' + data.val().sponsorName + '</h2>' +
@@ -484,7 +500,7 @@ jQuery(document).ready(function ($) {
         var bottomHeight = 7150;
         $(window).scroll(function () {
             if ($(this).scrollTop() >= bottomHeight) {
-                alert("到達底部了");
+                console.log("到達底部了");
             }
         });
     }

@@ -238,7 +238,11 @@ jQuery(document).ready(function ($) {
 
     function doFollow(i, j) {
         var sets = {};
-        sets['/users/' + currentUserId + '/userFollow/' + i] = j;
+        var followData = {
+            userName: j,
+            lastPost: ""
+        }
+        sets['/users/' + currentUserId + '/userFollow/' + i] = followData;
         sets['/users/' + i + '/userFan/' + currentUserId] = userName;
         firebase.database().ref().update(sets);
         firebase.database().ref('/users/' + currentUserId + '/userFollowCount').transaction(function (currentCount) {
