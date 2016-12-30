@@ -41,7 +41,7 @@ jQuery(document).ready(function ($) {
         var postRef = firebase.database().ref('users/' + queryId + '/userPost');
         postRef.once('value', function (data) {
             $("ninebox").empty();
-            var html;
+            var html = "";
             data.forEach(function (childdata) {
                 var postKey = childdata.key;
                 var postImage = childdata.val();
@@ -490,7 +490,6 @@ jQuery(document).ready(function ($) {
     window.clickImg = function (event) {
         event.preventDefault();
         var refKey = event.target.id.slice(0,-10);
-        console.log(refKey);
         var postDetailRef = firebase.database().ref('posts/' + refKey + '/');
         postDetailRef.on('value', function (data){
             var html = createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
