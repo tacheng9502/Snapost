@@ -45,8 +45,8 @@ jQuery(document).ready(function ($) {
                 var postKey = childdata.key;
                 var postImage = childdata.val();
                 var html =
-                    '<li id="' + postKey + '" onclick="clickImg(event)"> ' +
-                    '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
+                    '<li id="' + postKey + '"> ' +
+                    '<img id="' + postKey + '_postImage" class="postImage" onclick="clickImg(event)" src="' + postImage + '"/>' +
                     '</li>';
                 $("#ninebox").prepend(html);
             });
@@ -488,14 +488,13 @@ jQuery(document).ready(function ($) {
 
     window.clickImg = function (event) {
         event.preventDefault();
-        var refKey = event.target.id;
+        var refKey = event.target.id.slice(0,-10);
         console.log(refKey);
         firebase.database().ref('posts/' + refKey + '/').on('value', function (data){
             var html = createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-            swal({
-                text: html,
-                html: true
-            });
+            console.log(html);
+            $("postDetail").empty();
+            $("postDetail").append(html);
         });
     };
 })
