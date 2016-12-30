@@ -45,9 +45,9 @@ jQuery(document).ready(function ($) {
                 var postKey = childdata.key;
                 var postImage = childdata.val();
                 var html =
-                    '<li id="' + postKey + '">' +
+                    '<a onclick="showDetail(\''+ postKey +'\')" href="#"><li id="' + postKey + '">' +
                     '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
-                    '</li>';
+                    '</li></a>';
                 $("#ninebox").prepend(html);
             });
         });
@@ -116,6 +116,16 @@ jQuery(document).ready(function ($) {
                     $("#result").append(html);
                 });
             }
+        });
+    }
+
+    function showDetail(postKey) {
+        firebase.database().ref('posts/' + postKey).once("value", function (data){
+            var html = createPostElement(postKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+            swal({
+                text: html,
+                html: true
+            });
         });
     }
 
