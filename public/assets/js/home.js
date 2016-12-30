@@ -79,6 +79,8 @@ jQuery(document).ready(function ($) {
                         if (followLastPostId != childData.key) {
                             followLastPost.push(childData.key);
                             showPost();
+                            console.log(childData);
+                            console.log(childData.val().userId);
                             var html = createPostElement(childData.key, childData.val().userId, childData.val().userName, childData.val().userImage, childData.val().postBody, childData.val().postTime, childData.val().postImage, childData.val().likeCount);
                             $('#list').prepend(html);
                             var sets = {};
@@ -546,7 +548,7 @@ jQuery(document).ready(function ($) {
 
     window.onscroll = function () {
         //监听事件内容
-        console.log(getDocumentTop() + " " + getWindowHeight() + " " + getScrollHeight());
+        //console.log(getDocumentTop() + " " + getWindowHeight() + " " + getScrollHeight());
         if (getDocumentTop() + getWindowHeight() >= (getScrollHeight() * 0.95)) {
             //当滚动条到底时,这里是触发内容
             //异步请求数据,局部刷新dom
