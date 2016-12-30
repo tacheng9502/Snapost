@@ -87,7 +87,7 @@ jQuery(document).ready(function ($) {
                                 $('#list').prepend(html);
                             });
                             var sets = {};
-                            sets['users/' + currentUserId + '/userFollow/' + followId + '/'] = childData.key;
+                            sets['users/' + currentUserId + '/userFollow/' + followId + '/lastPost'] = childData.key;
                             firebase.database().ref().update(sets);
                         }
                     });
