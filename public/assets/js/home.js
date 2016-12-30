@@ -75,16 +75,17 @@ jQuery(document).ready(function ($) {
                 var followId = data.key
                 var followLastPostId = data.val().lastPost;
                 firebase.database().ref('users/' + followId + '/userPost').limitToLast(1).once('value').then(function (childSnapshot) {
+                    console.log("1 "+childSnapshot);
+                    console.log("2 "+childSnapshot.key);
+                    console.log("3 "+childSnapshot.val());
                     childSnapshot.forEach(function (childData) {
-                        console.log("1"+childData);
-                        console.log("2"+childData.val().userId);
                         if (followLastPostId != childData.key) {
                             followLastPost.push(childData.key);
                             showPost();
-                            console.log(childData);
-                            console.log(childData.val().userId);
-                            var html = createPostElement(childData.key, childData.val().userId, childData.val().userName, childData.val().userImage, childData.val().postBody, childData.val().postTime, childData.val().postImage, childData.val().likeCount);
-                            $('#list').prepend(html);
+                            firebase.database().ref('posts/' + childData.key).once('value').then(function (postData) {
+                                var html = createPostElement(postData.key, postData.val().userId, postData.val().userName, postData.val().userImage, postData.val().postBody, postData.val().postTime, postData.val().postImage, postData.val().likeCount);
+                                $('#list').prepend(html);
+                            });
                             var sets = {};
                             sets['users/' + currentUserId + '/userFollow/' + followId + '/'] = childData.key;
                             firebase.database().ref().update(sets);
