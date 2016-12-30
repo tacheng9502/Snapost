@@ -76,6 +76,7 @@ jQuery(document).ready(function ($) {
                 var followLastPostRef = firebase.database().ref('users/' + followId + '/userPost').limitToLast(1);
                 followLastPostRef.once('value', function (postData) {
                     if (followLastPostId != postData.key) {
+                            console.log(postData.key);
                             console.log(postData.val());
                     }
                 });
