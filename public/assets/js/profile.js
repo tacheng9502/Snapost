@@ -127,7 +127,7 @@ jQuery(document).ready(function ($) {
                 html: true
             });
         });
-    }
+    };
 
     function createPostElement(postKey, userId, userName, userImage, postBody, postTime, postImage, likeCount) {
         var date = new Date(parseInt(postTime));
