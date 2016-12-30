@@ -24,6 +24,7 @@ var totalpost=0;
                     }
                 }
         });
+        console.log(array[0].count);
         for(var i=0;i<array.length;i++){
             chart.load({
                 columns:[
@@ -131,7 +132,6 @@ var totalpost=0;
                         count: data.val(),
                     };
                     array.push(post);
-                    console.log(array);
                 });
             });
         });
