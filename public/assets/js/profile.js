@@ -41,15 +41,16 @@ jQuery(document).ready(function ($) {
         var postRef = firebase.database().ref('users/' + queryId + '/userPost');
         postRef.once('value', function (data) {
             $("ninebox").empty();
+            var html = "";
             data.forEach(function (childdata) {
                 var postKey = childdata.key;
                 var postImage = childdata.val();
-                var html =
-                    '<li id="' + postKey + '">' +
-                    '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
+                html +=
+                    '<li id="' + postKey + '"> ' +
+                    '<img id="' + postKey + '_postImage" class="postImage" onclick="clickImg(event)" src="' + postImage + '"/>' +
                     '</li>';
-                $("#ninebox").prepend(html);
             });
+            $("#ninebox").prepend(html);
         });
 
         if (queryId != currentUserId) {
@@ -471,7 +472,6 @@ jQuery(document).ready(function ($) {
     window.clickUnFollow = function (event) {
         event.preventDefault();
         var targetUser = event.target.id.slice(0, -2);
-        console.log(targetUser);
         var a = '#' + targetUser + '_f';
         if ($(a).val() == 0) {
             unFollow(targetUser, a);
@@ -485,5 +485,16 @@ jQuery(document).ready(function ($) {
             $(a).append("取消追蹤");
             $(a).val(0);
         }
+    };
+
+    window.clickImg = function (event) {
+        event.preventDefault();
+        var refKey = event.target.id.slice(0,-10);
+        var postDetailRef = firebase.database().ref('posts/' + refKey + '/');
+        postDetailRef.on('value', function (data){
+            var html = createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+            $("#postDetail").empty();
+            $("#postDetail").append(html);
+        });
     };
 })
