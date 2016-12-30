@@ -1,6 +1,7 @@
 jQuery(document).ready(function ($) {
     var newImageFile, userName, userImage, currentUserId;
     var listeningFirebaseRefs = [];
+    var followLastPost = [];
 
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
@@ -68,28 +69,35 @@ jQuery(document).ready(function ($) {
 
     function startDatabaseQueries() {
 
-        var followRef = firebase.database().ref('users/' + currentUserId + '/userFollow/');
-        followRef.once('value', function (snapshot) {
+        firebase.database().ref('users/' + currentUserId + '/userFollow/').once('value', function (snapshot) {
+            followLastPost = [];
             snapshot.forEach(function (data) {
                 var followId = data.key
                 var followLastPostId = data.val().lastPost;
-                var followLastPostRef = firebase.database().ref('users/' + followId + '/userPost').limitToLast(1);
-                followLastPostRef.once('child', function (postSnapshot) {
-                    postSnapshot.forEach(function (data) {
-                        if (followLastPostId != data.key) {
-                            var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+                firebase.database().ref('users/' + followId + '/userPost/').limitToLast(1).once('value', function (childSnapshot) {
+                    childSnapshot.forEach(function (childData) {
+                        if (followLastPostId != childData.key) {
+                            followLastPost.push(childData.key);
+                            var html = createPostElement(childData.key, childData.val().userId, childData.val().userName, childData.val().userImage, childData.val().postBody, childData.val().postTime, childData.val().postImage, childData.val().likeCount);
                             $('#list').prepend(html);
-                            console.log("顯示關注貼文");
+                            var sets = {};
+                            sets['users/' + currentUserId + '/userFollow/' + followId + '/'] = childData.key;
+                            firebase.database().ref().update(sets);
                         }
+                        showPost();
                     });
                 });
             });
         });
+    }
 
+    function showPost() {
         var postsRef = firebase.database().ref('posts').limitToLast(8);
         postsRef.on('child_added', function (data) {
-            var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-            $('#list').prepend(html);
+            if (!followLastPost.includes(data.key)) {
+                var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+                $('#list').prepend(html);
+            }
         });
         postsRef.on('child_changed', function (data) {
             $('#' + data.key + '_body').text(data.val().postBody);
@@ -497,17 +505,6 @@ jQuery(document).ready(function ($) {
         });
         window.open(sponsorUrl);
     }
-
-    function loadMorePost() {
-        var browserHeight = window.innerHeight;
-        var contentHeight = $('#content').innerHeight();
-        var scrollHeight = document.body.scrollHeight;
-        $(window).scroll(function () {
-            if ($(this).scrollTop() >= bottomHeight) {
-                console.log("到達底部了");
-            }
-        });
-    }
     //文档高度
     function getDocumentTop() {
         var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
@@ -553,5 +550,4 @@ jQuery(document).ready(function ($) {
             console.log("底部");
         }
     }
-
 });
