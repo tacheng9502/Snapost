@@ -10,11 +10,11 @@ var totalpost=0;
 
     function createAdBar(array){
         var chart = c3.generate({
-            bindto: '#ad',
+            bindto: '#usercount',
             data: {
                 x : 'x',
                 columns: [
-                        ['12',array[0].clickCount]
+                        
                 ],
                 type: 'bar'
             },bar: {
@@ -25,6 +25,14 @@ var totalpost=0;
                     }
                 }
         });
+        for(var i=0;i<array.length;i++){
+            chart.load({
+                columns:[
+                    [array[i].time.toString(),array[i].userCount],
+                    ['x',"每月新進人數"]
+                ]
+            });
+        };
 
     }
 
@@ -51,7 +59,7 @@ var totalpost=0;
         for(var i=0;i<array.length;i++){
             chart.load({
                 columns:[
-                    [array[i].time.toString(),array[i].userCount],
+                    [array[i].time.toString(),array[i].Count],
                     ['x',"每月新進人數"]
                 ]
             });
@@ -115,11 +123,18 @@ var totalpost=0;
     });
 
     firebase.database().ref('adverts').once("value", function (snapshot){
+        var array = [];
         snapshot.forEach(function(data){
-            var post = {
-                    clickCount: data.val().clickCount.totalClick
-                };
-                array.push(post);
+            var adName= data.key;
+            firebase.database().ref('adverts/'+adName+'/clickCount').once("value", function (snapshot){
+                snapshot.forEach(function(data){
+                    var post = {
+                        time: data.key,
+                        Count: data.val()
+                    };
+                    array.push(post);
+                });
+            });
         });
         createAdBar(array);
         
