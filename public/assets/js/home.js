@@ -73,7 +73,7 @@ jQuery(document).ready(function ($) {
             snapshot.forEach(function (data) {
                 var followId = data.key
                 var followLastPostId = data.val().lastPost;
-                var followLastPostRef = firebase.database.ref('users/' + followId + '/userPost/').limitToLast(1);
+                var followLastPostRef = firebase.database().ref('users/' + followId + '/userPost/').limitToLast(1);
                 followLastPostRef.once('value', function (snapshot) {
                     if(followLastPostId!=snapshot.key){
                         var html = createPostElement(snapshot.key, snapshot.val().userId, snapshot.val().userName, snapshot.val().userImage, snapshot.val().postBody, snapshot.val().postTime, snapshot.val().postImage, snapshot.val().likeCount);
