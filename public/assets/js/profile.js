@@ -45,9 +45,9 @@ jQuery(document).ready(function ($) {
                 var postKey = childdata.key;
                 var postImage = childdata.val();
                 var html =
-                    '<a onclick="showDetail(\''+ postKey +'\')" href="#"><li id="' + postKey + '">' +
+                    '<li id="' + postKey + '" onclick="clickImg(event)"> ' +
                     '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>' +
-                    '</li></a>';
+                    '</li>';
                 $("#ninebox").prepend(html);
             });
         });
@@ -118,16 +118,6 @@ jQuery(document).ready(function ($) {
             }
         });
     }
-
-    function showDetail(postKey) {
-        firebase.database().ref('posts/' + postKey).once("value", function (data){
-            var html = createPostElement(postKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-            swal({
-                text: html,
-                html: true
-            });
-        });
-    };
 
     function createPostElement(postKey, userId, userName, userImage, postBody, postTime, postImage, likeCount) {
         var date = new Date(parseInt(postTime));
@@ -481,7 +471,6 @@ jQuery(document).ready(function ($) {
     window.clickUnFollow = function (event) {
         event.preventDefault();
         var targetUser = event.target.id.slice(0, -2);
-        console.log(targetUser);
         var a = '#' + targetUser + '_f';
         if ($(a).val() == 0) {
             unFollow(targetUser, a);
@@ -495,5 +484,17 @@ jQuery(document).ready(function ($) {
             $(a).append("取消追蹤");
             $(a).val(0);
         }
+    };
+
+    window.clickImg = function (event) {
+        event.preventDefault();
+        var postKey = event.target.id;
+        firebase.database().ref('posts/' + postKey).once("value", function (data){
+            var html = createPostElement(postKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+            swal({
+                text: html,
+                html: true
+            });
+        });
     };
 })
