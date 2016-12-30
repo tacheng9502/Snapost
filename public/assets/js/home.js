@@ -79,9 +79,10 @@ jQuery(document).ready(function ($) {
                 followLastPostRef.once('value', function (postData) {
                     postData.forEach(function (childSnapshot) {
                         if (followLastPostId != childSnapshot.key) {
-                            var html = createPostElement(childSnapshot.key, childSnapshot.val().userId, childSnapshot.val().userName, childSnapshot.val().userImage, childSnapshot.val().postBody, childSnapshot.val().postTime, childSnapshot.val().postImage, childSnapshot.val().likeCount);
-                            $('#list').prepend(html);
+                            console.log(childSnapshot.key);
+                            console.log(childSnapshot.val().userId);
                             followLastPost.push(childSnapshot.key);
+                            console.log(followLastPost[0]);
                         }
                     });
 
@@ -91,6 +92,8 @@ jQuery(document).ready(function ($) {
 
         var postsRef = firebase.database().ref('posts').limitToLast(8);
         postsRef.on('child_added', function (data) {
+            console.log(followLastPost[0]);
+            console.log(data.key);
             if(!followLastPost.includes(data.key)){
                 var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
             $('#list').prepend(html);
