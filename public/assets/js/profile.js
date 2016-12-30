@@ -492,9 +492,8 @@ jQuery(document).ready(function ($) {
         console.log(refKey);
         firebase.database().ref('posts/' + refKey + '/').on('value', function (data){
             var html = createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-            console.log(html);
-            $("postDetail").empty();
-            $("postDetail").append(html);
+            $("#postDetail").empty();
+            $("#postDetail").append(html);
         });
     };
 })
