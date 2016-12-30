@@ -33,6 +33,7 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.get('/', page.index);
 app.get('/profile', page.profile);
 app.get('/background',page.background);
+app.get('/ad', page.ad);
 
 //偵測 port
 app.listen(process.env.PORT || 5000);

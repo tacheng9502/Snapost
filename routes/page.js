@@ -13,3 +13,7 @@ exports.profile = function (request, response) {
 exports.background = function (request, response) {
     response.render('pages/background');
 }
+
+exports.ad = function (request, response) {
+	response.render('pages/ad');
+}
