@@ -542,7 +542,7 @@ jQuery(document).ready(function ($) {
 
     window.onscroll = function () {
     //监听事件内容
-        console.log(getScrollHeight());
+        console.log(getDocumentTop()+" "+getWindowHeight()+" "+getScrollHeight());
         if(getDocumentTop() == getWindowHeight() + getScrollHeight()){
             //当滚动条到底时,这里是触发内容
             //异步请求数据,局部刷新dom
