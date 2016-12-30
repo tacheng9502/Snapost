@@ -128,20 +128,17 @@ var totalpost=0;
         snapshot.forEach(function(data){
             var adName= data.key;
             firebase.database().ref('adverts/'+adName+'/clickCount').once("value", function (snapshot){
-                var advertData = [];
                 snapshot.forEach(function(data){
                     var post = {
                         time: data.key,
                         count: data.val()
                     };
-                    advertData.push(post);
+                    array.push(post);
                 });
+                createAdBar(array);
             });
-            array.concat(advertData);
         });
-        console.log(array);
-        console.log(array[0]);
-        createAdBar(array);
+        
     });
 
 });
