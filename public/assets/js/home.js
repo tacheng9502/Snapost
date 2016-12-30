@@ -74,10 +74,8 @@ jQuery(document).ready(function ($) {
             snapshot.forEach(function (data) {
                 var followId = data.key
                 var followLastPostId = data.val().lastPost;
+                console.log("followLastPostId "+followLastPostId);
                 firebase.database().ref('users/' + followId + '/userPost').limitToLast(1).once('value').then(function (childSnapshot) {
-                    console.log("1 "+childSnapshot);
-                    console.log("2 "+childSnapshot.key);
-                    console.log("3 "+childSnapshot.val());
                     childSnapshot.forEach(function (childData) {
                         if (followLastPostId != childData.key) {
                             followLastPost.push(childData.key);
