@@ -105,7 +105,6 @@ jQuery(document).ready(function ($) {
                     newImageFile = null;
                     });
                 });
-        });
     });
 
 	window.dragHandler = function (e) {
