@@ -8,33 +8,6 @@
 jQuery(document).ready(function ($) {
 var totalpost=0;
 
-    function createAdBar(array){
-        var chart = c3.generate({
-            bindto: '#ad',
-            data: {
-                x : 'x',
-                columns: [
-                        
-                ],
-                type: 'bar'
-            },bar: {
-                width: {ratio: 0.2 }
-            },axis: {
-                x: {
-                    type: 'category',
-                    }
-                }
-        });
-        for(var i=0;i<array.length;i++){
-            chart.load({
-                columns:[
-                    [array[i].time.toString(),array[i].userCount],
-                    ['x',"每月新進人數"]
-                ]
-            });
-        };
-
-    }
 
 
 
@@ -137,7 +110,7 @@ var totalpost=0;
                 });
             });
         });
-        createAdBar(array);
+        //createAdBar(array);
         
     });
 
