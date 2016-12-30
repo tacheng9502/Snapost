@@ -73,11 +73,11 @@ jQuery(document).ready(function ($) {
             snapshot.forEach(function (data) {
                 var followId = data.key
                 var followLastPostId = data.val().lastPost;
-                var followLastPostRef = firebase.database().ref('users/' + followId + '/userPost').child().limitToLast(1);
+                var followLastPostRef = firebase.database().ref('users/' + followId + '/userPost').limitToLast(1);
                 followLastPostRef.once('value', function (postData) {
                     if (followLastPostId != postData.key) {
                         console.log(postData.key);
-                        console.log(postData.val());
+                        console.log(postData.val()[0]);
                     }
                 });
             });
