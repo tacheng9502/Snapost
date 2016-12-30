@@ -1,7 +1,7 @@
 <link href="assets/css/c3.min.css" rel="stylesheet" type="text/css">
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="assets/js/c3.min.js"></script>
-<div id="chart"></div>
+<div id="usercount"></div>
 <div id="post"></div>
 <div id="ad"></div>
 <script>
@@ -25,22 +25,21 @@ var totalpost=0;
                 }
         });
         for(var i=0;i<array.length;i++){
-            console.log(array[i].time);
             chart.load({
                 columns:[
-                    [array[i].time,array[i].count],
+                    [array[i].time.toString(),array[i].count],
                     ['x',"每月新進人數"]
                 ]
             });
-            
         };
 
     }
 
 
-    function createLine(array){
-        var total=0;
+
+    function createBar(array){
         var chart = c3.generate({
+            bindto: '#usercount',
             data: {
                 x : 'x',
                 columns: [
@@ -56,11 +55,10 @@ var totalpost=0;
                 }
         });
         for(var i=0;i<array.length;i++){
-            total=total+array[i].postCount;
             chart.load({
                 columns:[
-                    [array[i].time.toString(),array[i].postCount],
-                    ['x',"貼文數量"]
+                    [array[i].time.toString(),array[i].userCount],
+                    ['x',"每月新進人數"]
                 ]
             });
         };
@@ -114,14 +112,24 @@ var totalpost=0;
             var post = {
                     time: data.key,
                     postCount: data.val().postCount,
+                    userCount: data.val().userCount,
                 };
                 array.push(post);
         });
-        createLine(array);
+        createBar(array);
         createspline(array);
     });
 
-    firebase.database().ref('adverts').once("value", function (snapshot){
+    firebase.database().ref('statistic').once("value", function (snapshot){
+        snapshot.forEach(function(data){
+                temp=data.val().postCount;
+                totalpost=totalpost+temp;
+        });
+        creategauge(totalpost);
+        
+    });
+
+     firebase.database().ref('adverts').once("value", function (snapshot){
         var array = [];
         snapshot.forEach(function(data){
             var adName= data.key;
@@ -132,10 +140,12 @@ var totalpost=0;
                         count: data.val(),
                     };
                     array.push(post);
+                    console.log(array);
                 });
             });
         });
         createAdBar(array);
+        
     });
 
 });
