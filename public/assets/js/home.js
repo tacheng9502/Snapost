@@ -78,7 +78,7 @@ jQuery(document).ready(function ($) {
                     childSnapshot.forEach(function (childData) {
                         if (followLastPostId != childData.key) {
                             followLastPost.push(childData.key);
-                            firebase.database().ref('users/' + followId + '/userPost/'+ childData.key).limitToLast(1).once('value', function (postData) {
+                            firebase.database().ref('users/' + followId + '/userPost/'+ childData.key).once('value', function (postData) {
                                 var html = createPostElement(postData.key, postData.val().userId, postData.val().userName, postData.val().userImage, postData.val().postBody, postData.val().postTime, postData.val().postImage, postData.val().likeCount);
                                 $('#list').prepend(html);
                             });
