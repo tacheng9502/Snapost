@@ -59,7 +59,7 @@ var totalpost=0;
         for(var i=0;i<array.length;i++){
             chart.load({
                 columns:[
-                    [array[i].time.toString(),array[i].Count],
+                    [array[i].time.toString(),array[i].count],
                     ['x',"每月新進人數"]
                 ]
             });
@@ -130,13 +130,13 @@ var totalpost=0;
                 snapshot.forEach(function(data){
                     var post = {
                         time: data.key,
-                        Count: data.val()
+                        count: data.val(),
                     };
                     array.push(post);
                 });
             });
         });
-        createAdBar(array);
+        //createAdBar(array);
         
     });
 
