@@ -543,10 +543,10 @@ jQuery(document).ready(function ($) {
     window.onscroll = function () {
     //监听事件内容
         console.log(getDocumentTop()+" "+getWindowHeight()+" "+getScrollHeight());
-        if(getDocumentTop() == getWindowHeight() + getScrollHeight()){
+        if(getDocumentTop()+getWindowHeight() >= (getScrollHeight()*0.95){
             //当滚动条到底时,这里是触发内容
             //异步请求数据,局部刷新dom
-            console.log("底部");
+            console.log("快到底了");
         }
     }
 });
