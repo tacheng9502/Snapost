@@ -41,7 +41,7 @@ jQuery(document).ready(function ($) {
         var postRef = firebase.database().ref('users/' + queryId + '/userPost');
         postRef.once('value', function (data) {
             $("ninebox").empty();
-            var html
+            var html;
             data.forEach(function (childdata) {
                 var postKey = childdata.key;
                 var postImage = childdata.val();
@@ -52,7 +52,6 @@ jQuery(document).ready(function ($) {
             });
             $("#ninebox").prepend(html);
         });
-        postRef.off();
 
         if (queryId != currentUserId) {
             $("#follow").show();
