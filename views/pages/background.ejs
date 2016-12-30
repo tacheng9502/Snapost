@@ -7,9 +7,10 @@
 <script>
 jQuery(document).ready(function ($) {
 var totalpost=0;
-    function createAdBar(array){
+    function createAdBar(array,adName){
+        $('#ad').append('<div id='+adName+'></div>');
         var chart = c3.generate({
-            bindto: '#ad',
+            bindto: '#'+adName,
             data: {
                 x : 'x',
                 columns: [
@@ -135,7 +136,7 @@ var totalpost=0;
                     };
                     array.push(post);
                 });
-                createAdBar(array);
+                createAdBar(array,adName);
             });
         });
         
