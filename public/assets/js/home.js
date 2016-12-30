@@ -69,12 +69,12 @@ jQuery(document).ready(function ($) {
 
     function startDatabaseQueries() {
 
-        firebase.database().ref('users/' + currentUserId + '/userFollow/').once('value', function (snapshot) {
+        firebase.database().ref('users/' + currentUserId + '/userFollow').once('value', function (snapshot) {
             followLastPost = [];
             snapshot.forEach(function (data) {
                 var followId = data.key
                 var followLastPostId = data.val().lastPost;
-                firebase.database().ref('users/' + followId + '/userPost/').limitToLast(1).once('value').then(function (childSnapshot) {
+                firebase.database().ref('users/' + followId + '/userPost').limitToLast(1).once('value').then(function (childSnapshot) {
                     childSnapshot.forEach(function (childData) {
                         if (followLastPostId != childData.key) {
                             followLastPost.push(childData.key);
