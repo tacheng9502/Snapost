@@ -10,7 +10,7 @@ var totalpost=0;
 
     function createAdBar(array){
         var chart = c3.generate({
-            bindto: '#usercount',
+            bindto: '#ad',
             data: {
                 x : 'x',
                 columns: [
@@ -136,7 +136,7 @@ var totalpost=0;
                 });
             });
         });
-        //createAdBar(array);
+        createAdBar(array);
         
     });
 
