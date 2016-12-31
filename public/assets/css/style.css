@@ -269,7 +269,7 @@ p {
 .profile {
     max-width: 800px;
     width: 100%;
-    margin: 40px auto;
+    margin: 90px auto 40px auto;
 }
 
 .user-box {
@@ -370,6 +370,19 @@ p {
 
 #ninebox li:nth-child(3n) {
     margin-right: 0px;
+}
+
+/* Dashboard */
+
+.dashboard-menu {
+    width: 300px;
+    float: left;
+}
+
+#usercount {
+    float: left;
+    width: calc(100% - 300px);
+    margin: 90px auto 40px auto;
 }
 
 /* Clear Float */

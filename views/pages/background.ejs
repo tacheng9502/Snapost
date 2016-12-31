@@ -1,6 +1,7 @@
 <link href="assets/css/c3.min.css" rel="stylesheet" type="text/css">
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="assets/js/c3.min.js"></script>
+<div class="dashboard-menu"></div>
 <div id="usercount"></div>
 <div id="post"></div>
 <div id="ad"></div>
@@ -14,7 +15,7 @@ var totalpost=0;
             data: {
                 x : 'x',
                 columns: [
-                        
+
                 ],
                 type: 'bar'
             },bar: {
@@ -47,7 +48,7 @@ var totalpost=0;
             data: {
                 x : 'x',
                 columns: [
-                        
+
                 ],
                 type: 'bar'
             },bar: {
@@ -80,9 +81,9 @@ var totalpost=0;
         var chart = c3.generate({
             bindto: '#post',
              data: {
-        x : 'x',         
+        x : 'x',
         columns: [
-           
+
         ],
         type: 'spline'
         },axis: {
@@ -139,7 +140,7 @@ var totalpost=0;
                 createAdBar(array,adName);
             });
         });
-        
+
     });
 
 });
