@@ -373,8 +373,9 @@ p {
 }
 
 /* Dashboard */
-.dashboard-content {
+.dashboard {
     margin: 90px auto 40px auto;
+    height: calc(100% - 49px);
 }
 
 .dashboard-menu {
@@ -383,7 +384,8 @@ p {
 }
 
 .dashboard-content {
-    margin: 90px auto 40px auto;
+    float: left;
+    width: calc(100% - 250px);
 }
 
 /* Clear Float */
