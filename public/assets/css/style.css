@@ -110,13 +110,16 @@ p {
     text-align: center;
     box-shadow: 0 -1px 0 rgba(0,0,0,0.1) inset;
     background-color: #0068B7;
-    position: relative;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
 }
 
 .content {
     max-width: 602px;
     width: 100%;
-    margin: 40px auto;
+    margin: 90px auto 40px auto;
 }
 
 .intro {
