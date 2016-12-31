@@ -373,15 +373,16 @@ p {
 }
 
 /* Dashboard */
+.dashboard-content {
+    margin: 90px auto 40px auto;
+}
 
 .dashboard-menu {
-    width: 300px;
+    width: 250px;
     float: left;
 }
 
 .dashboard-content {
-    float: left;
-    width: calc(100% - 300px);
     margin: 90px auto 40px auto;
 }
 
