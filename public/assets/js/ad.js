@@ -19,7 +19,7 @@ jQuery(document).ready(function($) {
                 var name = data.key;
                 var clickCount;
                 var sponsorName = data.val().sponsorName;
-                (data.val().clickCount == null) ? (clickCount = 0) : (clickCount = data.val().clickCount);
+                (data.val().clickCount.totalClick == null) ? (clickCount = 0) : (clickCount = data.val().clickCount.totalClick);
                 adHtml += '<tr>\
                             <td>' + name + '</td>\
                             <td>' + clickCount + '</td>\

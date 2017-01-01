@@ -41,9 +41,7 @@ jQuery(document).ready(function($) {
         var postRef = firebase.database().ref('users/' + queryId + '/userPost');
         var html = "";
         postRef.once('value', function(data) {
-            console.log("!!");
             data.forEach(function(childdata) {
-                console.log("!!!~");
                 var postKey = childdata.key;
                 var postImage = childdata.val();
                 html =
