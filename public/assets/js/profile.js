@@ -41,7 +41,6 @@ jQuery(document).ready(function($) {
         var postRef = firebase.database().ref('users/' + queryId + '/userPost');
         var ninebox_html = "";
         postRef.once('value', function(data) {
-            $("#ninebox").empty();
             data.forEach(function(childdata) {
                 var postKey = childdata.key;
                 var postImage = childdata.val();
