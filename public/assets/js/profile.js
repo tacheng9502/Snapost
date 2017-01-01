@@ -39,7 +39,7 @@ jQuery(document).ready(function($) {
         });
 
         var postRef = firebase.database().ref('users/' + queryId + '/userPost');
-        var ninebox_html = ""
+        var ninebox_html = "";
         postRef.once('value', function(data) {
             $("#ninebox").empty();
             data.forEach(function(childdata) {
@@ -51,7 +51,6 @@ jQuery(document).ready(function($) {
                     '</li>' + ninebox_html;
             });
         });
-        console.log(ninebox_html);
         $("#ninebox").append(ninebox_html);
 
         if (queryId != currentUserId) {
