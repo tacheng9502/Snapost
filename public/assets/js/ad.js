@@ -24,8 +24,8 @@ jQuery(document).ready(function($) {
                             <td>' + name + '</td>\
                             <td>' + clickCount + '</td>\
                             <td>' + sponsorName + '</td>\
-                            <td><button id="' + name + '_mod" type="button" class="btn btn-primary">編輯</button></td>\
-                            <td><button id="' + name + '_del" type="button" class="btn btn-default">刪除</button></td>\
+                            <td><button id="' + name + '_mod" type="button" class="btn btn-primary" href="#" onclick="clickModify(event)">編輯</button></td>\
+                            <td><button id="' + name + '_del" type="button" class="btn btn-default" href="#" onclick="clickDelete(event)">刪除</button></td>\
                             </tr>';
             });
             $("#list").append(adHtml);
@@ -134,5 +134,49 @@ jQuery(document).ready(function($) {
                 }
             });
         }
+    }
+
+    window.clickModify = function(event) {
+        event.preventDefault();
+        var refKey = event.target.id.slice(0, -4);
+        var adDetailRef = firebase.database().ref('adverts/' + refKey + '/');
+        adDetailRef.once('value', function(data) {
+            var title = data.val().advertTitle;
+            var body = data.val().postBody;
+            var adImg = data.val().postImage;
+            var sponName = data.val().sponsorName;
+            var sponImg = data.val().sponsorImage;
+            var sponUrl = data.val.sponsorUrl;
+            var html = '<div class="input-group">' +
+                '<span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>' +
+                '<textarea id="ad_title" class="form-control" rows="1" placeholder="廣告標題">' + title + '</textarea>' +
+                '</div>' +
+                '<div class="input-group">' +
+                '<span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>' +
+                '<textarea id="ad_body" class="form-control" rows="1" placeholder="廣告文宣">' + body + '</textarea>' +
+                '</div>' +
+                '<div>' +
+                '<img src="' + adImg + '" />' +
+                '<div class="pull-right">' +
+                '<button id="" type="button" class="btn btn-default">上傳</button>' +
+                '</div>' +
+                '</div>' +
+                '<div class="input-group">' +
+                '<span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>' +
+                '<textarea id="ad_spon" class="form-control" rows="1" placeholder="廣告商">' + sponName + '</textarea>' +
+                '</div>' +
+                '<div>' +
+                '<img src="' + sponImg + '" />' +
+                '<div class="pull-right">' +
+                '<button id="" type="button" class="btn btn-default">上傳</button>' +
+                '</div>' +
+                '</div>' +
+                '<div class="input-group">' +
+                '<span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>' +
+                '<textarea id="ad_sponurl" class="form-control" rows="1" placeholder="廣告標題">' + sponUrl + '</textarea>' +
+                '</div>';
+            $("#adDetail").empty();
+            $("#adDetail").append(html);
+        })
     }
 })
