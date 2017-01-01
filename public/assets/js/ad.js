@@ -1,5 +1,5 @@
 jQuery(document).ready(function($) {
-    var newImageFile;
+    var newImageFile1,newImageFile2;
     var listeningFirebaseRefs = [];
 
     firebase.auth().onAuthStateChanged(function(user) {
@@ -108,15 +108,52 @@ jQuery(document).ready(function($) {
         });
     });
 
-    $("#ad_img_n").on('click', function () {
-        $('#file').trigger('click');
-    });
 
     $("#ad_img_n").on('click', function () {
         $('#ad_img_f').trigger('click');
     });
     $("#sp_img_n").on('click', function () {
         $('#sp_img_f').trigger('click');
+    });
+
+    $("#ad_img_f").on("change", function (event) {
+        var reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]); // 讀取檔案
+        reader.onload = function (arg) {
+            var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+            $("#ad_preview").empty().append(img);
+            newImageFile1 = $('.preview').croppie({
+                viewport: {
+                    width: 400,
+                    height: 400,
+                    type: 'square'
+                },
+                boundary: {
+                    width: 400,
+                    height: 400
+                }
+            });
+        }
+    });
+
+    $("#sp_img_n").on("change", function (event) {
+        var reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]); // 讀取檔案
+        reader.onload = function (arg) {
+            var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+            $("#sp_preview").empty().append(img);
+            newImageFile2 = $('.preview').croppie({
+                viewport: {
+                    width: 400,
+                    height: 400,
+                    type: 'square'
+                },
+                boundary: {
+                    width: 400,
+                    height: 400
+                }
+            });
+        }
     });
 
     window.dragHandler = function(e) {
@@ -186,6 +223,8 @@ jQuery(document).ready(function($) {
                 '<span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>' +
                 '<textarea id="ad_sponurl" class="form-control" rows="1" placeholder="目標網站">' + sponUrl + '</textarea>' +
                 '</div>' +
+                '<div id="ad_preview"></div>'+
+                '<div id="sp_preview"></div>'+
                 '<div class="pull-right"><button id="' + refKey + '_new" type="button" class="btn btn-primary" onclick="sendUpdate(event)">發佈</button></div>';
             $("#adDetail").empty();
             $("#adDetail").append(html);
@@ -199,8 +238,97 @@ jQuery(document).ready(function($) {
         var body = $("#ad_body").val();
         var sponName = $("#ad_spon").val();
         var sponUrl = $("#ad_sponurl").val();
-
+        var downloadURL1 = null;
+        var downloadURL2 = null;
         var updates = {};
+        if(newImageFile1!=null){
+            newImageFile1.croppie('result', {
+            type: 'blob',
+            size: {
+                width: 600,
+                height: 600
+            },
+            format: 'jpeg'
+            }).then(function (resp) {
+                var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(resp, metadata);
+                uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+                    function (snapshot) {
+                        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        console.log('Upload is ' + progress + '% done');
+                        switch (snapshot.state) {
+                            case firebase.storage.TaskState.PAUSED:
+                                console.log('Upload is paused');
+                                break;
+                            case firebase.storage.TaskState.RUNNING:
+                                console.log('Upload is running');
+                                break;
+                        }
+                    },
+                    function (error) {
+                        switch (error.code) {
+                            case 'storage/unauthorized':
+                                // User doesn't have permission to access the object
+                                break;
+                            case 'storage/canceled':
+                                // User canceled the upload
+                                break;
+                            case 'storage/unknown':
+                                // Unknown error occurred, inspect error.serverResponse
+                                break;
+                        }
+                    },
+                    function () {
+                        // Upload completed successfully, now we can get the download URL
+                        downloadURL1 = uploadTask.snapshot.downloadURL;
+                    });
+            };
+        };
+
+        if(newImageFile2!=null){
+            newImageFile2.croppie('result', {
+            type: 'blob',
+            size: {
+                width: 600,
+                height: 600
+            },
+            format: 'jpeg'
+            }).then(function (resp) {
+                var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(resp, metadata);
+                uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+                    function (snapshot) {
+                        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        console.log('Upload is ' + progress + '% done');
+                        switch (snapshot.state) {
+                            case firebase.storage.TaskState.PAUSED:
+                                console.log('Upload is paused');
+                                break;
+                            case firebase.storage.TaskState.RUNNING:
+                                console.log('Upload is running');
+                                break;
+                        }
+                    },
+                    function (error) {
+                        switch (error.code) {
+                            case 'storage/unauthorized':
+                                // User doesn't have permission to access the object
+                                break;
+                            case 'storage/canceled':
+                                // User canceled the upload
+                                break;
+                            case 'storage/unknown':
+                                // Unknown error occurred, inspect error.serverResponse
+                                break;
+                        }
+                    },
+                    function () {
+                        // Upload completed successfully, now we can get the download URL
+                        downloadURL2 = uploadTask.snapshot.downloadURL;
+                    });
+            };
+        };
+        var updates = {};
+        (downloadURL1==null)?(downloadURL1=null):(updates['/adverts/' + postKey + '/postImage'] = downloadURL1);
+        (downloadURL2==null)?(downloadURL2=null):(updates['/adverts/' + postKey + '/postImage'] = downloadURL2);
         updates['/adverts/' + postKey + '/advertTitle'] = title;
         updates['/adverts/' + postKey + '/postBody'] = body;
         updates['/adverts/' + postKey + '/sponsorName'] = sponName;
