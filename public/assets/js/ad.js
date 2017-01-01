@@ -146,7 +146,7 @@ jQuery(document).ready(function($) {
             var adImg = data.val().postImage;
             var sponName = data.val().sponsorName;
             var sponImg = data.val().sponsorImage;
-            var sponUrl = data.val.sponsorUrl;
+            var sponUrl = data.val().sponsorUrl;
             var html = '<div class="input-group">' +
                 '<span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>' +
                 '<textarea id="ad_title" class="form-control" rows="1" placeholder="廣告標題">' + title + '</textarea>' +
@@ -156,7 +156,7 @@ jQuery(document).ready(function($) {
                 '<textarea id="ad_body" class="form-control" rows="1" placeholder="廣告文宣">' + body + '</textarea>' +
                 '</div>' +
                 '<div>' +
-                '<img src="' + adImg + '" />' +
+                '<img src="' + adImg + '" / width="100%">' +
                 '<div class="pull-right">' +
                 '<button id="" type="button" class="btn btn-default">上傳</button>' +
                 '</div>' +
@@ -173,10 +173,27 @@ jQuery(document).ready(function($) {
                 '</div>' +
                 '<div class="input-group">' +
                 '<span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>' +
-                '<textarea id="ad_sponurl" class="form-control" rows="1" placeholder="廣告標題">' + sponUrl + '</textarea>' +
-                '</div>';
+                '<textarea id="ad_sponurl" class="form-control" rows="1" placeholder="目標網站">' + sponUrl + '</textarea>' +
+                '</div>' +
+                '<div class="pull-right"><button id="' + refKey + '_new" type="button" class="btn btn-primary" onclick="sendUpdate(event)">發佈</button></div>';
             $("#adDetail").empty();
             $("#adDetail").append(html);
         })
+    }
+
+    window.sendUpdate = function(event) {
+        event.preventDefault();
+        var postKey = event.target.id.slice(0, -4);
+        var title = $("#ad_title").val();
+        var body = $("#ad_body").val();
+        var sponName = $("#ad_spon").val();
+        var sponUrl = $("#ad_sponurl").val();
+
+        var updates = {};
+        updates['/adverts/' + postKey + '/advertTitle'] = title;
+        updates['/adverts/' + postKey + '/postBody'] = body;
+        updates['/adverts/' + postKey + '/sponsorName'] = sponName;
+        updates['/adverts/' + postKey + '/sponsorUrl'] = sponsorUrl;
+        firebase.database().ref().update(updates);
     }
 })
