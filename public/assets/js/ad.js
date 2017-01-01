@@ -346,7 +346,7 @@ jQuery(document).ready(function($) {
         updates['/adverts/' + postKey + '/advertTitle'] = title;
         updates['/adverts/' + postKey + '/postBody'] = body;
         updates['/adverts/' + postKey + '/sponsorName'] = sponName;
-        updates['/adverts/' + postKey + '/sponsorUrl'] = sponsorUrl;
+        updates['/adverts/' + postKey + '/sponsorUrl'] = sponUrl;
         firebase.database().ref().update(updates);
     }
 })
