@@ -281,7 +281,7 @@ jQuery(document).ready(function($) {
                         // Upload completed successfully, now we can get the download URL
                         downloadURL1 = uploadTask.snapshot.downloadURL;
                     });
-            };
+            });
         };
 
         if(newImageFile2!=null){
@@ -324,7 +324,7 @@ jQuery(document).ready(function($) {
                         // Upload completed successfully, now we can get the download URL
                         downloadURL2 = uploadTask.snapshot.downloadURL;
                     });
-            };
+            });
         };
         var updates = {};
         (downloadURL1==null)?(downloadURL1=null):(updates['/adverts/' + postKey + '/postImage'] = downloadURL1);
