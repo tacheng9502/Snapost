@@ -8,7 +8,7 @@ jQuery(document).ready(function($) {
             window.location.href = 'https://snapost.herokuapp.com/';
         } else {
             userName = user.displayName;
-            userImage = user.photlasoURL;
+            userImage = user.photoURL;
             currentUserId = user.uid;
             $('#userInfo').html(
                 '<img src="' + userImage + '" class="img-circle" width="30px">&nbsp;&nbsp;' +
