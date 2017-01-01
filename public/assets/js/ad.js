@@ -108,6 +108,17 @@ jQuery(document).ready(function($) {
         });
     });
 
+    $("#ad_img_n").on('click', function () {
+        $('#file').trigger('click');
+    });
+
+    $("#ad_img_n").on('click', function () {
+        $('#ad_img_f').trigger('click');
+    });
+    $("#sp_img_n").on('click', function () {
+        $('#sp_img_f').trigger('click');
+    });
+
     window.dragHandler = function(e) {
         e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
         e.preventDefault();
@@ -156,9 +167,9 @@ jQuery(document).ready(function($) {
                 '<textarea id="ad_body" class="form-control" rows="1" placeholder="廣告文宣">' + body + '</textarea>' +
                 '</div>' +
                 '<div>' +
-                '<img src="' + adImg + '" / width="100%">' +
+                '<img src="' + adImg + '" / width="100%">><input type="file" id="ad_img_f" hidden>' +
                 '<div class="pull-right">' +
-                '<button id="" type="button" class="btn btn-default">上傳</button>' +
+                '<button id="ad_img_n" type="button" class="btn btn-default">上傳</button>' +
                 '</div>' +
                 '</div>' +
                 '<div class="input-group">' +
@@ -166,9 +177,9 @@ jQuery(document).ready(function($) {
                 '<textarea id="ad_spon" class="form-control" rows="1" placeholder="廣告商">' + sponName + '</textarea>' +
                 '</div>' +
                 '<div>' +
-                '<img src="' + sponImg + '" />' +
+                '<img src="' + sponImg + '" /><input type="file" id="sp_img_f" hidden></input>' +
                 '<div class="pull-right">' +
-                '<button id="" type="button" class="btn btn-default">上傳</button>' +
+                '<button id="sp_img_n" type="button" class="btn btn-default">上傳</button>' +
                 '</div>' +
                 '</div>' +
                 '<div class="input-group">' +
