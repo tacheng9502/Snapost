@@ -1,5 +1,5 @@
 jQuery(document).ready(function($) {
-    var newImageFile1,newImageFile2;
+    var newImageFile1, newImageFile2;
     var listeningFirebaseRefs = [];
 
     firebase.auth().onAuthStateChanged(function(user) {
@@ -109,17 +109,17 @@ jQuery(document).ready(function($) {
     });
 
 
-    $("#ad_img_n").on('click', function () {
+    $("#ad_img_n").on('click', function() {
         $('#ad_img_f').trigger('click');
     });
-    $("#sp_img_n").on('click', function () {
+    $("#sp_img_n").on('click', function() {
         $('#sp_img_f').trigger('click');
     });
 
-    $("#ad_img_f").on("change", function (event) {
+    $("#ad_img_f").on("change", function(event) {
         var reader = new FileReader();
         reader.readAsDataURL(event.target.files[0]); // 讀取檔案
-        reader.onload = function (arg) {
+        reader.onload = function(arg) {
             var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
             $("#ad_preview").empty().append(img);
             newImageFile1 = $('.preview').croppie({
@@ -136,10 +136,10 @@ jQuery(document).ready(function($) {
         }
     });
 
-    $("#sp_img_n").on("change", function (event) {
+    $("#sp_img_n").on("change", function(event) {
         var reader = new FileReader();
         reader.readAsDataURL(event.target.files[0]); // 讀取檔案
-        reader.onload = function (arg) {
+        reader.onload = function(arg) {
             var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
             $("#sp_preview").empty().append(img);
             newImageFile2 = $('.preview').croppie({
@@ -204,9 +204,16 @@ jQuery(document).ready(function($) {
                 '<textarea id="ad_body" class="form-control" rows="1" placeholder="廣告文宣">' + body + '</textarea>' +
                 '</div>' +
                 '<div>' +
-                '<img src="' + adImg + '" / width="100%">><input type="file" id="ad_img_f" hidden>' +
-                '<div class="pull-right">' +
-                '<button id="ad_img_n" type="button" class="btn btn-default">上傳</button>' +
+                '<img src="' + adImg + '" / width="100%">' +
+                '<div class="form-group">' +
+                '<input type="file" id="ad_img_f" accept="image/*">' +
+                '<div class="input-group">' +
+                '<span class="input-group-addon"><i class="fa fa-picture-o fa-fw" aria-hidden="true"></i></span>' +
+                '<input type="text" class="form-control" disabled placeholder="拖曳照片上傳或點選瀏覽">' +
+                '<span class="input-group-btn">' +
+                '<button class="btn btn-primary" id="ad_img_n" type="button"><i class="fa fa-search fa-fw" aria-hidden="true"></i>&nbsp;瀏覽</button>' +
+                '</span>' +
+                '</div>' +
                 '</div>' +
                 '</div>' +
                 '<div class="input-group">' +
@@ -214,17 +221,24 @@ jQuery(document).ready(function($) {
                 '<textarea id="ad_spon" class="form-control" rows="1" placeholder="廣告商">' + sponName + '</textarea>' +
                 '</div>' +
                 '<div>' +
-                '<img src="' + sponImg + '" /><input type="file" id="sp_img_f" hidden></input>' +
-                '<div class="pull-right">' +
-                '<button id="sp_img_n" type="button" class="btn btn-default">上傳</button>' +
+                '<img src="' + sponImg + '" />' +
+                '<div class="form-group">' +
+                '<input type="file" id="sp_img_f" accept="image/*">' +
+                '<div class="input-group">' +
+                '<span class="input-group-addon"><i class="fa fa-picture-o fa-fw" aria-hidden="true"></i></span>' +
+                '<input type="text" class="form-control" disabled placeholder="拖曳照片上傳或點選瀏覽">' +
+                '<span class="input-group-btn">' +
+                '<button class="btn btn-primary" id="sp_img_n" type="button"><i class="fa fa-search fa-fw" aria-hidden="true"></i>&nbsp;瀏覽</button>' +
+                '</span>' +
+                '</div>' +
                 '</div>' +
                 '</div>' +
                 '<div class="input-group">' +
                 '<span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>' +
                 '<textarea id="ad_sponurl" class="form-control" rows="1" placeholder="目標網站">' + sponUrl + '</textarea>' +
                 '</div>' +
-                '<div id="ad_preview"></div>'+
-                '<div id="sp_preview"></div>'+
+                '<div id="ad_preview"></div>' +
+                '<div id="sp_preview"></div>' +
                 '<div class="pull-right"><button id="' + refKey + '_new" type="button" class="btn btn-primary" onclick="sendUpdate(event)">發佈</button></div>';
             $("#adDetail").empty();
             $("#adDetail").append(html);
@@ -241,18 +255,18 @@ jQuery(document).ready(function($) {
         var downloadURL1 = null;
         var downloadURL2 = null;
         var updates = {};
-        if(newImageFile1!=null){
+        if (newImageFile1 != null) {
             newImageFile1.croppie('result', {
-            type: 'blob',
-            size: {
-                width: 600,
-                height: 600
-            },
-            format: 'jpeg'
-            }).then(function (resp) {
+                type: 'blob',
+                size: {
+                    width: 600,
+                    height: 600
+                },
+                format: 'jpeg'
+            }).then(function(resp) {
                 var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(resp, metadata);
                 uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-                    function (snapshot) {
+                    function(snapshot) {
                         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                         console.log('Upload is ' + progress + '% done');
                         switch (snapshot.state) {
@@ -264,7 +278,7 @@ jQuery(document).ready(function($) {
                                 break;
                         }
                     },
-                    function (error) {
+                    function(error) {
                         switch (error.code) {
                             case 'storage/unauthorized':
                                 // User doesn't have permission to access the object
@@ -277,25 +291,25 @@ jQuery(document).ready(function($) {
                                 break;
                         }
                     },
-                    function () {
+                    function() {
                         // Upload completed successfully, now we can get the download URL
                         downloadURL1 = uploadTask.snapshot.downloadURL;
                     });
             });
         };
 
-        if(newImageFile2!=null){
+        if (newImageFile2 != null) {
             newImageFile2.croppie('result', {
-            type: 'blob',
-            size: {
-                width: 600,
-                height: 600
-            },
-            format: 'jpeg'
-            }).then(function (resp) {
+                type: 'blob',
+                size: {
+                    width: 600,
+                    height: 600
+                },
+                format: 'jpeg'
+            }).then(function(resp) {
                 var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(resp, metadata);
                 uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-                    function (snapshot) {
+                    function(snapshot) {
                         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                         console.log('Upload is ' + progress + '% done');
                         switch (snapshot.state) {
@@ -307,7 +321,7 @@ jQuery(document).ready(function($) {
                                 break;
                         }
                     },
-                    function (error) {
+                    function(error) {
                         switch (error.code) {
                             case 'storage/unauthorized':
                                 // User doesn't have permission to access the object
@@ -320,15 +334,15 @@ jQuery(document).ready(function($) {
                                 break;
                         }
                     },
-                    function () {
+                    function() {
                         // Upload completed successfully, now we can get the download URL
                         downloadURL2 = uploadTask.snapshot.downloadURL;
                     });
             });
         };
         var updates = {};
-        (downloadURL1==null)?(downloadURL1=null):(updates['/adverts/' + postKey + '/postImage'] = downloadURL1);
-        (downloadURL2==null)?(downloadURL2=null):(updates['/adverts/' + postKey + '/postImage'] = downloadURL2);
+        (downloadURL1 == null) ? (downloadURL1 = null) : (updates['/adverts/' + postKey + '/postImage'] = downloadURL1);
+        (downloadURL2 == null) ? (downloadURL2 = null) : (updates['/adverts/' + postKey + '/postImage'] = downloadURL2);
         updates['/adverts/' + postKey + '/advertTitle'] = title;
         updates['/adverts/' + postKey + '/postBody'] = body;
         updates['/adverts/' + postKey + '/sponsorName'] = sponName;
