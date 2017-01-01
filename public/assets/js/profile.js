@@ -39,19 +39,21 @@ jQuery(document).ready(function($) {
         });
 
         var postRef = firebase.database().ref('users/' + queryId + '/userPost');
-        var ninebox_html = "";
+        var html = "";
         postRef.once('value', function(data) {
+            console.log("!!");
             data.forEach(function(childdata) {
+                console.log("!!!~");
                 var postKey = childdata.key;
                 var postImage = childdata.val();
-                ninebox_html =
+                html =
                     '<li id="' + postKey + '"> ' +
                     '<img id="' + postKey + '_postImage" class="postImage" onclick="clickImg(event)" src="' + postImage + '"/>' +
-                    '</li>' + ninebox_html;
+                    '</li>' + html;
             });
+            $("#ninebox").append("");
+            $("#ninebox").append(html);
         });
-        $("#ninebox").append(ninebox_html);
-
         if (queryId != currentUserId) {
             $("#follow").show();
             var isFollow = firebase.database().ref('users/' + currentUserId + '/userFollow').orderByKey().equalTo(queryId);
