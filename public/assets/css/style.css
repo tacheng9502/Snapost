@@ -394,14 +394,14 @@ p {
     top: 0;
 }
 
-.dashboard-menu:hover {
+.dashboard-menu:hover, .dashboard-menu:active, .dashboard-menu:focus {
     background-color:#035ca0;
 }
 
 .dropdown-menu>li>a {
     padding: 10px 20px;
     line-height: inherit;
-    color: inherit;
+    color: #292929;
 }
 
 .dashboard-content {
