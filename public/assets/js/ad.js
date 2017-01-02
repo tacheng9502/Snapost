@@ -288,7 +288,7 @@ jQuery(document).ready(function($) {
             $("#adBody").empty().append(body);
             $("#adImg").attr("src", adImg);
             $("#adTargetUrl").attr("href", sponUrl);
-            $("#adTargetUrl").append(sponUrl);
+            $("#adTargetUrl").empty().append(sponUrl);
             $("#ref").empty().attr("value", refKey);
         })
     }
@@ -318,22 +318,22 @@ jQuery(document).ready(function($) {
     window.sendUpdate = function(event) {
         event.preventDefault();
         var postKey = $("#ref").val();
-        console.log(postKey);
         var body = $("#" + postKey + "_newAdBody").val();
-        var sponName = $("#" + postKey + "_newSponsorname").val();
+        var title = $("#" + postKey + "_newTitle").val();
         var sponUrl = $("#" + postKey + "_newTargetUrl").val();
 
         var updates = {};
         updates['/adverts/' + postKey + '/advertTitle'] = title;
         updates['/adverts/' + postKey + '/postBody'] = body;
-        updates['/adverts/' + postKey + '/sponsorName'] = sponName;
         updates['/adverts/' + postKey + '/sponsorUrl'] = sponUrl;
         
         if(firebase.database().ref().update(updates)){
-            $("#adDetail").attr("hidden","hidden");
-            $("#ad_title").empty();
-            $("#ad_body").empty();
-            $("#ad_sponurl").empty();
+            $("#sponImg").attr("src", "");
+            $("#adTitle").empty();
+            $("#adBody").empty();
+            $("#adImg").attr("src", " ");
+            $("#adTargetUrl").attr("href", " ");
+            $("#adTargetUrl").empty();
             $("#ref").empty().attr("value", " ");
             alert("修改完畢");
         }else{
