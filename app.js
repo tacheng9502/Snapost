@@ -32,7 +32,7 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 //路徑設定，有get與post指令
 app.get('/', page.index);
 app.get('/profile', page.profile);
-app.get('/background',page.background);
+app.get('/chart',page.chart);
 app.get('/ad', page.ad);
 
 //偵測 port
