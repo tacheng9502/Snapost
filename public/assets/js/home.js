@@ -4,6 +4,7 @@ jQuery(document).ready(function ($) {
     var newImageFile, userName, userImage, currentUserId;
     var listeningFirebaseRefs = [];
     var followLastPost = [];
+    var loadController = true;
 
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
@@ -556,7 +557,7 @@ jQuery(document).ready(function ($) {
 
     window.onscroll = function () {
         //console.log(getDocumentTop() + " " + getWindowHeight() + " " + getScrollHeight());
-        if (getDocumentTop() + getWindowHeight() >= (getScrollHeight() * 0.95)) {
+        if (getDocumentTop() + getWindowHeight() >= (getScrollHeight() * 0.95) && loadController) {
             console.log("快到底了");
             var lastPostId = $('#list li:last-child').attr('id');
             var postsRef = firebase.database().ref('posts').orderByKey().endAt(lastPostId).limitToLast(8);
@@ -574,6 +575,9 @@ jQuery(document).ready(function ($) {
             });
             listeningFirebaseRefs.push(postsRef);
             showAdvertisment();
+            loadController = false;
+        } else {
+            loadController = true;
         }
     }
 });
