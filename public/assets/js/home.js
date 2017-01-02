@@ -563,8 +563,11 @@ jQuery(document).ready(function ($) {
         console.log(window_scrollTop);
         console.log(document_height);
 
-        if (leastHeight + window_scrollTop == document_height) {
+        if (leastHeight + window_scrollTop >= document_height && loadController) {
             console.log('到底部囉');
+            loadController = fasle;
+        }else{
+            loadController = true;
         }
 
     });
