@@ -143,9 +143,10 @@ jQuery(document).ready(function($) {
             sponsorUrl: adUrl,
         };
         sets['/adverts/' + adId] = data;
-        sets['/adverts/' + adId + '/clickCount/totalClick'] = 0;
         if(firebase.database().ref().update(sets)){
-            
+            var click = {};
+            click['/adverts/' + adId + '/clickCount/totalClick'] = 0;
+            firebase.database().ref().update(click);
         }else{
             alert("You may try it later :)");
         }
