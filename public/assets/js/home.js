@@ -74,17 +74,13 @@ jQuery(document).ready(function ($) {
             snapshot.forEach(function (data) {
                 var followId = data.key
                 var followLastPostId = data.val().lastPost;
-                console.log("1 "+data);
-                console.log("2 "+data.key);
-                console.log("3 "+data.val().lastPost);
-                console.log("followLastPostId "+followLastPostId);
                 firebase.database().ref('users/' + followId + '/userPost').limitToLast(1).once('value').then(function (childSnapshot) {
                     childSnapshot.forEach(function (childData) {
                         if (followLastPostId != childData.key) {
                             followLastPost.push(childData.key);
                             firebase.database().ref('posts/' + childData.key).once('value').then(function (postData) {
                                 var html = createPostElement(postData.key, postData.val().userId, postData.val().userName, postData.val().userImage, postData.val().postBody, postData.val().postTime, postData.val().postImage, postData.val().likeCount);
-                                $('#list').prepend(html);
+                                $('#followList').prepend(html);
                             });
                             var sets = {};
                             sets['users/' + currentUserId + '/userFollow/' + followId + '/lastPost'] = childData.key;
@@ -93,15 +89,15 @@ jQuery(document).ready(function ($) {
                     });
                 });
             });
-        });
-        showPost();
-        showAdvertisment();
+            showPost();
+            showAdvertisment();
+        });        
     }
 
     function showPost() {
         var postsRef = firebase.database().ref('posts').limitToLast(8);
         postsRef.on('child_added', function (data) {
-            if (!followLastPost.includes(data.key)) {
+            if (!followLastPostId.include(data.key)) {
                 var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
                 $('#list').prepend(html);
             }
@@ -112,7 +108,6 @@ jQuery(document).ready(function ($) {
         postsRef.on('child_removed', function (data) {
             $('#' + data.key).remove();
         });
-
         listeningFirebaseRefs.push(postsRef);
     }
 
@@ -508,7 +503,7 @@ jQuery(document).ready(function ($) {
                     firebase.database().ref('/adverts/' + advertKey + '/clickCount/totalClick').transaction(function (currentCount) {
                         return currentCount + 1;
                     });
-                    firebase.database().ref('/adverts/' + advertKey + '/clickCount/'+ thisYear+'-'+thisMonth).transaction(function (currentCount) {
+                    firebase.database().ref('/adverts/' + advertKey + '/clickCount/' + thisYear + '-' + thisMonth).transaction(function (currentCount) {
                         return currentCount + 1;
                     });
                 }
