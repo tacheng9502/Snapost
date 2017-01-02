@@ -91,11 +91,11 @@ jQuery(document).ready(function ($) {
             });
             showPost();
             showAdvertisment();
-        });        
+        });
     }
 
     function showPost() {
-        var postsRef = firebase.database().ref('posts').limitToLast(8);
+        var postsRef = firebase.database().ref('posts').orderByKey().limitToLast(8);
         postsRef.on('child_added', function (data) {
             if (!followLastPost.includes(data.key)) {
                 var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
@@ -491,26 +491,27 @@ jQuery(document).ready(function ($) {
     }
 
     window.clickAdvert = function (event, advertKey, sponsorUrl) {
-            event.preventDefault();
-            firebase.database().ref('adverts/' + advertKey + '/clicks/' + currentUserId).once("value", function (snapshot) {
-                if (snapshot.val() == null) {
-                    var date = new Date();
-                    var thisYear = date.getFullYear();
-                    var thisMonth = date.getMonth() + 1;
-                    var updates = {};
-                    updates['adverts/' + advertKey + '/clicks/' + currentUserId] = true;
-                    firebase.database().ref().update(updates);
-                    firebase.database().ref('/adverts/' + advertKey + '/clickCount/totalClick').transaction(function (currentCount) {
-                        return currentCount + 1;
-                    });
-                    firebase.database().ref('/adverts/' + advertKey + '/clickCount/' + thisYear + '-' + thisMonth).transaction(function (currentCount) {
-                        return currentCount + 1;
-                    });
-                }
-            });
-            window.open(sponsorUrl);
-        }
-        //文档高度
+        event.preventDefault();
+        firebase.database().ref('adverts/' + advertKey + '/clicks/' + currentUserId).once("value", function (snapshot) {
+            if (snapshot.val() == null) {
+                var date = new Date();
+                var thisYear = date.getFullYear();
+                var thisMonth = date.getMonth() + 1;
+                var updates = {};
+                updates['adverts/' + advertKey + '/clicks/' + currentUserId] = true;
+                firebase.database().ref().update(updates);
+                firebase.database().ref('/adverts/' + advertKey + '/clickCount/totalClick').transaction(function (currentCount) {
+                    return currentCount + 1;
+                });
+                firebase.database().ref('/adverts/' + advertKey + '/clickCount/' + thisYear + '-' + thisMonth).transaction(function (currentCount) {
+                    return currentCount + 1;
+                });
+            }
+        });
+        window.open(sponsorUrl);
+    }
+
+    //取得總長高度
     function getDocumentTop() {
         var scrollTop = 0,
             bodyScrollTop = 0,
@@ -525,7 +526,7 @@ jQuery(document).ready(function ($) {
         return scrollTop;
     }
 
-    //可视窗口高度
+    //取得視窗高度
     function getWindowHeight() {
         var windowHeight = 0;
         if (document.compatMode == "CSS1Compat") {
@@ -536,7 +537,7 @@ jQuery(document).ready(function ($) {
         return windowHeight;
     }
 
-    //滚动条滚动高度
+    //取得滾動條高度
     function getScrollHeight() {
         var scrollHeight = 0,
             bodyScrollHeight = 0,
@@ -552,11 +553,8 @@ jQuery(document).ready(function ($) {
     }
 
     window.onscroll = function () {
-        //监听事件内容
         //console.log(getDocumentTop() + " " + getWindowHeight() + " " + getScrollHeight());
         if (getDocumentTop() + getWindowHeight() >= (getScrollHeight() * 0.95)) {
-            //当滚动条到底时,这里是触发内容
-            //异步请求数据,局部刷新dom
             console.log("快到底了");
         }
     }
