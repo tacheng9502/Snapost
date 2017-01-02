@@ -20,7 +20,7 @@ jQuery(document).ready(function($) {
                 var clickCount;
                 var sponsorName = data.val().sponsorName;
                 (data.val().clickCount.totalClick == null) ? (clickCount = 0) : (clickCount = data.val().clickCount.totalClick);
-                adHtml += '<tr>\
+                adHtml += '<tr id="' + name + '">\
                             <td>' + name + '</td>\
                             <td>' + clickCount + '</td>\
                             <td>' + sponsorName + '</td>\
@@ -156,12 +156,12 @@ jQuery(document).ready(function($) {
             $('#sp_preview').empty();
             newImageFile1 = null;
             newImageFile2 = null;
-            var htm = '<tr>\
-                            <td>' + adName + '</td>\
+            var htm = '<tr id="' + adId + '">\
+                            <td>' + adId + '</td>\
                             <td>0</td>\
                             <td>' + adSponsor + '</td>\
-                            <td><button id="' + adName + '_mod" type="button" class="btn btn-primary" href="#" onclick="clickModify(event)">編輯</button></td>\
-                            <td><button id="' + adName + '_del" type="button" class="btn btn-default" href="#" onclick="clickDelete(event)">刪除</button></td>\
+                            <td><button id="' + adId + '_mod" type="button" class="btn btn-primary" href="#" onclick="clickModify(event)">編輯</button></td>\
+                            <td><button id="' + adId + '_del" type="button" class="btn btn-default" href="#" onclick="clickDelete(event)">刪除</button></td>\
                             </tr>'
             $("#list").append(htm);
         }else{
@@ -276,6 +276,28 @@ jQuery(document).ready(function($) {
             $("#curAd").empty().attr("src", adImg);
             $("#curSp").empty().attr("src", sponImg);
         })
+    }
+
+    window.clickDelete = function(event) {
+        event.preventDefault();
+        var refKey = event.target.id.slice(0,-4);
+        var ref = "#"+refKey;
+        swal({
+                title: "確認刪除廣告?",
+                text: "刪除後廣告將無法復原",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "刪除",
+                closeOnConfirm: false
+            },
+            function () {
+                var deletes = {};
+                deletes['/adverts/' + refKey] = null;
+                firebase.database().ref().update(deletes);
+                swal("已刪除", "留言已經成功刪除", "success");
+                $(ref).remove();
+            });
     }
 
     window.sendUpdate = function(event) {
