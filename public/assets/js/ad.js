@@ -184,9 +184,9 @@ jQuery(document).ready(function($) {
         var reader = new FileReader();
         reader.readAsDataURL(event.target.files[0]); // 讀取檔案
         reader.onload = function (arg) {
-            var img = '<img id="sp_preview" class="preview" src="' + arg.target.result + '" alt="preview"/>';
+            var img = '<img id="sp_preview_c" class="preview" src="' + arg.target.result + '" alt="preview"/>';
             $("#sp_preview").empty().append(img);
-            newImageFile2 = $('#sp_preview').croppie({
+            newImageFile2 = $('#sp_preview_c').croppie({
                 viewport: {
                     width: 400,
                     height: 400,
