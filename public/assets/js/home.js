@@ -556,7 +556,16 @@ jQuery(document).ready(function ($) {
     }
 
     window.onscroll = function () {
+        var $BodyHeight = $(document).height();
+        //判斷所見範圍的高度   
+        var $ViewportHeight = $(window).height();
+        //偵測目前捲軸頂點   
+        $ScrollTop = $(this).scrollTop();
         //console.log(getDocumentTop() + " " + getWindowHeight() + " " + getScrollHeight());
+        if ($BodyHeight == ($ViewportHeight + $ScrollTop)) {
+            alert("Here is bottom");
+        }
+        /** 
         if (getDocumentTop() + getWindowHeight() >= (getScrollHeight() * 0.95) && loadController) {
             console.log("快到底了");
             var lastPostId = $('#list li:last-child').attr('id');
@@ -578,6 +587,6 @@ jQuery(document).ready(function ($) {
             loadController = false;
         } else {
             loadController = true;
-        }
+        }*/
     }
 });
