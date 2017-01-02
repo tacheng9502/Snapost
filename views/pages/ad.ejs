@@ -61,17 +61,19 @@
     <div id="adDetail" class="content" hidden>
         <ui>
             <li>
+                <input type="hidden" id="ref" value="">
                 <div class="info">
                     <img id="sponImg" src="" class="img-circle" width="25px" height="25px">
-                    <h2 id="sponName"></h2>
+                    <h2 id="adTitle"></h2>
                     <div id="edit" class="navi pull-right">
-                        <button id="edit_b" class="btn btn-default" onclick="" >
+                        <button id="edit_b" class="btn btn-default" onclick="">
                         <i id="edit_i" class="fa fa-pencil" onclick="" title="edit"></i>
-                        </button>&nbsp;
+                        </button>
                     </div>
                 </div>
                     <p id="adBody"></p>
                     <img id="adImg" class="postImage" src=""/>
+                    <p>目標網站: <a href="#" id="adTargetUrl"></a></p>
             </li>
         </ui>
     </div>
