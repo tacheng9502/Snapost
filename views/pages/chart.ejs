@@ -134,19 +134,15 @@ var totalpost=0;
         createBar(array);
     });
 
-
      firebase.database().ref('adverts').once("value", function (snapshot){
         snapshot.forEach(function(data){
             var adKey= data.key;
-            var adName;
+            var array = [];
             firebase.database().ref('adverts'+adKey).once("value", function (snapshot){
                 snapshot.forEach(function(data){
-                    adName=data.val().advertTitle
-                });
-                    });
-            var array = [];
-            firebase.database().ref('adverts/'+adKey+'/clickCount').once("value", function (snapshot){
-                snapshot.forEach(function(data){
+                    var adName= data.val().advertTitle;
+                firebase.database().ref('adverts/'+adKey+'/clickCount').once("value", function (snapshot){
+                    snapshot.forEach(function(data){
                     var post = {
                         time: data.key,
                         count: data.val()
@@ -156,6 +152,10 @@ var totalpost=0;
                 console.log(adName);
                 createAdBar(array,adName);
             });
+
+                });
+            });
+
         });
 
     });
