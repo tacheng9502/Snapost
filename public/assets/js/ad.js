@@ -199,7 +199,7 @@ jQuery(document).ready(function($) {
         event.preventDefault();
         var refKey = event.target.id.slice(0, -4);
         var adDetailRef = firebase.database().ref('adverts/' + refKey + '/');
-        $("adDetail").removeAttr("hidden");
+        $("#adDetail").removeAttr("hidden");
         adDetailRef.once('value', function(data) {
             var title = data.val().advertTitle;
             var body = data.val().postBody;
