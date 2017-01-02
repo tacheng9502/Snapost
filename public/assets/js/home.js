@@ -556,16 +556,13 @@ jQuery(document).ready(function ($) {
         return scrollHeight;
     }
 
-    window.onscroll = function () {
-        var $BodyHeight = $(document).height();
-        //判斷所見範圍的高度   
-        var $ViewportHeight = $(window).height();
-        //偵測目前捲軸頂點   
-        $ScrollTop = $(this).scrollTop();
-        //console.log(getDocumentTop() + " " + getWindowHeight() + " " + getScrollHeight());
-        if ($BodyHeight == ($ViewportHeight + $ScrollTop)) {
-            alert("Here is bottom");
+    $(window).scroll(function () {
+        //最後一頁scrollTop=body-window，50是預留空間
+        last = $("body").height() - $(window).height() - 10
+        if ($(window).scrollTop() >= last) {
+            console.log("bottom");
         }
+
         /** 
         if (getDocumentTop() + getWindowHeight() >= (getScrollHeight() * 0.95) && loadController) {
             console.log("快到底了");
@@ -589,5 +586,5 @@ jQuery(document).ready(function ($) {
         } else {
             loadController = true;
         }*/
-    }
+    });
 });
