@@ -561,7 +561,7 @@ jQuery(document).ready(function ($) {
         if ($(document).height() - window.innerHeight == win.scrollTop() && loadController) {
             loadController = false;
             console.log('到底部囉');
-            var lastPostId = $('#list li.post:last-child').attr('id');
+            var lastPostId = $('li.post:last').attr('id');
             console.log(lastPostId);
             var postsRef = firebase.database().ref('posts').orderByKey().endAt(lastPostId).limitToLast(8);
             postsRef.on('child_added', function (data) {
