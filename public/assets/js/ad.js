@@ -23,8 +23,8 @@ jQuery(document).ready(function($) {
                 (data.val().clickCount.totalClick == null) ? (clickCount = 0) : (clickCount = data.val().clickCount.totalClick);
                 adHtml += '<tr id="' + name + '">\
                             <td>' + title + '</td>\
-                            <td>' + clickCount + '</td>\
                             <td>' + sponsorName + '</td>\
+                            <td>' + clickCount + '</td>\
                             <td class="pull-right"><button id="' + name + '_mod" type="button" class="btn btn-primary btn-sm" href="#" onclick="clickView(event)">檢視</button>&nbsp;<button id="' + name + '_del" type="button" class="btn btn-default btn-sm" href="#" onclick="clickDelete(event)">刪除</button></td>\
                             </tr>';
             });
@@ -156,8 +156,8 @@ jQuery(document).ready(function($) {
             $('#sp_preview').empty();
             var htm = '<tr id="' + adId + '">\
                             <td>' + adId + '</td>\
-                            <td>0</td>\
                             <td>' + adSponsor + '</td>\
+                            <td>0</td>\
                             <td><button id="' + adId + '_mod" type="button" class="btn btn-primary btn-sm" href="#" onclick="clickView(event)">檢視</button>&nbsp;<button id="' + adId + '_del" type="button" class="btn btn-default btn-sm" href="#" onclick="clickDelete(event)">刪除</button></td>\
                             </tr>'
             $("#list").append(htm);
@@ -283,7 +283,7 @@ jQuery(document).ready(function($) {
             var sponImg = data.val().sponsorImage;
             $("#ref").val(data.key);
             $("#sponImg").attr("src", sponImg);
-            $("#adTitle").empty().append(title);
+            $("#adTitle").empty().append(sponName);
             $("#adBody").empty().append(body);
             $("#adImg").attr("src", adImg);
             $("#adTargetUrl").empty().append(sponUrl);
