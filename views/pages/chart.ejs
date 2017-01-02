@@ -147,8 +147,8 @@ var totalpost=0;
             var adKey= data.key;
             var adName;
             firebase.database().ref('adverts'+adKey).once("value", function (snapshot){
-                        adName=data.advertTitle;
-                        console.log(data.advertTitle);
+                        adName=snapshot.val().advertTitle;
+                        console.log(snapshot.val().advertTitle);
                     });
             var array = [];
             firebase.database().ref('adverts/'+adKey+'/clickCount').once("value", function (snapshot){
