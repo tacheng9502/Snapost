@@ -135,7 +135,7 @@ jQuery(document).ready(function($) {
         var sets = {};
         (downloadURL1 == null) ? (downloadURL1 = null) : (sets['/adverts/' + adId + '/postImage'] = downloadURL1);
         (downloadURL2 == null) ? (downloadURL2 = null) : (sets['/adverts/' + adId + '/postImage'] = downloadURL2);
-        sets['/adverts/' + adId + '/advertTitle'] = title;
+        sets['/adverts/' + adId + '/advertTitle'] = adName;
         sets['/adverts/' + adId + '/postBody'] = body;
         sets['/adverts/' + adId + '/sponsorName'] = sponName;
         sets['/adverts/' + adId + '/sponsorUrl'] = sponUrl;
