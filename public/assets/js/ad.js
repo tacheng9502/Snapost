@@ -265,7 +265,7 @@ jQuery(document).ready(function($) {
         );
         $("#adTitle").html('<input id="' + ref + '_newTitle" class="form-control" value="' + oldTitle + '">');
         $("#adBody").html('<textarea id="' + ref + '_newAdBody" class="form-control" rows="3">' + oldAdBody + '</textarea>');
-        $("#adTargetUrl").attr("href", " ");
+        $("#adTargetUrl").removeAttr('href');
         $("#adTargetUrl").html('<input id="' + ref + '_newTargetUrl" class="form-control" value="' + oldTargetUrl + '">');
     });
 

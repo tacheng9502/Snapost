@@ -173,7 +173,7 @@ p {
 
 #sponImg {
     margin-top: -3px;
-    vertical-align: initial;
+    vertical-align: middle;
 }
 
 #adTitle {
@@ -185,10 +185,13 @@ p {
     height: 28px;
 }
 
+#adDetail textarea.form-control {
+    height: auto;
+}
+
 #adTargetUrl {
     width: 50%;
 }
-
 
 .url {
     padding: 0px 20px 10px 20px;
