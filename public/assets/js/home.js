@@ -560,7 +560,7 @@ jQuery(document).ready(function ($) {
         if (getDocumentTop() + getWindowHeight() >= (getScrollHeight() * 0.95) && loadController) {
             console.log("快到底了");
             var lastPostId = $('#list li:last-child').attr('id');
-            var postsRef = firebase.database().ref('posts').orderByKey().endAt(lastPostId).limitToLast(8);
+            var postsRef = firebase.database().ref('posts').limitToLast(8).orderByKey().endAt(lastPostId);
             postsRef.on('child_added', function (data) {
                 if (!followLastPost.includes(data.key)) {
                     var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
