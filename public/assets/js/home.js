@@ -558,9 +558,11 @@ jQuery(document).ready(function ($) {
     $(window).scroll(function () {
 
         if (getDocumentTop() + getWindowHeight() >= (getScrollHeight() * 0.95) && loadController) {
+            loadController = false;
             console.log('到底部囉');
             var lastPostId = $('#list li:last-child').attr('id');
-            var postsRef = firebase.database().ref('posts').limitToLast(8).orderByKey().endAt(lastPostId);
+            console.log(lastPostId);
+            var postsRef = firebase.database().ref('posts').limitToLast(8).orderByKey().startAt(lastPostId);
             postsRef.on('child_added', function (data) {
                 if (!followLastPost.includes(data.key)) {
                     var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
@@ -574,7 +576,6 @@ jQuery(document).ready(function ($) {
                 $('#' + data.key).remove();
             });
             listeningFirebaseRefs.push(postsRef);
-            loadController = false;
         } else {
             loadController = true;
         }
