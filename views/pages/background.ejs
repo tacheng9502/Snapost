@@ -28,16 +28,15 @@
 <script>
 jQuery(document).ready(function ($) {
 
-    $("#dashboard-menu>li>a").click(function(){
-       $(this).addClass("active");
+    $(".dashboard-menu li a").click(function(){
+       $(this).addClass("active").parent().siblings().find("a").removeAttr("class");
     });
 
     $( "#chart" ).click(function() {
         $( "#usercount" ).toggle();
         $( "#post" ).toggle();
-        $( "#ad" ).show();
-    });
-
+        $( "#ad" ).toggle();
+});
 var totalpost=0;
     function createAdBar(array,adName){
         $('#ad').append('<div id='+adName+'></div>');
