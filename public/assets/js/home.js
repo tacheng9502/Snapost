@@ -97,7 +97,7 @@ jQuery(document).ready(function ($) {
     function showPost() {
         var postsRef = firebase.database().ref('posts').limitToLast(8);
         postsRef.on('child_added', function (data) {
-            if (!followLastPostId.include(data.key)) {
+            if (!followLastPost.include(data.key)) {
                 var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
                 $('#list').prepend(html);
             }
