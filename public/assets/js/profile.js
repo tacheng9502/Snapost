@@ -1,9 +1,9 @@
-jQuery(document).ready(function ($) {
+jQuery(document).ready(function($) {
     var userName, userImage, currentUserId, queryName;
     var listeningFirebaseRefs = [];
     var queryId = window.location.search.substr(3);
 
-    firebase.auth().onAuthStateChanged(function (user) {
+    firebase.auth().onAuthStateChanged(function(user) {
         if (!user) {
             window.location.href = 'https://snapost.herokuapp.com/';
         } else {
@@ -21,7 +21,7 @@ jQuery(document).ready(function ($) {
     function startDatabaseQueries() {
 
         var profileRef = firebase.database().ref('users/' + queryId + "/");
-        profileRef.on('value', function (data) {
+        profileRef.on('value', function(data) {
             queryName = data.val().userName;
             var queryImage = data.val().userImage;
             $("#user_img").attr("src", queryImage);
@@ -39,10 +39,9 @@ jQuery(document).ready(function ($) {
         });
 
         var postRef = firebase.database().ref('users/' + queryId + '/userPost');
-        postRef.once('value', function (data) {
-            $("ninebox").empty();
-            var html = "";
-            data.forEach(function (childdata) {
+        var html = "";
+        postRef.once('value', function(data) {
+            data.forEach(function(childdata) {
                 var postKey = childdata.key;
                 var postImage = childdata.val();
                 html =
@@ -50,13 +49,13 @@ jQuery(document).ready(function ($) {
                     '<img id="' + postKey + '_postImage" class="postImage" onclick="clickImg(event)" src="' + postImage + '"/>' +
                     '</li>' + html;
             });
+            $("#ninebox").append("");
             $("#ninebox").append(html);
         });
-
         if (queryId != currentUserId) {
             $("#follow").show();
             var isFollow = firebase.database().ref('users/' + currentUserId + '/userFollow').orderByKey().equalTo(queryId);
-            isFollow.once('value', function (data) {
+            isFollow.once('value', function(data) {
                 if (data.val() == null) {
                     $("#follow").append("加入追蹤");
                     $("#follow").val("1");
@@ -76,9 +75,9 @@ jQuery(document).ready(function ($) {
         $("#result").toggle();
         $("#result").empty();
         var fanRef = firebase.database().ref('users/' + queryId + '/userFan');
-        fanRef.once('value', function (data) {
+        fanRef.once('value', function(data) {
             if (queryId == currentUserId) {
-                data.forEach(function (childdata) {
+                data.forEach(function(childdata) {
                     var fanID = childdata.key;
                     var fanName = childdata.val();
                     var html =
@@ -86,7 +85,7 @@ jQuery(document).ready(function ($) {
                     $("#result").append(html);
                 });
             } else {
-                data.forEach(function (childdata) {
+                data.forEach(function(childdata) {
                     var fanID = childdata.key;
                     var fanName = childdata.val();
                     var html = '<li><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a></li>';
@@ -100,17 +99,17 @@ jQuery(document).ready(function ($) {
         $("#result").toggle();
         $("#result").empty();
         var followRef = firebase.database().ref('users/' + queryId + '/userFollow');
-        followRef.once('value', function (data) {
+        followRef.once('value', function(data) {
             if (queryId == currentUserId) {
-                data.forEach(function (childdata) {
+                data.forEach(function(childdata) {
                     var followID = childdata.key;
-                    var followName = childdata.val();
+                    var followName = childdata.val().userName;
                     var html =
                         '<li><a href="/profile?u=' + followID + '"><p id="' + followID + '_name_f">' + followName + '</p></a><button id="' + followID + '_f" class="btn btn-default btn-xs" onclick="clickUnFollow(event)" value="0">取消追蹤</button></li>';
                     $("#result").append(html);
                 });
             } else {
-                data.forEach(function (childdata) {
+                data.forEach(function(childdata) {
                     var followID = childdata.key;
                     var followName = childdata.val();
                     var html = '<li><a href="/profile?u=' + followID + '"><p>' + followName + '</p></a></li>';
@@ -123,7 +122,7 @@ jQuery(document).ready(function ($) {
     function createPostElement(postKey, userId, userName, userImage, postBody, postTime, postImage, likeCount) {
         var date = new Date(parseInt(postTime));
         var likeStatus;
-        firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId).once("value", function (snapshot) {
+        firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId).once("value", function(snapshot) {
             likeStatus = snapshot.val();
         });
 
@@ -174,18 +173,18 @@ jQuery(document).ready(function ($) {
             '</li>';
 
         var commentsRef = firebase.database().ref('post-comments/' + postKey);
-        commentsRef.on('child_added', function (data) {
+        commentsRef.on('child_added', function(data) {
             var html = createCommentElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime);
             $('#' + postKey + '_commentList').append(html);
         });
 
         var likeCountRef = firebase.database().ref('posts/' + postKey + '/likeCount');
-        likeCountRef.on('value', function (snapshot) {
+        likeCountRef.on('value', function(snapshot) {
             $('i#' + postKey + '_like').html('&nbsp' + snapshot.val());
         });
 
         var likeStatusRef = firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId);
-        likeStatusRef.on('value', function (snapshot) {
+        likeStatusRef.on('value', function(snapshot) {
             if (snapshot.val() != null) {
                 $('i#' + postKey + '_like').attr("class", "fa fa-heart");
             } else {
@@ -221,15 +220,15 @@ jQuery(document).ready(function ($) {
                 confirmButtonText: "刪除",
                 closeOnConfirm: false
             },
-            function () {
+            function() {
                 var dels = {};
                 dels['/users/' + currentUserId + '/userFollow/' + i] = null;
                 dels['/users/' + i + '/userFan/' + currentUserId] = null;
                 firebase.database().ref().update(dels);
-                firebase.database().ref('/users/' + currentUserId + '/userFollowCount').transaction(function (currentCount) {
+                firebase.database().ref('/users/' + currentUserId + '/userFollowCount').transaction(function(currentCount) {
                     return currentCount - 1;
                 });
-                firebase.database().ref('/users/' + i + '/userFanCount').transaction(function (currentCount) {
+                firebase.database().ref('/users/' + i + '/userFanCount').transaction(function(currentCount) {
                     return currentCount - 1;
                 });
                 swal("取消追蹤", "退追蹤了啦 QQ", "success");
@@ -246,10 +245,10 @@ jQuery(document).ready(function ($) {
         sets['/users/' + currentUserId + '/userFollow/' + i] = followData;
         sets['/users/' + i + '/userFan/' + currentUserId] = userName;
         firebase.database().ref().update(sets);
-        firebase.database().ref('/users/' + currentUserId + '/userFollowCount').transaction(function (currentCount) {
+        firebase.database().ref('/users/' + currentUserId + '/userFollowCount').transaction(function(currentCount) {
             return currentCount + 1;
         });
-        firebase.database().ref('/users/' + i + '/userFanCount').transaction(function (currentCount) {
+        firebase.database().ref('/users/' + i + '/userFanCount').transaction(function(currentCount) {
             return currentCount + 1;
         });
     }
@@ -268,7 +267,7 @@ jQuery(document).ready(function ($) {
         }
     }
 
-    $('#clearNewPost').on('click', function (event) {
+    $('#clearNewPost').on('click', function(event) {
         event.preventDefault();
         $('.form-control').val("");
         $('#newPost_body').val("");
@@ -276,33 +275,33 @@ jQuery(document).ready(function ($) {
         newImageFile = null;
     });
 
-    $('#userInfo').on('click', function (event) {
+    $('#userInfo').on('click', function(event) {
         event.preventDefault();
         window.location.href = "/profile?u=" + currentUserId;
     });
 
-    $('#fans').on('click', function (event) {
+    $('#fans').on('click', function(event) {
         event.preventDefault();
         showFan();
     });
 
-    $('#followers').on('click', function (event) {
+    $('#followers').on('click', function(event) {
         event.preventDefault();
         showFollow();
     });
 
-    window.dragHandler = function (e) {
+    window.dragHandler = function(e) {
         e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
         e.preventDefault();
     }
 
-    window.dropImage = function (e) {
+    window.dropImage = function(e) {
         e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
         e.preventDefault();
         var reader = new FileReader();
         reader.readAsDataURL(e.dataTransfer.files[0]); // 讀取檔案
         // 渲染至頁面
-        reader.onload = function (arg) {
+        reader.onload = function(arg) {
             var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
             $("#img_preview").empty().append(img);
             newImageFile = $('.preview').croppie({
@@ -319,7 +318,7 @@ jQuery(document).ready(function ($) {
         }
     }
 
-    window.sendUpdate = function (event) {
+    window.sendUpdate = function(event) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -5);
         var date = new Date();
@@ -342,7 +341,7 @@ jQuery(document).ready(function ($) {
 
     }
 
-    window.clickUpdate = function (event) {
+    window.clickUpdate = function(event) {
         event.preventDefault();
         var updateId = event.target.id.slice(0, -7);
 
@@ -356,7 +355,7 @@ jQuery(document).ready(function ($) {
         );
     }
 
-    window.clickDelete = function (event) {
+    window.clickDelete = function(event) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -7);
         var timeArray = $('#' + postKey + '_postTime').text().split("/");
@@ -370,20 +369,20 @@ jQuery(document).ready(function ($) {
                 confirmButtonText: "刪除",
                 closeOnConfirm: false
             },
-            function () {
+            function() {
                 var deletes = {};
                 deletes['/posts/' + postKey] = null;
                 deletes['/post-comments/' + postKey] = null;
                 firebase.database().ref().update(deletes);
                 swal("已刪除", "留言已經成功刪除", "success");
-                firebase.database().ref('statistic/' + timeArray[0] + '-' + timeArray[1] + '/postCount').transaction(function (currentCount) {
+                firebase.database().ref('statistic/' + timeArray[0] + '-' + timeArray[1] + '/postCount').transaction(function(currentCount) {
                     return currentCount - 1;
                 });
 
             });
     }
 
-    window.writeNewComment = function (event) {
+    window.writeNewComment = function(event) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -8);
         var date = new Date();
@@ -405,29 +404,29 @@ jQuery(document).ready(function ($) {
         $('#' + postKey + '_commentBody').val("");
     }
 
-    window.clickLike = function (event) {
+    window.clickLike = function(event) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -5);
-        firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId).once("value", function (snapshot) {
+        firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId).once("value", function(snapshot) {
             if (snapshot.val() != null) {
                 var deletes = {};
                 deletes['posts/' + postKey + '/likes/' + currentUserId] = null;
                 firebase.database().ref().update(deletes);
-                firebase.database().ref('/posts/' + postKey + '/' + 'likeCount').transaction(function (currentCount) {
+                firebase.database().ref('/posts/' + postKey + '/' + 'likeCount').transaction(function(currentCount) {
                     return currentCount - 1;
                 });
             } else {
                 var updates = {};
                 updates['posts/' + postKey + '/likes/' + currentUserId] = userName;
                 firebase.database().ref().update(updates);
-                firebase.database().ref('/posts/' + postKey + '/' + 'likeCount').transaction(function (currentCount) {
+                firebase.database().ref('/posts/' + postKey + '/' + 'likeCount').transaction(function(currentCount) {
                     return currentCount + 1;
                 });
             }
         });
     };
 
-    window.clickfan = function (event) {
+    window.clickfan = function(event) {
         event.preventDefault();
         if ($("#follow").val() == 1) {
             doFollow(queryId, queryName);
@@ -440,7 +439,7 @@ jQuery(document).ready(function ($) {
         }
     };
 
-    window.clickUnfan = function (event) {
+    window.clickUnfan = function(event) {
         event.preventDefault();
         var targetUser = event.target.id.slice(0, -4);
         var targetUserTr = "#" + targetUser + "_tr";
@@ -453,15 +452,15 @@ jQuery(document).ready(function ($) {
                 confirmButtonText: "刪除",
                 closeOnConfirm: false
             },
-            function () {
+            function() {
                 var dels = {};
                 dels['/users/' + currentUserId + '/userFan/' + targetUser] = null;
                 dels['/users/' + targetUser + '/userFollow/' + currentUserId] = null;
                 firebase.database().ref().update(dels);
-                firebase.database().ref('/users/' + currentUserId + '/userFanCount').transaction(function (currentCount) {
+                firebase.database().ref('/users/' + currentUserId + '/userFanCount').transaction(function(currentCount) {
                     return currentCount - 1;
                 });
-                firebase.database().ref('/users/' + targetUser + '/userFollowCount').transaction(function (currentCount) {
+                firebase.database().ref('/users/' + targetUser + '/userFollowCount').transaction(function(currentCount) {
                     return currentCount - 1;
                 });
                 swal("刪除成功", "恭喜你少了一位粉絲", "success");
@@ -469,7 +468,7 @@ jQuery(document).ready(function ($) {
             });
     };
 
-    window.clickUnFollow = function (event) {
+    window.clickUnFollow = function(event) {
         event.preventDefault();
         var targetUser = event.target.id.slice(0, -2);
         var a = '#' + targetUser + '_f';
@@ -487,11 +486,11 @@ jQuery(document).ready(function ($) {
         }
     };
 
-    window.clickImg = function (event) {
+    window.clickImg = function(event) {
         event.preventDefault();
-        var refKey = event.target.id.slice(0,-10);
+        var refKey = event.target.id.slice(0, -10);
         var postDetailRef = firebase.database().ref('posts/' + refKey + '/');
-        postDetailRef.on('value', function (data){
+        postDetailRef.on('value', function(data) {
             var html = createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
             $("#postDetail").empty();
             $("#postDetail").append(html);

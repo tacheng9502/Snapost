@@ -1,38 +1,58 @@
 <link href="assets/css/c3.min.css" rel="stylesheet" type="text/css">
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="assets/js/c3.min.js"></script>
-<div id="totalpost"></div>
-<div id="usercount"></div>
-<div id="post"></div>
+<div class="dashboard clearfix">
+    <ul class="dashboard-menu">
+        <li>
+            <a href="#">會員</a>
+        </li>
+        <li>
+            <a href="#">廣告</a>
+        </li>
+        <li>
+            <a href="#">成效</a>
+        </li>
+    </ul>
+    <div class="dashboard-content">
+        <div id="usercount"></div>
+        <div id="post"></div>
+        <div id="ad"></div>
+    </div>
+</div>
 <script>
 jQuery(document).ready(function ($) {
 var totalpost=0;
-function creategauge(val){
-    var chart = c3.generate({
-        bindto: '#totalpost',
-        data: {
-            columns: [
-                ['貼文總數',val]
-            ],
-            type: 'gauge',
-        },
-        gauge: {
-            label:{
-                format: function(value, ratio){
-                    return value;
-                    },
-                },
-            max: 500,
-            units: 'post',
-            width: 39
-        },
-        size: {
-            height: 180,
-            width:500
-        }
-    });
-}
+    function createAdBar(array,adName){
+        $('#ad').append('<div id='+adName+'></div>');
+        var chart = c3.generate({
+            bindto: '#'+adName,
+            data: {
+                x : 'x',
+                columns: [
 
+                ],
+                type: 'bar'
+            },bar: {
+                width: {ratio: 0.2 }
+            },axis: {
+                x: {
+                    type: 'category',
+                    }
+                }
+        });
+        console.log(array);
+        console.log(array[0].time);
+        console.log(array[0].count);
+        for(var i=0;i<array.length;i++){
+            chart.load({
+                columns:[
+                    [array[i].time.toString(),array[i].count],
+                    ['x',adName]
+                ]
+            });
+        };
+
+    }
 
 
 
@@ -42,7 +62,7 @@ function creategauge(val){
             data: {
                 x : 'x',
                 columns: [
-                        
+
                 ],
                 type: 'bar'
             },bar: {
@@ -75,9 +95,9 @@ function creategauge(val){
         var chart = c3.generate({
             bindto: '#post',
              data: {
-        x : 'x',         
+        x : 'x',
         columns: [
-           
+
         ],
         type: 'spline'
         },axis: {
@@ -119,13 +139,22 @@ function creategauge(val){
         createspline(array);
     });
 
-    firebase.database().ref('statistic').once("value", function (snapshot){
+     firebase.database().ref('adverts').once("value", function (snapshot){
+        var array = [];
         snapshot.forEach(function(data){
-                temp=data.val().postCount;
-                totalpost=totalpost+temp;
+            var adName= data.key;
+            firebase.database().ref('adverts/'+adName+'/clickCount').once("value", function (snapshot){
+                snapshot.forEach(function(data){
+                    var post = {
+                        time: data.key,
+                        count: data.val()
+                    };
+                    array.push(post);
+                });
+                createAdBar(array,adName);
+            });
         });
-        creategauge(totalpost);
-        
+
     });
 
 });

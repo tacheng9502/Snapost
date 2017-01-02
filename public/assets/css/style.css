@@ -110,13 +110,16 @@ p {
     text-align: center;
     box-shadow: 0 -1px 0 rgba(0,0,0,0.1) inset;
     background-color: #0068B7;
-    position: relative;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
 }
 
 .content {
     max-width: 602px;
     width: 100%;
-    margin: 40px auto;
+    margin: 90px auto 40px auto;
 }
 
 .intro {
@@ -158,6 +161,10 @@ p {
 
 #list p {
     padding: 10px 20px;
+}
+
+#list a:hover, a:visited, a:active, a:link {
+    color: inherit;
 }
 
 .postImage {
@@ -266,7 +273,7 @@ p {
 .profile {
     max-width: 800px;
     width: 100%;
-    margin: 40px auto;
+    margin: 90px auto 40px auto;
 }
 
 .user-box {
@@ -367,6 +374,33 @@ p {
 
 #ninebox li:nth-child(3n) {
     margin-right: 0px;
+}
+
+/* Dashboard */
+.dashboard {
+    margin: 90px auto 40px auto;
+    height: calc(100% - 49px);
+}
+
+.dashboard-menu {
+    position: fixed;
+    top: 50px;
+    left: 225px;
+    width: 225px;
+    margin-left: -225px;
+    border: none;
+    border-radius: 0;
+    overflow-y: auto;
+    background-color: #0068B7;
+    bottom: 0;
+    overflow-x: hidden;
+    padding-bottom: 40px;
+}
+
+
+.dashboard-content {
+    float: left;
+    width: calc(100% - 225px);
 }
 
 /* Clear Float */
