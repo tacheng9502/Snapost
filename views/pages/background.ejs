@@ -10,17 +10,19 @@
             <a href="#">廣告</a>
         </li>
         <li>
-            <a href="#">成效</a>
+            <a href="#" id="chart">成效</a>
         </li>
     </ul>
     <div class="dashboard-content">
-        <div id="usercount"></div>
-        <div id="post"></div>
-        <div id="ad"></div>
+        <div id="usercount" display="none"></div>
+        <div id="post" display="none"></div>
+        <div id="ad" display="none"></div>
     </div>
 </div>
 <script>
 jQuery(document).ready(function ($) {
+
+    $( "#chart" ).toggle();
 var totalpost=0;
     function createAdBar(array,adName){
         $('#ad').append('<div id='+adName+'></div>');
