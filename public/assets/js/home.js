@@ -93,13 +93,13 @@ jQuery(document).ready(function ($) {
                     });
                 });
             });
-            showPost(8);
+            showPost();
             showAdvertisment();
         });
     }
 
-    function showPost(postNumber) {
-        var postsRef = firebase.database().ref('posts').orderByKey().limitToLast(postNumber);
+    function showPost() {
+        var postsRef = firebase.database().ref('posts').orderByKey().limitToLast(8);
         postsRef.on('child_added', function (data) {
             if (!followLastPost.includes(data.key)) {
                 var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
@@ -515,64 +515,27 @@ jQuery(document).ready(function ($) {
         window.open(sponsorUrl);
     }
 
-    //取得總長高度
-    function getDocumentTop() {
-        var scrollTop = 0,
-            bodyScrollTop = 0,
-            documentScrollTop = 0;
-        if (document.body) {
-            bodyScrollTop = document.body.scrollTop;
-        }
-        if (document.documentElement) {
-            documentScrollTop = document.documentElement.scrollTop;
-        }
-        scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
-        return scrollTop;
-    }
-
-    //取得視窗高度
-    function getWindowHeight() {
-        var windowHeight = 0;
-        if (document.compatMode == "CSS1Compat") {
-            windowHeight = document.documentElement.clientHeight;
-        } else {
-            windowHeight = document.body.clientHeight;
-        }
-        return windowHeight;
-    }
-
-    //取得滾動條高度
-    function getScrollHeight() {
-        var scrollHeight = 0,
-            bodyScrollHeight = 0,
-            documentScrollHeight = 0;
-        if (document.body) {
-            bodyScrollHeight = document.body.scrollHeight;
-        }
-        if (document.documentElement) {
-            documentScrollHeight = document.documentElement.scrollHeight;
-        }
-        scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
-        return scrollHeight;
-    }
-
     win.scroll(function () {
         var lastPostId = $('li.post:last').attr('id');
         if ($(document).height() - window.innerHeight == win.scrollTop() && loadController) {
             loadController = false;
-            console.log('到底部囉');
+            console.log('載入更多貼文');
             var postsRef = firebase.database().ref('posts').orderByKey().endAt(lastPostId).limitToLast(8);
             postsRef.on('child_added', function (data) {
-                if (!followLastPost.includes(data.key) && lastPostId!=data.key) {
+                if (!followLastPost.includes(data.key) && lastPostId != data.key) {
                     var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-                    $("#list").append(html);
+                    $('#list>li:last').after(html);
                 }
             });
             postsRef.on('child_changed', function (data) {
-                $('#' + data.key + '_body').text(data.val().postBody);
+                if (!followLastPost.includes(data.key) && lastPostId != data.key) {
+                    $('#' + data.key + '_body').text(data.val().postBody);
+                }
             });
             postsRef.on('child_removed', function (data) {
-                $('#' + data.key).remove();
+                if (!followLastPost.includes(data.key) && lastPostId != data.key) {
+                    $('#' + data.key).remove();
+                }
             });
             listeningFirebaseRefs.push(postsRef);
         } else {
