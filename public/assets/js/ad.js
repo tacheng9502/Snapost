@@ -322,7 +322,7 @@ jQuery(document).ready(function($) {
         var sponUrl = $("#" + postKey + "_newTargetUrl").val();
 
         var updates = {};
-        updates['/adverts/' + postKey + '/advertTitle'] = title;
+        updates['/adverts/' + postKey + '/sponsorName'] = title;
         updates['/adverts/' + postKey + '/postBody'] = body;
         updates['/adverts/' + postKey + '/sponsorUrl'] = sponUrl;
 
