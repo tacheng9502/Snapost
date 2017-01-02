@@ -263,9 +263,9 @@ jQuery(document).ready(function($) {
             '<button id="' + ref + '_send" class="btn btn-default" onclick="sendUpdate(event)" >' +
             '<i id="' + ref + '_send" class="fa fa-floppy-o" onclick="sendUpdate(event)" title="save"></i></a>'
         );
-        $("#adTitle").html('<textarea id="' + ref + '_newTitle" class="form-control" rows="1">' + oldTitle + '</textarea>');
+        $("#adTitle").html('<input id="' + ref + '_newTitle" class="form-control">' + oldTitle + '</input>');
         $("#adBody").html('<textarea id="' + ref + '_newAdBody" class="form-control" rows="3">' + oldAdBody + '</textarea>');
-        $("#adTargetUrl").html('<textarea id="' + ref + '_newTargetUrl" class="form-control" rows="2">' + oldTargetUrl + '</textarea>');
+        $("#adTargetUrl").html('<input id="' + ref + '_newTargetUrl" class="form-control">' + oldTargetUrl + '</input>');
 
     });
 
