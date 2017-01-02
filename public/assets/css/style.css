@@ -383,7 +383,7 @@ p {
 
 .dashboard-menu {
     display:block;
-    padding:9.5px 20px;
+    padding:12px 20px;
     color:white;
     position: absolute;
     right: 0;
@@ -394,7 +394,7 @@ p {
     background-color:#035ca0;
 }
 
-.dashboard-menu li a {
+/*.dashboard-menu li a {
     display: block;
     padding: 15px;
     width: 200px;
@@ -404,7 +404,7 @@ p {
 .dashboard-menu li .active a, .dashboard-menu li a:hover, .dashboard-menu li .active a:hover,.dashboard-menu li .active a:focus {
     background-color:#035ca0;
     color: #fff;
-}
+}*/
 
 .dashboard-content {
     width: 100%;
