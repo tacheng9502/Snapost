@@ -43,7 +43,37 @@
     	</thead>
     	<tbody id="list"></tbody>
     </table>
-    <div id="adDetail" class="content">
- 
+    <div id="adDetail" class="content" hidden>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+            <textarea id="ad_title" class="form-control" rows="1" placeholder="廣告標題"></textarea>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+            <textarea id="ad_body" class="form-control" rows="1" placeholder="廣告文宣"></textarea>
+        </div>
+        <div>
+            <img src="" id="curAd" width="100%">
+            <div class="form-group">
+            上傳新圖片<input type="file" id="ad_img_f" accept="image/*">
+            </div>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+            <textarea id="ad_spon" class="form-control" rows="1" placeholder="廣告商"></textarea>
+        </div>
+        <div>
+            <img src="" id="cruSp"/>
+            <div class="form-group">
+                上傳新圖片<input type="file" id="sp_img_f" accept="image/*">
+            </div>
+        </div>
+        <div class="input-group">' +
+            <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>' +
+            <textarea id="ad_sponurl" class="form-control" rows="1" placeholder="目標網站"></textarea>
+            </div>
+            <div id="ad_preview"></div>
+            <div id="sp_preview"></div>
+            <div class="pull-right"><button id="" type="button" class="btn btn-primary" onclick="sendUpdate(event)">發佈</button></div>
     </div>
 </div>

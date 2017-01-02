@@ -199,6 +199,7 @@ jQuery(document).ready(function($) {
         event.preventDefault();
         var refKey = event.target.id.slice(0, -4);
         var adDetailRef = firebase.database().ref('adverts/' + refKey + '/');
+        $("adDetail").removeAttr("hidden");
         adDetailRef.once('value', function(data) {
             var title = data.val().advertTitle;
             var body = data.val().postBody;
@@ -206,39 +207,12 @@ jQuery(document).ready(function($) {
             var sponName = data.val().sponsorName;
             var sponImg = data.val().sponsorImage;
             var sponUrl = data.val().sponsorUrl;
-            var html = '<div class="input-group">' +
-                '<span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>' +
-                '<textarea id="ad_title" class="form-control" rows="1" placeholder="廣告標題">' + title + '</textarea>' +
-                '</div>' +
-                '<div class="input-group">' +
-                '<span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>' +
-                '<textarea id="ad_body" class="form-control" rows="1" placeholder="廣告文宣">' + body + '</textarea>' +
-                '</div>' +
-                '<div>' +
-                '<img src="' + adImg + '" / width="100%">' +
-                '<div class="form-group">' +
-                '上傳新圖片<input type="file" id="ad_img_f" accept="image/*">' +
-                '</div>' +
-                '</div>' +
-                '<div class="input-group">' +
-                '<span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>' +
-                '<textarea id="ad_spon" class="form-control" rows="1" placeholder="廣告商">' + sponName + '</textarea>' +
-                '</div>' +
-                '<div>' +
-                '<img src="' + sponImg + '" />' +
-                '<div class="form-group">' +
-                '上傳新圖片<input type="file" id="sp_img_f" accept="image/*">' +
-                '</div>' +
-                '</div>' +
-                '<div class="input-group">' +
-                '<span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>' +
-                '<textarea id="ad_sponurl" class="form-control" rows="1" placeholder="目標網站">' + sponUrl + '</textarea>' +
-                '</div>' +
-                '<div id="ad_preview"></div>' +
-                '<div id="sp_preview"></div>' +
-                '<div class="pull-right"><button id="' + refKey + '_new" type="button" class="btn btn-primary" onclick="sendUpdate(event)">發佈</button></div>';
-            $("#adDetail").empty();
-            $("#adDetail").append(html);
+            $("#ad_title").empty().append(title);
+            $("#ad_body").empty().append(body);
+            $("#ad_spon").empty().append(sponName);
+            $("#ad_sponurl").empty().append(sponUrl);
+            $("#curAd").empty().attr("src", adImg);
+            $("#curSp").empty().attr("src", sponImg);
         })
     }
 
