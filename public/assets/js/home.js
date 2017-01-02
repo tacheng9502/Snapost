@@ -517,6 +517,7 @@ jQuery(document).ready(function ($) {
 
     win.scroll(function () {
         var lastPostId = $('li.post:last').attr('id');
+        var lastLi = $('#list>li:last');
         if ($(document).height() - window.innerHeight == win.scrollTop() && loadController) {
             loadController = false;
             console.log('載入更多貼文');
@@ -524,7 +525,7 @@ jQuery(document).ready(function ($) {
             postsRef.on('child_added', function (data) {
                 if (!followLastPost.includes(data.key) && lastPostId != data.key) {
                     var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-                    $('#list>li:last').before(html);
+                    lastLi.after(html);
                 }
             });
             postsRef.on('child_changed', function (data) {
