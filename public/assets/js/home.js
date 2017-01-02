@@ -577,7 +577,6 @@ jQuery(document).ready(function ($) {
                 $('#' + data.key).remove();
             });
             listeningFirebaseRefs.push(postsRef);
-            showAdvertisment();
             loadController = false;
         } else {
             loadController = true;
