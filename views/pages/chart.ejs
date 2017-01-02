@@ -135,7 +135,7 @@ var totalpost=0;
         snapshot.forEach(function(data){
             var adKey= data.key;
             var array = [];
-            firebase.database().ref('adverts/'+adName+'/clickCount').once("value", function (snapshot){
+            firebase.database().ref('adverts/'+adKey+'/clickCount').once("value", function (snapshot){
                 snapshot.forEach(function(data){
                     var post = {
                         time: data.key,
