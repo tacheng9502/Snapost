@@ -308,6 +308,9 @@ jQuery(document).ready(function($) {
         var sponName = $("#ad_spon").val();
         var sponUrl = $("#ad_sponurl").val();
         var updates = {};
+        var metadata = {
+            contentType: 'image/jpeg'
+        };
         if (newImageFile1 != null) {
             newImageFile1.croppie('result', {
                 type: 'blob',
@@ -405,7 +408,7 @@ jQuery(document).ready(function($) {
         updates['/adverts/' + postKey + '/sponsorUrl'] = sponUrl;
         
         if(firebase.database().ref().update(updates)){
-            $("#adDetail").attr("hidden");
+            $("#adDetail").attr("hidden","hidden");
             alert("修改完畢");
         }else{
             alert("You may try it later :)");
