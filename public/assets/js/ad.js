@@ -55,7 +55,7 @@ jQuery(document).ready(function($) {
                 },
                 format: 'jpeg'
             }).then(function(resp) {
-                var uploadTask = firebase.storage().ref().child('adverts/' + adId).put(resp, metadata);
+                var uploadTask = firebase.storage().ref().child('adverts/' + adId + '_post').put(resp, metadata);
                 uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
                     function(snapshot) {
                         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -98,7 +98,7 @@ jQuery(document).ready(function($) {
                 },
                 format: 'jpeg'
             }).then(function(resp) {
-                var uploadTask = firebase.storage().ref().child('adverts/' + adId).put(resp, metadata);
+                var uploadTask = firebase.storage().ref().child('adverts/' + adId + '_spon').put(resp, metadata);
                 uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
                     function(snapshot) {
                         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -132,13 +132,16 @@ jQuery(document).ready(function($) {
             });
         };
 
-        var sets = {};
+        var data = {
+            advertTitle: adName,
+            postBody: adBody,
+            sponsorName: adSponsor,
+            sponsorUrl: adUrl,
+        };
+        sets['/adverts/' + adId] = data;
         (downloadURL1 == null) ? (downloadURL1 = null) : (sets['/adverts/' + adId + '/postImage'] = downloadURL1);
-        (downloadURL2 == null) ? (downloadURL2 = null) : (sets['/adverts/' + adId + '/postImage'] = downloadURL2);
-        sets['/adverts/' + adId + '/advertTitle'] = adName;
-        sets['/adverts/' + adId + '/postBody'] = body;
-        sets['/adverts/' + adId + '/sponsorName'] = sponName;
-        sets['/adverts/' + adId + '/sponsorUrl'] = sponUrl;
+        (downloadURL2 == null) ? (downloadURL2 = null) : (sets['/adverts/' + adId + '/sponsorImage'] = downloadURL2);
+
 
         if(firebase.database().ref().update(sets)){
             
