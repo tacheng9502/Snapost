@@ -163,6 +163,10 @@ p {
     padding: 10px 20px;
 }
 
+#list a:hover, a:visited, a:active, a:link {
+    color: inherit;
+}
+
 .postImage {
     width: 100%;
 }
