@@ -379,19 +379,19 @@ p {
 /* Dashboard */
 .dashboard {
     margin: 90px auto 40px auto;
-    padding-left: 200px;
 }
 
 .dashboard-menu {
-    position: fixed;
-    top: 49px;
-    left: 200px;
-    width: 200px;
-    margin-left: -200px;
-    overflow-y: auto;
-    background-color: #0068B7;
-    bottom: 0;
-    overflow-x: hidden;
+    display:block;
+    padding:9.5px 20px;
+    color:white;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.dashboard-menu:hover {
+    background-color:#035ca0;
 }
 
 .dashboard-menu li a {
