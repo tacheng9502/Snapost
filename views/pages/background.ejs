@@ -52,9 +52,6 @@ var totalpost=0;
                     }
                 }
         });
-        console.log(array);
-        console.log(array[0].time);
-        console.log(array[0].count);
         for(var i=0;i<array.length;i++){
             chart.load({
                 columns:[
@@ -147,7 +144,7 @@ var totalpost=0;
                 };
                 array.push(post);
         });
-        createBar(array);
+        //createBar(array);
         createspline(array);
     });
 
