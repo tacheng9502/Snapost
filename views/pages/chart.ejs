@@ -2,6 +2,7 @@
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="assets/js/c3.min.js"></script>
 <div class="dashboard">
+    <h1 class="page-header">報表分析</h1>
     <div id="usercount"></div>
     <div id="post"></div>
     <div id="ad"></div>
@@ -11,15 +12,6 @@ jQuery(document).ready(function ($) {
     $("#userInfo").hide();
     $(".dashboard-menu").show();
 
-  /*  $(".dashboard-menu li a").click(function(){
-       $(this).addClass("active").parent().siblings().find("a").removeAttr("class");
-    });
-
-    $( "#chart" ).click(function() {
-        $( "#usercount" ).show();
-        $( "#post" ).show();
-        $( "#ad" ).show();
-});*/
 var totalpost=0;
     function createAdBar(array,adName){
         $('#ad').append('<div id='+adName+'></div>');
