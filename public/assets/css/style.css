@@ -172,16 +172,21 @@ p {
 }
 
 .url {
-    padding: 10px 20px;
+    padding: 0px 20px 10px 20px;
 }
 
 .url span {
     float: left;
     margin-right: 8px;
+    margin-top: 4px;
 }
 
 .url a {
     float: left;
+}
+
+.url a:hover {
+    text-decoration: underline;
 }
 
 .info {
