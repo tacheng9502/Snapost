@@ -380,6 +380,7 @@ p {
 .dashboard {
     margin: 90px auto 40px auto;
     width: 100%;
+    text-align: center;
 }
 
 .btn-group.open .dropdown-toggle {

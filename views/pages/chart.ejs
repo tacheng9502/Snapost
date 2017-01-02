@@ -37,7 +37,9 @@ var totalpost=0;
                 x: {
                     type: 'category',
                     }
-                }
+            },size:{
+                width:1200
+            }
         });
         for(var i=0;i<array.length;i++){
             chart.load({
@@ -67,7 +69,9 @@ var totalpost=0;
                 x: {
                     type: 'category',
                     }
-                }
+                },size:{
+                width:1200
+            }
         });
         console.log(array);
         for(var i=0;i<array.length;i++){
@@ -101,7 +105,9 @@ var totalpost=0;
                 x: {
                     type: 'category',
                     }
-                }
+                },size:{
+                width:1200
+            }
         });
         for(var i=0;i<array.length;i++){
             total=total+array[i].postCount;
@@ -137,9 +143,9 @@ var totalpost=0;
     });
 
      firebase.database().ref('adverts').once("value", function (snapshot){
-        var array = [];
         snapshot.forEach(function(data){
             var adName= data.key;
+            var array = [];
             firebase.database().ref('adverts/'+adName+'/clickCount').once("value", function (snapshot){
                 snapshot.forEach(function(data){
                     var post = {
