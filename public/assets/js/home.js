@@ -91,13 +91,18 @@ jQuery(document).ready(function ($) {
                     });
                 });
             });
-            showPost();
+            showPost(8);
             showAdvertisment();
         });
     }
 
-    function showPost() {
-        var postsRef = firebase.database().ref('posts').orderByKey().limitToLast(8);
+    function showPost(postNumber) {
+        $('#list').empty();
+        listeningFirebaseRefs.forEach(function (ref) {
+                ref.off();
+            });
+        listeningFirebaseRefs = [];
+        var postsRef = firebase.database().ref('posts').orderByKey().limitToLast(postNumber);
         postsRef.on('child_added', function (data) {
             if (!followLastPost.includes(data.key)) {
                 var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
@@ -558,6 +563,7 @@ jQuery(document).ready(function ($) {
         //console.log(getDocumentTop() + " " + getWindowHeight() + " " + getScrollHeight());
         if (getDocumentTop() + getWindowHeight() >= (getScrollHeight() * 0.95)) {
             console.log("快到底了");
+            showPost(16);
         }
     }
 });
