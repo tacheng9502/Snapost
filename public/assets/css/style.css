@@ -379,15 +379,15 @@ p {
 /* Dashboard */
 .dashboard {
     margin: 90px auto 40px auto;
-    padding-left: 225px;
+    padding-left: 200px;
 }
 
 .dashboard-menu {
     position: fixed;
     top: 49px;
-    left: 225px;
-    width: 225px;
-    margin-left: -225px;
+    left: 200px;
+    width: 200px;
+    margin-left: -200px;
     overflow-y: auto;
     background-color: #0068B7;
     bottom: 0;
@@ -397,7 +397,7 @@ p {
 .dashboard-menu li a {
     display: block;
     padding: 15px;
-    width: 225px;
+    width: 200px;
     color: #eee;
 }
 
