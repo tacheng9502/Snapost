@@ -22,6 +22,7 @@ jQuery(document).ready(function ($) {
             currentUserId = null;
             userName = null;
             userImage = null;
+            $('#userInfo').hide();
             $('#intro').removeAttr("hidden");
             $('#content').attr("hidden", true);
             listeningFirebaseRefs.forEach(function (ref) {
