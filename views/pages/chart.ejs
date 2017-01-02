@@ -2,7 +2,6 @@
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="assets/js/c3.min.js"></script>
 <div class="dashboard">
-    <h1 class="page-header">報表分析</h1>
     <div id="usercount"></div>
     <div id="post"></div>
     <div id="ad"></div>
@@ -132,24 +131,29 @@ var totalpost=0;
         createspline(array);
         createBar(array);
     });
-
-
-     firebase.database().ref('adverts').once("value", function (snapshot){
+        firebase.database().ref('adverts').once("value", function (snapshot){
         snapshot.forEach(function(data){
-            var adName= data.key;
+            var adKey= data.key;
             var array = [];
-            firebase.database().ref('adverts/'+adKey+'/clickCount').once("value", function (snapshot){
+            var adName;
+            firebase.database().ref('adverts/'+adName+'/clickCount').once("value", function (snapshot){
                 snapshot.forEach(function(data){
                     var post = {
                         time: data.key,
-                        count: data.val()
+                        count: data.val(),
                     };
                     array.push(post);
                 });
-                createAdBar(array,adName);
+                firebase.database().ref('adverts/'+adKey+'/advertTitle').once("value", function (snapshot){
+                snapshot.forEach(function(data){
+                    adName=data.val()
+                });
+                    //createAdBar(array,adName);
+            });
+                    createAdBar(array,adName);
             });
         });
-
+        
     });
 
 });
