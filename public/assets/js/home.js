@@ -555,8 +555,14 @@ jQuery(document).ready(function ($) {
         return scrollHeight;
     }
 
-    window.onscroll = function () {
-        //console.log(getDocumentTop() + " " + getWindowHeight() + " " + getScrollHeight());
+    $(window).scroll(function () {
+        //最後一頁scrollTop=body-window，50是預留空間
+        last = $("body").height() - $(window).height() - 10
+        if ($(window).scrollTop() >= last) {
+            console.log("bottom");
+        }
+
+        /** 
         if (getDocumentTop() + getWindowHeight() >= (getScrollHeight() * 0.95) && loadController) {
             console.log("快到底了");
             var lastPostId = $('#list li:last-child').attr('id');
@@ -578,6 +584,6 @@ jQuery(document).ready(function ($) {
             loadController = false;
         } else {
             loadController = true;
-        }
-    }
+        }*/
+    });
 });
