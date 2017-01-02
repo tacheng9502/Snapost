@@ -123,7 +123,7 @@ jQuery(document).ready(function ($) {
         });
 
         var html =
-            '<li id="' + postKey + '">' +
+            '<li id="' + postKey + '" class="post">' +
             '<div class="info">' +
             '<a id="' + postKey + '_profile" href="/profile?u=' + userId + '" >' +
             '<img id="' + postKey + '_userImage" src="' + userImage + '" class="img-circle" width="25px" height="25px">' +
@@ -561,7 +561,7 @@ jQuery(document).ready(function ($) {
         if ($(document).height() - window.innerHeight == win.scrollTop() && loadController) {
             loadController = false;
             console.log('到底部囉');
-            var lastPostId = $('#list li:last-child').attr('id');
+            var lastPostId = $('#list li.post:last-child').attr('id');
             console.log(lastPostId);
             var postsRef = firebase.database().ref('posts').orderByKey().endAt(lastPostId).limitToLast(8);
             postsRef.on('child_added', function (data) {
