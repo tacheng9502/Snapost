@@ -562,7 +562,7 @@ jQuery(document).ready(function ($) {
             console.log('到底部囉');
             var lastPostId = $('#list li:last-child').attr('id');
             console.log(lastPostId);
-            var postsRef = firebase.database().ref('posts').limitToLast(8).orderByKey().startAt(lastPostId);
+            var postsRef = firebase.database().ref('posts').limitToLast(8).endAt(lastPostId);
             postsRef.on('child_added', function (data) {
                 if (!followLastPost.includes(data.key)) {
                     var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
