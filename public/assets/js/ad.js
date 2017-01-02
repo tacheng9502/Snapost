@@ -32,13 +32,6 @@ jQuery(document).ready(function($) {
         });
     }
 
-    $('#clearNewPost').on('click', function(event) {
-        event.preventDefault();
-        $('#newPost_body').val("");
-        $("#img_preview").empty();
-        newImageFile = null;
-    });
-
     $('#writeNewPost').on('click', function(event) {
         event.preventDefault();
         var adName = $('#newAd_name').val();
@@ -108,6 +101,29 @@ jQuery(document).ready(function($) {
         });
     });
 
+    $("#img_input").on('click', function () {
+        $('#file').trigger('click');
+    });
+
+    $("#file").on("change", function (event) {
+        var reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]); // 讀取檔案
+        reader.onload = function (arg) {
+            var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+            $("#img_preview").empty().append(img);
+            newImageFile = $('.preview').croppie({
+                viewport: {
+                    width: 400,
+                    height: 400,
+                    type: 'square'
+                },
+                boundary: {
+                    width: 400,
+                    height: 400
+                }
+            });
+        }
+    });
 
     $("#ad_img_f").on("change", function(event) {
         console.log("click!");
@@ -131,7 +147,7 @@ jQuery(document).ready(function($) {
         }
     });
 
-    $("#sp_img_n").on("change", function(event) {
+    $("#sp_img_f").on("change", function(event) {
         var reader = new FileReader();
         reader.readAsDataURL(event.target.files[0]); // 讀取檔案
         reader.onload = function(arg) {
@@ -156,13 +172,13 @@ jQuery(document).ready(function($) {
         e.preventDefault();
     }
 
-    window.dropImage = function(e) {
+    window.dropImage = function (e) {
         e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
         e.preventDefault();
         var reader = new FileReader();
         reader.readAsDataURL(e.dataTransfer.files[0]); // 讀取檔案
         // 渲染至頁面
-        reader.onload = function(arg) {
+        reader.onload = function (arg) {
             var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
             $("#img_preview").empty().append(img);
             newImageFile = $('.preview').croppie({
@@ -321,6 +337,7 @@ jQuery(document).ready(function($) {
                     });
             });
         };
+
         var updates = {};
         (downloadURL1 == null) ? (downloadURL1 = null) : (updates['/adverts/' + postKey + '/postImage'] = downloadURL1);
         (downloadURL2 == null) ? (downloadURL2 = null) : (updates['/adverts/' + postKey + '/postImage'] = downloadURL2);
@@ -328,6 +345,12 @@ jQuery(document).ready(function($) {
         updates['/adverts/' + postKey + '/postBody'] = body;
         updates['/adverts/' + postKey + '/sponsorName'] = sponName;
         updates['/adverts/' + postKey + '/sponsorUrl'] = sponUrl;
-        firebase.database().ref().update(updates);
+        
+        if(firebase.database().ref().update(updates)){
+            $("#adDetail").empty();
+            $("#adDetail").append("<p>廣告修改成功</p>");
+        }else{
+            alert("You may try it later :)");
+        }
     }
 })
