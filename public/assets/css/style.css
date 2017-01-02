@@ -398,7 +398,7 @@ p {
     display: block;
     padding: 15px;
     width: 225px;
-    color: #9d9d9d;
+    color: #eee;
 }
 
 .dashboard-menu li .active a, .dashboard-menu li .active a:focus,.dashboard-menu li .active a:focus {
