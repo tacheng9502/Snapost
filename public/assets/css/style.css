@@ -195,6 +195,10 @@ p {
     width: 50%;
 }
 
+#list tr:last-child {
+    float: right;
+}
+
 .url {
     padding: 0px 20px 10px 20px;
 }
