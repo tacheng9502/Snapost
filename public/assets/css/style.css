@@ -199,6 +199,10 @@ p {
     float: right;
 }
 
+.table {
+    margin-bottom: 0px;
+}
+
 .url {
     padding: 0px 20px 10px 20px;
 }
