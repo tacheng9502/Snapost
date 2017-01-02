@@ -222,7 +222,7 @@ jQuery(document).ready(function($) {
         reader.readAsDataURL(event.target.files[0]); // 讀取檔案
         reader.onload = function(arg) {
             var img = '<img id="ad_img_pre" class="preview" src="' + arg.target.result + '" alt="preview"/>';
-            $("#ad_preview").empty().append(img);
+            $("#ad_preview_up").empty().append(img);
             newImageFile1 = $('#ad_img_pre').croppie({
                 viewport: {
                     width: 400,
@@ -242,7 +242,7 @@ jQuery(document).ready(function($) {
         reader.readAsDataURL(event.target.files[0]); // 讀取檔案
         reader.onload = function(arg) {
             var img = '<img id="sp_img_pre" class="preview" src="' + arg.target.result + '" alt="preview"/>';
-            $("#sp_preview").empty().append(img);
+            $("#sp_preview_up").empty().append(img);
             newImageFile2 = $('#sp_img_pre').croppie({
                 viewport: {
                     width: 400,
@@ -348,7 +348,9 @@ jQuery(document).ready(function($) {
                     },
                     function() {
                         // Upload completed successfully, now we can get the download URL
-                        downloadURL1 = uploadTask.snapshot.downloadURL;
+                        var imgSrc = {};
+                        imgSrc['/adverts/' + adId + '/postImage'] = uploadTask.snapshot.downloadURL;
+                        firebase.database().ref().update(imgSrc);
                     });
             });
         };
@@ -391,14 +393,14 @@ jQuery(document).ready(function($) {
                     },
                     function() {
                         // Upload completed successfully, now we can get the download URL
-                        downloadURL2 = uploadTask.snapshot.downloadURL;
+                        var imgSrc = {};
+                        imgSrc['/adverts/' + adId + '/postImage'] = uploadTask.snapshot.downloadURL;
+                        firebase.database().ref().update(imgSrc);
                     });
             });
         };
 
         var updates = {};
-        (downloadURL1 == null) ? (downloadURL1 = null) : (updates['/adverts/' + postKey + '/postImage'] = downloadURL1);
-        (downloadURL2 == null) ? (downloadURL2 = null) : (updates['/adverts/' + postKey + '/postImage'] = downloadURL2);
         updates['/adverts/' + postKey + '/advertTitle'] = title;
         updates['/adverts/' + postKey + '/postBody'] = body;
         updates['/adverts/' + postKey + '/sponsorName'] = sponName;
