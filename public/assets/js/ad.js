@@ -25,7 +25,7 @@ jQuery(document).ready(function($) {
                             <td>' + title + '</td>\
                             <td>' + sponsorName + '</td>\
                             <td>' + clickCount + '</td>\
-                            <td class="pull-right"><button id="' + name + '_mod" type="button" class="btn btn-primary btn-sm" href="#" onclick="clickView(event)">檢視</button>&nbsp;<button id="' + name + '_del" type="button" class="btn btn-default btn-sm" href="#" onclick="clickDelete(event)">刪除</button></td>\
+                            <td><button id="' + name + '_del" type="button" class="btn btn-default btn-sm" href="#" onclick="clickDelete(event)">刪除</button>&nbsp;<button id="' + name + '_mod" type="button" class="btn btn-primary btn-sm" href="#" onclick="clickView(event)">檢視</button></td>\
                             </tr>';
             });
             $("#list").append(adHtml);
@@ -158,7 +158,7 @@ jQuery(document).ready(function($) {
                             <td>' + adId + '</td>\
                             <td>' + adSponsor + '</td>\
                             <td>0</td>\
-                            <td><button id="' + adId + '_mod" type="button" class="btn btn-primary btn-sm" href="#" onclick="clickView(event)">檢視</button>&nbsp;<button id="' + adId + '_del" type="button" class="btn btn-default btn-sm" href="#" onclick="clickDelete(event)">刪除</button></td>\
+                            <td><button id="' + adId + '_del" type="button" class="btn btn-default btn-sm" href="#" onclick="clickDelete(event)">刪除</button>&nbsp;<button id="' + adId + '_mod" type="button" class="btn btn-primary btn-sm" href="#" onclick="clickView(event)">檢視</button></td>\
                             </tr>'
             $("#list").append(htm);
         }else{

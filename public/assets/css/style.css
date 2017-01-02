@@ -195,7 +195,7 @@ p {
     width: 50%;
 }
 
-#list tr:last-child {
+#list td button {
     float: right;
 }
 
