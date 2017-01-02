@@ -109,19 +109,14 @@ jQuery(document).ready(function($) {
     });
 
 
-    $("#ad_img_n").on('click', function() {
-        $('#ad_img_f').trigger('click');
-    });
-    $("#sp_img_n").on('click', function() {
-        $('#sp_img_f').trigger('click');
-    });
-
     $("#ad_img_f").on("change", function(event) {
+        console.log("click!");
         var reader = new FileReader();
         reader.readAsDataURL(event.target.files[0]); // 讀取檔案
         reader.onload = function(arg) {
             var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
             $("#ad_preview").empty().append(img);
+            console.log(img);
             newImageFile1 = $('.preview').croppie({
                 viewport: {
                     width: 400,
@@ -206,14 +201,7 @@ jQuery(document).ready(function($) {
                 '<div>' +
                 '<img src="' + adImg + '" / width="100%">' +
                 '<div class="form-group">' +
-                '<input type="file" id="ad_img_f" accept="image/*">' +
-                '<div class="input-group">' +
-                '<span class="input-group-addon"><i class="fa fa-picture-o fa-fw" aria-hidden="true"></i></span>' +
-                '<input type="text" class="form-control" disabled placeholder="拖曳照片上傳或點選瀏覽">' +
-                '<span class="input-group-btn">' +
-                '<button class="btn btn-primary" id="ad_img_n" type="button"><i class="fa fa-search fa-fw" aria-hidden="true"></i>&nbsp;瀏覽</button>' +
-                '</span>' +
-                '</div>' +
+                '上傳新圖片<input type="file" id="ad_img_f" accept="image/*">' +
                 '</div>' +
                 '</div>' +
                 '<div class="input-group">' +
@@ -223,14 +211,7 @@ jQuery(document).ready(function($) {
                 '<div>' +
                 '<img src="' + sponImg + '" />' +
                 '<div class="form-group">' +
-                '<input type="file" id="sp_img_f" accept="image/*">' +
-                '<div class="input-group">' +
-                '<span class="input-group-addon"><i class="fa fa-picture-o fa-fw" aria-hidden="true"></i></span>' +
-                '<input type="text" class="form-control" disabled placeholder="拖曳照片上傳或點選瀏覽">' +
-                '<span class="input-group-btn">' +
-                '<button class="btn btn-primary" id="sp_img_n" type="button"><i class="fa fa-search fa-fw" aria-hidden="true"></i>&nbsp;瀏覽</button>' +
-                '</span>' +
-                '</div>' +
+                '上傳新圖片<input type="file" id="sp_img_f" accept="image/*">' +
                 '</div>' +
                 '</div>' +
                 '<div class="input-group">' +
