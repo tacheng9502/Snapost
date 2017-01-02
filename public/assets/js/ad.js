@@ -84,7 +84,8 @@ jQuery(document).ready(function($) {
                     },
                     function() {
                         // Upload completed successfully, now we can get the download URL
-                        downloadURL1 = uploadTask.snapshot.downloadURL;
+                        sets['/adverts/' + adId + '/postImage'] = uploadTask.snapshot.downloadURL;
+                        firebase.database().ref().update(sets);
                     });
             });
         };
@@ -127,7 +128,8 @@ jQuery(document).ready(function($) {
                     },
                     function() {
                         // Upload completed successfully, now we can get the download URL
-                        downloadURL2 = uploadTask.snapshot.downloadURL;
+                        sets['/adverts/' + adId + '/sponsorImage'] = uploadTask.snapshot.downloadURL;
+                        firebase.database().ref().update(sets);
                     });
             });
         };
@@ -139,12 +141,6 @@ jQuery(document).ready(function($) {
             sponsorUrl: adUrl,
         };
         sets['/adverts/' + adId] = data;
-        console.log(downloadURL1);
-        console.log(downloadURL2);
-        (downloadURL1 == null) ? (downloadURL1 = null) : (sets['/adverts/' + adId + '/postImage'] = downloadURL1);
-        (downloadURL2 == null) ? (downloadURL2 = null) : (sets['/adverts/' + adId + '/sponsorImage'] = downloadURL2);
-
-
         if(firebase.database().ref().update(sets)){
             
         }else{
