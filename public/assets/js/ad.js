@@ -34,8 +34,8 @@ jQuery(document).ready(function($) {
 
     $('#writeNewPost').on('click', function(event) {
         event.preventDefault();
-        var adId = $('#newAd_id').val();
-        var adName = $('#newAd_name').val();
+        var adId = firebase.database().ref().child('adverts').push().key;
+        var adTitle = $('#newAd_name').val();
         var adBody = $('#newAd_body').val();
         var adUrl = $('#newAd_url').val();
         var adSponsor = $('#newAd_sponsorName').val();
@@ -137,7 +137,7 @@ jQuery(document).ready(function($) {
         };
 
         var data = {
-            advertTitle: adName,
+            advertTitle: adTitle,
             postBody: adBody,
             sponsorName: adSponsor,
             sponsorUrl: adUrl,
@@ -327,6 +327,7 @@ jQuery(document).ready(function($) {
         updates['/adverts/' + postKey + '/sponsorUrl'] = sponUrl;
         
         if(firebase.database().ref().update(updates)){
+            alert("修改完畢");
             $("#sponImg").attr("src", "");
             $("#adTitle").empty();
             $("#adBody").empty();
@@ -338,7 +339,6 @@ jQuery(document).ready(function($) {
             $('#edit').html('<button id="edit_b" class="btn btn-default" onclick="">'+
                             '<i id="edit_i" class="fa fa-pencil" onclick="" title="edit"></i>'+
                             '</button>');
-            alert("修改完畢");
         }else{
             alert("You may try it later :)");
         }
