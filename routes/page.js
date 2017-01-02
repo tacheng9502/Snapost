@@ -10,8 +10,8 @@ exports.profile = function (request, response) {
     response.render('pages/profile');
 };
 
-exports.background = function (request, response) {
-    response.render('pages/background');
+exports.chart = function (request, response) {
+    response.render('pages/chart');
 }
 
 exports.ad = function (request, response) {
