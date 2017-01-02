@@ -1,4 +1,6 @@
 jQuery(document).ready(function($) {
+    $(".dashboard-menu").hide();
+
     var userName, userImage, currentUserId, queryName;
     var listeningFirebaseRefs = [];
     var queryId = window.location.search.substr(3);
