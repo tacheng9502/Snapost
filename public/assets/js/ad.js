@@ -352,6 +352,17 @@ jQuery(document).ready(function($) {
                         var imgSrc = {};
                         imgSrc['/adverts/' + postKey + '/postImage'] = uploadTask.snapshot.downloadURL;
                         firebase.database().ref().update(imgSrc);
+                        $("#ad_title").empty();
+                        $("#ad_body").empty();
+                        $("#ad_spon").empty();
+                        $("#ad_sponurl").empty();
+                        $("#ad_preview_up").empty();
+                        $("#sp_preview_up").empty();
+                        $("#curAd").empty().attr("src", " ");
+                        $("#curSp").empty().attr("src", " ");
+                        $("#ref").empty().attr("value", " ");
+                        newImageFile1 = null;
+                        newImageFile2 = null;
                     });
             });
         };
@@ -395,7 +406,7 @@ jQuery(document).ready(function($) {
                     function() {
                         // Upload completed successfully, now we can get the download URL
                         var imgSrc = {};
-                        imgSrc['/adverts/' + postKey + '/postImage'] = uploadTask.snapshot.downloadURL;
+                        imgSrc['/adverts/' + postKey + '/sponsorImage'] = uploadTask.snapshot.downloadURL;
                         firebase.database().ref().update(imgSrc);
                     });
             });
