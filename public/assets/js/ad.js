@@ -273,6 +273,7 @@ jQuery(document).ready(function($) {
             $("#ad_sponurl").empty().append(sponUrl);
             $("#curAd").empty().attr("src", adImg);
             $("#curSp").empty().attr("src", sponImg);
+            $("#ref").empty().attr("value", refKey);
         })
     }
 
@@ -300,7 +301,7 @@ jQuery(document).ready(function($) {
 
     window.sendUpdate = function(event) {
         event.preventDefault();
-        var postKey = event.target.id.slice(0, -4);
+        var postKey = $("#ref").val();
         console.log(postKey);
         var title = $("#ad_title").val();
         var body = $("#ad_body").val();
