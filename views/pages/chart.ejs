@@ -147,8 +147,9 @@ var totalpost=0;
                 firebase.database().ref('adverts/'+adKey+'/advertTitle').once("value", function (snapshot){
                 snapshot.forEach(function(data){
                     adName=data.val()
+                    console.log(adName);
                 });
-                console.log(adName);
+                
                 console.log(array);
                     createAdBar(array,adName);
             });
