@@ -250,6 +250,10 @@ p {
     position: absolute;
 }
 
+.input-group {
+    margin-bottom: 15px;
+}
+
 .form-control[disabled] {
     background-color: #fff;
     cursor: default;
