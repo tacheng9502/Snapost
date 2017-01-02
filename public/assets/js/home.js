@@ -556,8 +556,8 @@ jQuery(document).ready(function ($) {
     }
 
     $(window).scroll(function () {
-
-        if (getDocumentTop() + getWindowHeight() >= (getScrollHeight() * 0.95) && loadController) {
+        
+        if ($(document).height() - $(window).height() == $(window).scrollTop() && loadController) {
             loadController = false;
             console.log('到底部囉');
             var lastPostId = $('#list li:last-child').attr('id');
