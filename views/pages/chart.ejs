@@ -132,22 +132,22 @@ var totalpost=0;
         createspline(array);
         createBar(array);
     });
-     firebase.database().ref('adverts').once("value", function (snapshot){
+        firebase.database().ref('adverts').once("value", function (snapshot){
         snapshot.forEach(function(data){
             var adName= data.key;
             var array = [];
-            firebase.database().ref('adverts/'+adKey+'/clickCount').once("value", function (snapshot){
+            firebase.database().ref('adverts/'+adName+'/clickCount').once("value", function (snapshot){
                 snapshot.forEach(function(data){
                     var post = {
                         time: data.key,
-                        count: data.val()
+                        count: data.val(),
                     };
                     array.push(post);
                 });
-                createAdBar(array,adName);
             });
         });
-
+        createAdBar(array);
+        
     });
 
 });
