@@ -139,6 +139,7 @@ jQuery(document).ready(function($) {
             postBody: adBody,
             sponsorName: adSponsor,
             sponsorUrl: adUrl,
+            clickCount.totalClick: 0, 
         };
         sets['/adverts/' + adId] = data;
         if(firebase.database().ref().update(sets)){
