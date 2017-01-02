@@ -405,8 +405,8 @@ jQuery(document).ready(function($) {
         updates['/adverts/' + postKey + '/sponsorUrl'] = sponUrl;
         
         if(firebase.database().ref().update(updates)){
-            $("#adDetail").empty();
-            $("#adDetail").append("<p>廣告修改成功</p>");
+            $("#adDetail").attr("hidden");
+            alert("修改完畢");
         }else{
             alert("You may try it later :)");
         }
