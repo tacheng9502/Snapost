@@ -132,8 +132,6 @@ var totalpost=0;
         createspline(array);
         createBar(array);
     });
-
-
      firebase.database().ref('adverts').once("value", function (snapshot){
         snapshot.forEach(function(data){
             var adName= data.key;
