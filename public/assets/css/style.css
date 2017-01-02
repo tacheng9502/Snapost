@@ -152,14 +152,14 @@ p {
     margin-bottom: 30px;
 }
 
-#list li {
+#followList li, #list li {
     margin: 20px 0;
     border: 1px solid #ddd;
     border-radius: 4px;
     background: #fff;
 }
 
-#list p {
+#followList p, #list p {
     padding: 10px 20px;
 }
 
@@ -239,7 +239,7 @@ p {
     color: #23527c;
 }
 
-#list li .comment li {
+#followList li .comment li, #list li .comment li {
     border: 0px;
     margin: 0px;
     border-bottom: 3px;
@@ -394,6 +394,12 @@ p {
     overflow-x: hidden;
 }
 
+.dashboard-menu li a {
+    display: block;
+    padding: 15px;
+    width: 225px;
+    color: #9d9d9d;
+}
 
 .dashboard-content {
     width: 100%;
