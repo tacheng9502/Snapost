@@ -556,11 +556,11 @@ jQuery(document).ready(function ($) {
     }
 
     $(window).scroll(function () {
+        var window_height = $( window ).height();
         var window_scrollTop = $(window).scrollTop();
         var document_height = $(document).height();
-        var leastHeight = 680;
 
-        if (leastHeight + window_scrollTop >= document_height && loadController) {
+        if (window_height + window_scrollTop >= document_height && loadController) {
             console.log('到底部囉');
             var lastPostId = $('#list li:last-child').attr('id');
             var postsRef = firebase.database().ref('posts').limitToLast(8).orderByKey().endAt(lastPostId);
