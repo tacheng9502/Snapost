@@ -158,7 +158,7 @@ jQuery(document).ready(function($) {
                             <td>' + adId + '</td>\
                             <td>0</td>\
                             <td>' + adSponsor + '</td>\
-                            <td><button id="' + adId + '_mod" type="button" class="btn btn-primary" href="#" onclick="clickModify(event)">編輯</button></td>\
+                            <td><button id="' + adId + '_mod" type="button" class="btn btn-primary" href="#" onclick="clickView(event)">檢視</button></td>\
                             <td><button id="' + adId + '_del" type="button" class="btn btn-default" href="#" onclick="clickDelete(event)">刪除</button></td>\
                             </tr>'
             $("#list").append(htm);
@@ -335,6 +335,10 @@ jQuery(document).ready(function($) {
             $("#adTargetUrl").attr("href", " ");
             $("#adTargetUrl").empty();
             $("#ref").empty().attr("value", " ");
+            $("#adDetail").attr("hidden", "hidden");
+            $('#edit').html('<button id="edit_b" class="btn btn-default" onclick="">'+
+                            '<i id="edit_i" class="fa fa-pencil" onclick="" title="edit"></i>'+
+                            '</button>');
             alert("修改完畢");
         }else{
             alert("You may try it later :)");
