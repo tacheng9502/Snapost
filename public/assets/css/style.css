@@ -171,6 +171,19 @@ p {
     width: 100%;
 }
 
+.url {
+    padding: 10px 20px;
+}
+
+.url span {
+    float: left;
+    margin-right: 8px;
+}
+
+.url a {
+    float: left;
+}
+
 .info {
     overflow: hidden;
     padding: 14px 20px 0px 20px;
