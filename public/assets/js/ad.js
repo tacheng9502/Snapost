@@ -84,8 +84,9 @@ jQuery(document).ready(function($) {
                     },
                     function() {
                         // Upload completed successfully, now we can get the download URL
-                        sets['/adverts/' + adId + '/postImage'] = uploadTask.snapshot.downloadURL;
-                        firebase.database().ref().update(sets);
+                        var imgSrc = {};
+                        imgSrc['/adverts/' + adId + '/postImage'] = uploadTask.snapshot.downloadURL;
+                        firebase.database().ref().update(imgSrc);
                     });
             });
         };
@@ -127,9 +128,10 @@ jQuery(document).ready(function($) {
                         }
                     },
                     function() {
+                        var imgSrc = {};
                         // Upload completed successfully, now we can get the download URL
-                        sets['/adverts/' + adId + '/sponsorImage'] = uploadTask.snapshot.downloadURL;
-                        firebase.database().ref().update(sets);
+                        imgSrc['/adverts/' + adId + '/sponsorImage'] = uploadTask.snapshot.downloadURL;
+                        firebase.database().ref().update(imgSrc);
                     });
             });
         };
@@ -141,7 +143,7 @@ jQuery(document).ready(function($) {
             sponsorUrl: adUrl,
         };
         sets['/adverts/' + adId] = data;
-        sets['/adverts/' + adId + 'clickCount/totalClick'] = 0;
+        sets['/adverts/' + adId + '/clickCount/totalClick'] = 0;
         if(firebase.database().ref().update(sets)){
             
         }else{
