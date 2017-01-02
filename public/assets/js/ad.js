@@ -139,6 +139,8 @@ jQuery(document).ready(function($) {
             sponsorUrl: adUrl,
         };
         sets['/adverts/' + adId] = data;
+        console.log(downloadURL1);
+        console.log(downloadURL2);
         (downloadURL1 == null) ? (downloadURL1 = null) : (sets['/adverts/' + adId + '/postImage'] = downloadURL1);
         (downloadURL2 == null) ? (downloadURL2 = null) : (sets['/adverts/' + adId + '/sponsorImage'] = downloadURL2);
 
