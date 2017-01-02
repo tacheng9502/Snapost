@@ -154,8 +154,6 @@ jQuery(document).ready(function($) {
             $('#newAd_sponsorName').val("");
             $('#img_preview').empty();
             $('#sp_preview').empty();
-            newImageFile1 = null;
-            newImageFile2 = null;
             var htm = '<tr id="' + adId + '">\
                             <td>' + adId + '</td>\
                             <td>0</td>\
@@ -275,6 +273,7 @@ jQuery(document).ready(function($) {
             $("#ad_sponurl").empty().append(sponUrl);
             $("#curAd").empty().attr("src", adImg);
             $("#curSp").empty().attr("src", sponImg);
+            $("#ref").empty().attr("value", refKey);
         })
     }
 
@@ -302,14 +301,16 @@ jQuery(document).ready(function($) {
 
     window.sendUpdate = function(event) {
         event.preventDefault();
-        var postKey = event.target.id.slice(0, -4);
+        var postKey = $("#ref").val();
+        console.log(postKey);
         var title = $("#ad_title").val();
         var body = $("#ad_body").val();
         var sponName = $("#ad_spon").val();
         var sponUrl = $("#ad_sponurl").val();
-        var downloadURL1 = null;
-        var downloadURL2 = null;
         var updates = {};
+        var metadata = {
+            contentType: 'image/jpeg'
+        };
         if (newImageFile1 != null) {
             newImageFile1.croppie('result', {
                 type: 'blob',
@@ -349,8 +350,19 @@ jQuery(document).ready(function($) {
                     function() {
                         // Upload completed successfully, now we can get the download URL
                         var imgSrc = {};
-                        imgSrc['/adverts/' + adId + '/postImage'] = uploadTask.snapshot.downloadURL;
+                        imgSrc['/adverts/' + postKey + '/postImage'] = uploadTask.snapshot.downloadURL;
                         firebase.database().ref().update(imgSrc);
+                        $("#ad_title").empty();
+                        $("#ad_body").empty();
+                        $("#ad_spon").empty();
+                        $("#ad_sponurl").empty();
+                        $("#ad_preview_up").empty();
+                        $("#sp_preview_up").empty();
+                        $("#curAd").empty().attr("src", " ");
+                        $("#curSp").empty().attr("src", " ");
+                        $("#ref").empty().attr("value", " ");
+                        newImageFile1 = null;
+                        newImageFile2 = null;
                     });
             });
         };
@@ -364,7 +376,7 @@ jQuery(document).ready(function($) {
                 },
                 format: 'jpeg'
             }).then(function(resp) {
-                var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(resp, metadata);
+                var uploadTask = firebase.storage().ref().child('postImage/' + postKey).put(resp, metadata);
                 uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
                     function(snapshot) {
                         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -394,7 +406,7 @@ jQuery(document).ready(function($) {
                     function() {
                         // Upload completed successfully, now we can get the download URL
                         var imgSrc = {};
-                        imgSrc['/adverts/' + adId + '/postImage'] = uploadTask.snapshot.downloadURL;
+                        imgSrc['/adverts/' + postKey + '/sponsorImage'] = uploadTask.snapshot.downloadURL;
                         firebase.database().ref().update(imgSrc);
                     });
             });
@@ -407,8 +419,8 @@ jQuery(document).ready(function($) {
         updates['/adverts/' + postKey + '/sponsorUrl'] = sponUrl;
         
         if(firebase.database().ref().update(updates)){
-            $("#adDetail").empty();
-            $("#adDetail").append("<p>廣告修改成功</p>");
+            $("#adDetail").attr("hidden","hidden");
+            alert("修改完畢");
         }else{
             alert("You may try it later :)");
         }
