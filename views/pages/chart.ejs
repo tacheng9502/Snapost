@@ -133,13 +133,16 @@ var totalpost=0;
         createspline(array);
         createBar(array);
     });
-     var adName;
+
+
      firebase.database().ref('adverts').once("value", function (snapshot){
         snapshot.forEach(function(data){
             var adKey= data.key;
+            var adName;
             firebase.database().ref('adverts'+adKey).once("value", function (snapshot){
-                        adName=snapshot.val().advertTitle;
-                        console.log(snapshot.val().advertTitle);
+                snapshot.forEach(function(data){
+                    adName=data.val().advertTitle
+                });
                     });
             var array = [];
             firebase.database().ref('adverts/'+adKey+'/clickCount').once("value", function (snapshot){
@@ -150,6 +153,7 @@ var totalpost=0;
                     };
                     array.push(post);
                 });
+                console.log(adName);
                 createAdBar(array,adName);
             });
         });
