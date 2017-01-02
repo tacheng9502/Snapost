@@ -147,6 +147,23 @@ jQuery(document).ready(function($) {
             var click = {};
             click['/adverts/' + adId + '/clickCount/totalClick'] = 0;
             firebase.database().ref().update(click);
+            $('#newAd_id').val("");
+            $('#newAd_name').val("");
+            $('#newAd_body').val("");
+            $('#newAd_url').val("");
+            $('#newAd_sponsorName').val("");
+            $('#img_preview').empty();
+            $('#sp_preview').empty();
+            newImageFile1 = null;
+            newImageFile2 = null;
+            var htm = '<tr>\
+                            <td>' + adName + '</td>\
+                            <td>0</td>\
+                            <td>' + adSponsor + '</td>\
+                            <td><button id="' + adName + '_mod" type="button" class="btn btn-primary" href="#" onclick="clickModify(event)">編輯</button></td>\
+                            <td><button id="' + adName + '_del" type="button" class="btn btn-default" href="#" onclick="clickDelete(event)">刪除</button></td>\
+                            </tr>'
+            $("#list").append(htm);
         }else{
             alert("You may try it later :)");
         }
