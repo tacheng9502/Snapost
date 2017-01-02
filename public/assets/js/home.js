@@ -557,34 +557,41 @@ jQuery(document).ready(function ($) {
     }
 
     $(window).scroll(function () {
-        //最後一頁scrollTop=body-window，50是預留空間
-        last = $("body").height() - $(window).height() - 10
-        if ($(window).scrollTop() >= last) {
-            console.log("bottom");
+        var window_height = $(window).height();
+        var window_scrollTop = $(window).scrollTop();
+        var document_height = $(document).height();
+
+        console.log(window_height);
+        console.log(window_scrollTop);
+        console.log(document_height);
+
+        if (window_height + window_scrollTop == document_height) {
+            console.log('到底部囉');
         }
 
-        /** 
-        if (getDocumentTop() + getWindowHeight() >= (getScrollHeight() * 0.95) && loadController) {
-            console.log("快到底了");
-            var lastPostId = $('#list li:last-child').attr('id');
-            var postsRef = firebase.database().ref('posts').limitToLast(8).orderByKey().endAt(lastPostId);
-            postsRef.on('child_added', function (data) {
-                if (!followLastPost.includes(data.key)) {
-                    var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-                    $('#list').append(html);
-                }
-            });
-            postsRef.on('child_changed', function (data) {
-                $('#' + data.key + '_body').text(data.val().postBody);
-            });
-            postsRef.on('child_removed', function (data) {
-                $('#' + data.key).remove();
-            });
-            listeningFirebaseRefs.push(postsRef);
-            showAdvertisment();
-            loadController = false;
-        } else {
-            loadController = true;
-        }*/
     });
+
+    /** 
+    if (getDocumentTop() + getWindowHeight() >= (getScrollHeight() * 0.95) && loadController) {
+        console.log("快到底了");
+        var lastPostId = $('#list li:last-child').attr('id');
+        var postsRef = firebase.database().ref('posts').limitToLast(8).orderByKey().endAt(lastPostId);
+        postsRef.on('child_added', function (data) {
+            if (!followLastPost.includes(data.key)) {
+                var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+                $('#list').append(html);
+            }
+        });
+        postsRef.on('child_changed', function (data) {
+            $('#' + data.key + '_body').text(data.val().postBody);
+        });
+        postsRef.on('child_removed', function (data) {
+            $('#' + data.key).remove();
+        });
+        listeningFirebaseRefs.push(postsRef);
+        showAdvertisment();
+        loadController = false;
+    } else {
+        loadController = true;
+    }*/
 });
