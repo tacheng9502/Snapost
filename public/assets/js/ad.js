@@ -154,8 +154,6 @@ jQuery(document).ready(function($) {
             $('#newAd_sponsorName').val("");
             $('#img_preview').empty();
             $('#sp_preview').empty();
-            newImageFile1 = null;
-            newImageFile2 = null;
             var htm = '<tr id="' + adId + '">\
                             <td>' + adId + '</td>\
                             <td>0</td>\
@@ -303,12 +301,11 @@ jQuery(document).ready(function($) {
     window.sendUpdate = function(event) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -4);
+        console.log(postKey);
         var title = $("#ad_title").val();
         var body = $("#ad_body").val();
         var sponName = $("#ad_spon").val();
         var sponUrl = $("#ad_sponurl").val();
-        var downloadURL1 = null;
-        var downloadURL2 = null;
         var updates = {};
         if (newImageFile1 != null) {
             newImageFile1.croppie('result', {
@@ -349,7 +346,7 @@ jQuery(document).ready(function($) {
                     function() {
                         // Upload completed successfully, now we can get the download URL
                         var imgSrc = {};
-                        imgSrc['/adverts/' + adId + '/postImage'] = uploadTask.snapshot.downloadURL;
+                        imgSrc['/adverts/' + postKey + '/postImage'] = uploadTask.snapshot.downloadURL;
                         firebase.database().ref().update(imgSrc);
                     });
             });
@@ -364,7 +361,7 @@ jQuery(document).ready(function($) {
                 },
                 format: 'jpeg'
             }).then(function(resp) {
-                var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(resp, metadata);
+                var uploadTask = firebase.storage().ref().child('postImage/' + postKey).put(resp, metadata);
                 uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
                     function(snapshot) {
                         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -394,7 +391,7 @@ jQuery(document).ready(function($) {
                     function() {
                         // Upload completed successfully, now we can get the download URL
                         var imgSrc = {};
-                        imgSrc['/adverts/' + adId + '/postImage'] = uploadTask.snapshot.downloadURL;
+                        imgSrc['/adverts/' + postKey + '/postImage'] = uploadTask.snapshot.downloadURL;
                         firebase.database().ref().update(imgSrc);
                     });
             });
