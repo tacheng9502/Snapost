@@ -287,6 +287,7 @@ jQuery(document).ready(function($) {
             $("#adBody").empty().append(body);
             $("#adImg").attr("src", adImg);
             $("#adTargetUrl").empty().append(sponUrl);
+            $("#adTargetUrl").attr("href", sponUrl);
             $("#ref").empty().attr("value", refKey);
         })
     }
