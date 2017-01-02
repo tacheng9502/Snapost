@@ -383,13 +383,24 @@ p {
 }
 
 .dashboard-menu {
-    width: 250px;
-    float: left;
+    position: fixed;
+    top: 50px;
+    left: 225px;
+    width: 225px;
+    margin-left: -225px;
+    border: none;
+    border-radius: 0;
+    overflow-y: auto;
+    background-color: #0068B7;
+    bottom: 0;
+    overflow-x: hidden;
+    padding-bottom: 40px;
 }
+
 
 .dashboard-content {
     float: left;
-    width: calc(100% - 250px);
+    width: calc(100% - 225px);
 }
 
 /* Clear Float */
