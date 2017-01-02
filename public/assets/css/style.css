@@ -245,7 +245,7 @@ p {
     border-bottom: 3px;
 }
 
-#file {
+#file, #spfile {
     visibility: hidden;
     position: absolute;
 }
