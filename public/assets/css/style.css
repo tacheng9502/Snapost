@@ -201,8 +201,8 @@ p {
 }
 
 .breadcrumb {
-    background-color: #aaa;
-    border: 1px solid #999;
+    background-color: #ccc;
+    border: 1px solid #aaa;
 }
 
 .breadcrumb>.active {
