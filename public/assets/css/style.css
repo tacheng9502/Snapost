@@ -401,7 +401,7 @@ p {
     color: #eee;
 }
 
-.dashboard-menu li .active a, .dashboard-menu li .active a:hover,.dashboard-menu li .active a:focus {
+.dashboard-menu li .active a, .dashboard-menu li a:hover, .dashboard-menu li .active a:hover,.dashboard-menu li .active a:focus {
     background-color:#035ca0;
     color: #fff;
 }
