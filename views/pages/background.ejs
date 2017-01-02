@@ -56,9 +56,6 @@ var totalpost=0;
                     }
                 }
         });
-        console.log(array);
-        console.log(array[0].time);
-        console.log(array[0].count);
         for(var i=0;i<array.length;i++){
             chart.load({
                 columns:[
@@ -89,6 +86,7 @@ var totalpost=0;
                     }
                 }
         });
+        console.log(array);
         for(var i=0;i<array.length;i++){
             chart.load({
                 columns:[
@@ -151,8 +149,8 @@ var totalpost=0;
                 };
                 array.push(post);
         });
-        createBar(array);
         createspline(array);
+        createBar(array);
     });
 
      firebase.database().ref('adverts').once("value", function (snapshot){
