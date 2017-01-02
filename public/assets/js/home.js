@@ -1,4 +1,6 @@
 jQuery(document).ready(function ($) {
+    $(".dashboard-menu").hide();
+
     var newImageFile, userName, userImage, currentUserId;
     var listeningFirebaseRefs = [];
     var followLastPost = [];

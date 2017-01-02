@@ -24,7 +24,7 @@ jQuery(document).ready(function($) {
                             <td>' + name + '</td>\
                             <td>' + clickCount + '</td>\
                             <td>' + sponsorName + '</td>\
-                            <td><button id="' + name + '_mod" type="button" class="btn btn-primary" href="#" onclick="clickModify(event)">編輯</button></td>\
+                            <td><button id="' + name + '_mod" type="button" class="btn btn-primary" href="#" onclick="clickView(event)">檢視</button></td>\
                             <td><button id="' + name + '_del" type="button" class="btn btn-default" href="#" onclick="clickDelete(event)">刪除</button></td>\
                             </tr>';
             });
@@ -255,7 +255,22 @@ jQuery(document).ready(function($) {
         }
     });
 
-    window.clickModify = function(event) {
+    $("#edit_b").on('click', function(event) {
+        var oldTitle = $("#adTitle").text();
+        var oldAdBody = $("#adBody").text();
+        var oldTargetUrl = $("#adTargetUrl").text();
+        var ref = $("#ref").val();
+        $('#edit').html(
+            '<button id="' + ref + '_send" class="btn btn-default" onclick="sendUpdate(event)" >' +
+            '<i id="' + ref + '_send" class="fa fa-floppy-o" onclick="sendUpdate(event)" title="save"></i></a>'
+        );
+        $("#adTitle").html('<textarea id="' + ref + '_newTitle" class="form-control" rows="1">' + oldTitle + '</textarea>');
+        $("#adBody").html('<textarea id="' + ref + '_newAdBody" class="form-control" rows="3">' + oldAdBody + '</textarea>');
+        $("#adTargetUrl").html('<textarea id="' + ref + '_newTargetUrl" class="form-control" rows="2">' + oldTargetUrl + '</textarea>');
+       
+    });
+
+    window.clickView = function(event) {
         event.preventDefault();
         var refKey = event.target.id.slice(0, -4);
         var adDetailRef = firebase.database().ref('adverts/' + refKey + '/');
@@ -267,10 +282,13 @@ jQuery(document).ready(function($) {
             var sponUrl = data.val().sponsorUrl;
             var sponName = data.val().sponsorName;
             var sponImg = data.val().sponsorImage;
+            $("#ref").val(data.key);
             $("#sponImg").attr("src", sponImg);
-            $("#sponName").empty().append(title);
+            $("#adTitle").empty().append(title);
             $("#adBody").empty().append(body);
             $("#adImg").attr("src", adImg);
+            $("#adTargetUrl").attr("href", sponUrl);
+            $("#adTargetUrl").empty().append(sponUrl);
             $("#ref").empty().attr("value", refKey);
         })
     }
@@ -300,23 +318,22 @@ jQuery(document).ready(function($) {
     window.sendUpdate = function(event) {
         event.preventDefault();
         var postKey = $("#ref").val();
-        console.log(postKey);
-        var title = $("#ad_title").val();
-        var body = $("#ad_body").val();
-        var sponName = $("#ad_spon").val();
-        var sponUrl = $("#ad_sponurl").val();
+        var body = $("#" + postKey + "_newAdBody").val();
+        var title = $("#" + postKey + "_newTitle").val();
+        var sponUrl = $("#" + postKey + "_newTargetUrl").val();
 
         var updates = {};
         updates['/adverts/' + postKey + '/advertTitle'] = title;
         updates['/adverts/' + postKey + '/postBody'] = body;
-        updates['/adverts/' + postKey + '/sponsorName'] = sponName;
         updates['/adverts/' + postKey + '/sponsorUrl'] = sponUrl;
         
         if(firebase.database().ref().update(updates)){
-            $("#adDetail").attr("hidden","hidden");
-            $("#ad_title").empty();
-            $("#ad_body").empty();
-            $("#ad_sponurl").empty();
+            $("#sponImg").attr("src", "");
+            $("#adTitle").empty();
+            $("#adBody").empty();
+            $("#adImg").attr("src", " ");
+            $("#adTargetUrl").attr("href", " ");
+            $("#adTargetUrl").empty();
             $("#ref").empty().attr("value", " ");
             alert("修改完畢");
         }else{
