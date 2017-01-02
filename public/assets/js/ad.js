@@ -34,7 +34,7 @@ jQuery(document).ready(function($) {
 
     $('#writeNewPost').on('click', function(event) {
         event.preventDefault();
-        var adId = firebase.database().ref().child('adverts').push().key;
+        var adId = $('#newAd_name').val();
         var adTitle = $('#newAd_name').val();
         var adBody = $('#newAd_body').val();
         var adUrl = $('#newAd_url').val();
