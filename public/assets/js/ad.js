@@ -160,9 +160,9 @@ jQuery(document).ready(function($) {
         var reader = new FileReader();
         reader.readAsDataURL(event.target.files[0]); // 讀取檔案
         reader.onload = function (arg) {
-            var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+            var img = '<img id="ad_preview" class="preview" src="' + arg.target.result + '" alt="preview"/>';
             $("#img_preview").empty().append(img);
-            newImageFile1 = $('.preview').croppie({
+            newImageFile1 = $('#ad_preview').croppie({
                 viewport: {
                     width: 400,
                     height: 400,
@@ -184,9 +184,9 @@ jQuery(document).ready(function($) {
         var reader = new FileReader();
         reader.readAsDataURL(event.target.files[0]); // 讀取檔案
         reader.onload = function (arg) {
-            var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+            var img = '<img id="sp_preview" class="preview" src="' + arg.target.result + '" alt="preview"/>';
             $("#sp_preview").empty().append(img);
-            newImageFile2 = $('.preview').croppie({
+            newImageFile2 = $('#sp_preview').croppie({
                 viewport: {
                     width: 400,
                     height: 400,
@@ -204,9 +204,9 @@ jQuery(document).ready(function($) {
         var reader = new FileReader();
         reader.readAsDataURL(event.target.files[0]); // 讀取檔案
         reader.onload = function(arg) {
-            var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+            var img = '<img id="ad_img_pre" class="preview" src="' + arg.target.result + '" alt="preview"/>';
             $("#ad_preview").empty().append(img);
-            newImageFile1 = $('.preview').croppie({
+            newImageFile1 = $('#ad_img_pre').croppie({
                 viewport: {
                     width: 400,
                     height: 400,
@@ -224,9 +224,9 @@ jQuery(document).ready(function($) {
         var reader = new FileReader();
         reader.readAsDataURL(event.target.files[0]); // 讀取檔案
         reader.onload = function(arg) {
-            var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+            var img = '<img id="sp_img_pre" class="preview" src="' + arg.target.result + '" alt="preview"/>';
             $("#sp_preview").empty().append(img);
-            newImageFile2 = $('.preview').croppie({
+            newImageFile2 = $('#sp_img_pre').croppie({
                 viewport: {
                     width: 400,
                     height: 400,
@@ -239,34 +239,6 @@ jQuery(document).ready(function($) {
             });
         }
     });
-
-    window.dragHandler = function(e) {
-        e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
-        e.preventDefault();
-    }
-
-    window.dropImage = function (e) {
-        e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
-        e.preventDefault();
-        var reader = new FileReader();
-        reader.readAsDataURL(e.dataTransfer.files[0]); // 讀取檔案
-        // 渲染至頁面
-        reader.onload = function (arg) {
-            var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
-            $("#img_preview").empty().append(img);
-            newImageFile = $('.preview').croppie({
-                viewport: {
-                    width: 400,
-                    height: 400,
-                    type: 'square'
-                },
-                boundary: {
-                    width: 400,
-                    height: 400
-                }
-            });
-        }
-    }
 
     window.clickModify = function(event) {
         event.preventDefault();
