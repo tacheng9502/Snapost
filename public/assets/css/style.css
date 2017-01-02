@@ -171,6 +171,25 @@ p {
     width: 100%;
 }
 
+#sponImg {
+    margin-top: -3px;
+    vertical-align: initial;
+}
+
+#adTitle {
+    margin-top: 6px;
+    width: 50%;
+}
+
+#adDetail .form-control {
+    height: 28px;
+}
+
+#adTargetUrl {
+    width: 50%;
+}
+
+
 .url {
     padding: 0px 20px 10px 20px;
 }
