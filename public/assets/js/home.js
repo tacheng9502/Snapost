@@ -97,11 +97,6 @@ jQuery(document).ready(function ($) {
     }
 
     function showPost(postNumber) {
-        $('#list').empty();
-        listeningFirebaseRefs.forEach(function (ref) {
-                ref.off();
-            });
-        listeningFirebaseRefs = [];
         var postsRef = firebase.database().ref('posts').orderByKey().limitToLast(postNumber);
         postsRef.on('child_added', function (data) {
             if (!followLastPost.includes(data.key)) {
@@ -563,7 +558,22 @@ jQuery(document).ready(function ($) {
         //console.log(getDocumentTop() + " " + getWindowHeight() + " " + getScrollHeight());
         if (getDocumentTop() + getWindowHeight() >= (getScrollHeight() * 0.95)) {
             console.log("快到底了");
-            showPost(16);
+            var lastPostId = $('#list li:last-child').attr('id');
+            var postsRef = firebase.database().ref('posts').orderByKey().endAt(lastPostId).limitToLast(8);
+            postsRef.on('child_added', function (data) {
+                if (!followLastPost.includes(data.key)) {
+                    var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+                    $('#list').prepend(html);
+                }
+            });
+            postsRef.on('child_changed', function (data) {
+                $('#' + data.key + '_body').text(data.val().postBody);
+            });
+            postsRef.on('child_removed', function (data) {
+                $('#' + data.key).remove();
+            });
+            listeningFirebaseRefs.push(postsRef);
+            showAdvertisment();
         }
     }
 });
