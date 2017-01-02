@@ -183,6 +183,8 @@ p {
 
 #adDetail .form-control {
     height: 28px;
+    font-weight: normal;
+    margin-bottom: 10px;
 }
 
 #adDetail textarea.form-control {
