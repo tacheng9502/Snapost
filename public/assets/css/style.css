@@ -148,7 +148,7 @@ p {
     background: #fff;
 }
 
-#img_preview {
+#img_preview, #sp_preview {
     margin-bottom: 30px;
 }
 
@@ -251,7 +251,7 @@ p {
 }
 
 .input-group {
-    margin-bottom: 15px;
+    margin-bottom: 8px;
 }
 
 .form-control[disabled] {
