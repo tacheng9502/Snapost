@@ -22,7 +22,11 @@
 <script>
 jQuery(document).ready(function ($) {
 
-    $( "#chart" ).toggle();
+    $( "#chart" ).click(function() {
+        $( "#usercount" ).toggle();
+        $( "#post" ).toggle();
+        $( "#ad" ).toggle();
+});
 var totalpost=0;
     function createAdBar(array,adName){
         $('#ad').append('<div id='+adName+'></div>');
