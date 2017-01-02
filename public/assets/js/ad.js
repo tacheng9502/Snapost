@@ -263,10 +263,9 @@ jQuery(document).ready(function($) {
             '<button id="' + ref + '_send" class="btn btn-default" onclick="sendUpdate(event)" >' +
             '<i id="' + ref + '_send" class="fa fa-floppy-o" onclick="sendUpdate(event)" title="save"></i></a>'
         );
-        $("#adTitle").html('<input id="' + ref + '_newTitle" class="form-control">' + oldTitle + '</input>');
+        $("#adTitle").html('<input id="' + ref + '_newTitle" class="form-control" value="' + oldTitle + '">');
         $("#adBody").html('<textarea id="' + ref + '_newAdBody" class="form-control" rows="3">' + oldAdBody + '</textarea>');
-        $("#adTargetUrl").html('<input id="' + ref + '_newTargetUrl" class="form-control">' + oldTargetUrl + '</input>');
-
+        $("#adTargetUrl").html('<input id="' + ref + '_newTargetUrl" class="form-control" value="' + oldTargetUrl + '">');
     });
 
     window.clickView = function(event) {
