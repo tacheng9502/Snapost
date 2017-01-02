@@ -556,15 +556,14 @@ jQuery(document).ready(function ($) {
     }
 
     $(window).scroll(function () {
-        var window_height = $(window).height();
         var window_scrollTop = $(window).scrollTop();
         var document_height = $(document).height();
+        var leastHeight = 680;
 
-        console.log(window_height);
         console.log(window_scrollTop);
         console.log(document_height);
 
-        if (window_height + window_scrollTop == document_height) {
+        if (leastHeight + window_scrollTop == document_height) {
             console.log('到底部囉');
         }
 
