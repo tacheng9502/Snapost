@@ -419,8 +419,8 @@ jQuery(document).ready(function ($) {
         var timeArray = $('#' + postKey + '_postTime').text().split("/");
 
         swal({
-                title: "確認刪除留言?",
-                text: "刪除後留言將無法復原",
+                title: "確認刪除貼文?",
+                text: "刪除後貼文將無法復原",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
@@ -433,7 +433,7 @@ jQuery(document).ready(function ($) {
                 deletes['/post-comments/' + postKey] = null;
                 deletes['/users/' + currentUserId + '/userPost/' + postKey] = null;
                 firebase.database().ref().update(deletes);
-                swal("已刪除", "留言已經成功刪除", "success");
+                swal("已刪除", "貼文已經成功刪除", "success");
                 firebase.database().ref('/users/' + currentUserId + '/userPostCount').transaction(function (currentCount) {
                     return currentCount - 1;
                 });
