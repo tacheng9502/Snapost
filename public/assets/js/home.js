@@ -524,7 +524,7 @@ jQuery(document).ready(function ($) {
             postsRef.on('child_added', function (data) {
                 if (!followLastPost.includes(data.key) && lastPostId != data.key) {
                     var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-                    $('#list>li:last').after(html);
+                    $('#list>li:last').before(html);
                 }
             });
             postsRef.on('child_changed', function (data) {
