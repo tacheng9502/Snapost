@@ -28,6 +28,10 @@
 <script>
 jQuery(document).ready(function ($) {
 
+    $("#dashboard-menu li a").click(function(){
+       $(this).addClass("active").parent().siblings().find("a").removeAttr("class");
+    });
+
     $( "#chart" ).click(function() {
         $( "#usercount" ).toggle();
         $( "#post" ).toggle();
