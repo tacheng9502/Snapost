@@ -158,8 +158,7 @@ jQuery(document).ready(function($) {
                             <td>' + adId + '</td>\
                             <td>0</td>\
                             <td>' + adSponsor + '</td>\
-                            <td><button id="' + adId + '_mod" type="button" class="btn btn-primary" href="#" onclick="clickView(event)">檢視</button></td>\
-                            <td><button id="' + adId + '_del" type="button" class="btn btn-default" href="#" onclick="clickDelete(event)">刪除</button></td>\
+                            <td><button id="' + adId + '_mod" type="button" class="btn btn-primary btn-sm" href="#" onclick="clickView(event)">檢視</button>&nbsp;<button id="' + adId + '_del" type="button" class="btn btn-default btn-sm" href="#" onclick="clickDelete(event)">刪除</button></td>\
                             </tr>'
             $("#list").append(htm);
         }else{
