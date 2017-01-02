@@ -556,7 +556,7 @@ jQuery(document).ready(function ($) {
         return scrollHeight;
     }
 
-    window.scroll(function () {
+    window.onscroll(function () {
         
         if ($(document).height() - window.height() == window.scrollTop() && loadController) {
             loadController = false;
