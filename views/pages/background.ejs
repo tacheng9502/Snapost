@@ -28,7 +28,7 @@
 <script>
 jQuery(document).ready(function ($) {
 
-    $("#dashboard-menu li a").click(function(){
+    $("#dashboard-menu>li>a").click(function(){
        $(this).addClass("active");
     });
 
@@ -36,7 +36,8 @@ jQuery(document).ready(function ($) {
         $( "#usercount" ).toggle();
         $( "#post" ).toggle();
         $( "#ad" ).toggle();
-});
+    });
+
 var totalpost=0;
     function createAdBar(array,adName){
         $('#ad').append('<div id='+adName+'></div>');
