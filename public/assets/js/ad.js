@@ -17,11 +17,12 @@ jQuery(document).ready(function($) {
             $("#list").empty();
             snapshot.forEach(function(data) {
                 var name = data.key;
+                var title = data.val().advertTitle;
                 var clickCount;
                 var sponsorName = data.val().sponsorName;
                 (data.val().clickCount.totalClick == null) ? (clickCount = 0) : (clickCount = data.val().clickCount.totalClick);
                 adHtml += '<tr id="' + name + '">\
-                            <td>' + name + '</td>\
+                            <td>' + title + '</td>\
                             <td>' + clickCount + '</td>\
                             <td>' + sponsorName + '</td>\
                             <td><button id="' + name + '_mod" type="button" class="btn btn-primary" href="#" onclick="clickView(event)">檢視</button></td>\
