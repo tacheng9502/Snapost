@@ -152,14 +152,14 @@ p {
     margin-bottom: 30px;
 }
 
-#followList li, #list li {
+#adDetail li, #followList li, #list li {
     margin: 20px 0;
     border: 1px solid #ddd;
     border-radius: 4px;
     background: #fff;
 }
 
-#followList p, #list p {
+#adDetail p, #followList p, #list p {
     padding: 10px 20px;
 }
 
