@@ -200,6 +200,15 @@ p {
     margin-left: 4px;
 }
 
+.breadcrumb {
+    background-color: #aaa;
+    border: 1px solid #999;
+}
+
+.breadcrumb>.active {
+    color: #292929;
+}
+
 .table {
     margin-bottom: 0px;
 }

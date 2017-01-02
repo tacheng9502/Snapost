@@ -1,7 +1,14 @@
 <link href="assets/css/c3.min.css" rel="stylesheet" type="text/css">
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="assets/js/c3.min.js"></script>
+
 <div class="dashboard">
+    <ol class="breadcrumb">
+        <li class="active">
+            <i class="fa fa-bar-chart fa-fw"></i>&nbsp;報表分析
+        </li>
+    </ol>
+
     <div id="usercount"></div>
     <div id="post"></div>
     <div id="ad"></div>
@@ -146,7 +153,7 @@ var totalpost=0;
                     createAdBar(array,adKey);
             });
         });
-        
+
     });
 
 });
