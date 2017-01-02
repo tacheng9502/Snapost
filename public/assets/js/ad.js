@@ -264,15 +264,13 @@ jQuery(document).ready(function($) {
             var title = data.val().advertTitle;
             var body = data.val().postBody;
             var adImg = data.val().postImage;
+            var sponUrl = data.val().sponsorUrl;
             var sponName = data.val().sponsorName;
             var sponImg = data.val().sponsorImage;
-            var sponUrl = data.val().sponsorUrl;
-            $("#ad_title").empty().append(title);
-            $("#ad_body").empty().append(body);
-            $("#ad_spon").empty().append(sponName);
-            $("#ad_sponurl").empty().append(sponUrl);
-            $("#curAd").empty().attr("src", adImg);
-            $("#curSp").empty().attr("src", sponImg);
+            $("#sponImg").attr("src", sponImg);
+            $("#sponName").empty().append(title);
+            $("#adBody").empty().append(body);
+            $("#adImg").attr("src", adImg);
             $("#ref").empty().attr("value", refKey);
         })
     }
@@ -307,110 +305,6 @@ jQuery(document).ready(function($) {
         var body = $("#ad_body").val();
         var sponName = $("#ad_spon").val();
         var sponUrl = $("#ad_sponurl").val();
-        var updates = {};
-        var metadata = {
-            contentType: 'image/jpeg'
-        };
-        if (newImageFile1 != null) {
-            newImageFile1.croppie('result', {
-                type: 'blob',
-                size: {
-                    width: 600,
-                    height: 600
-                },
-                format: 'jpeg'
-            }).then(function(resp) {
-                var uploadTask = firebase.storage().ref().child('postImage/' + postKey).put(resp, metadata);
-                uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-                    function(snapshot) {
-                        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        console.log('Upload is ' + progress + '% done');
-                        switch (snapshot.state) {
-                            case firebase.storage.TaskState.PAUSED:
-                                console.log('Upload is paused');
-                                break;
-                            case firebase.storage.TaskState.RUNNING:
-                                console.log('Upload is running');
-                                break;
-                        }
-                    },
-                    function(error) {
-                        switch (error.code) {
-                            case 'storage/unauthorized':
-                                // User doesn't have permission to access the object
-                                break;
-                            case 'storage/canceled':
-                                // User canceled the upload
-                                break;
-                            case 'storage/unknown':
-                                // Unknown error occurred, inspect error.serverResponse
-                                break;
-                        }
-                    },
-                    function() {
-                        // Upload completed successfully, now we can get the download URL
-                        var imgSrc = {};
-                        imgSrc['/adverts/' + postKey + '/postImage'] = uploadTask.snapshot.downloadURL;
-                        firebase.database().ref().update(imgSrc);
-                        $("#ad_title").empty();
-                        $("#ad_body").empty();
-                        $("#ad_spon").empty();
-                        $("#ad_sponurl").empty();
-                        $("#ad_preview_up").empty();
-                        $("#sp_preview_up").empty();
-                        $("#curAd").empty().attr("src", " ");
-                        $("#curSp").empty().attr("src", " ");
-                        $("#ref").empty().attr("value", " ");
-                        newImageFile1 = null;
-                        newImageFile2 = null;
-                    });
-            });
-        };
-
-        if (newImageFile2 != null) {
-            newImageFile2.croppie('result', {
-                type: 'blob',
-                size: {
-                    width: 600,
-                    height: 600
-                },
-                format: 'jpeg'
-            }).then(function(resp) {
-                var uploadTask = firebase.storage().ref().child('postImage/' + postKey).put(resp, metadata);
-                uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-                    function(snapshot) {
-                        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        console.log('Upload is ' + progress + '% done');
-                        switch (snapshot.state) {
-                            case firebase.storage.TaskState.PAUSED:
-                                console.log('Upload is paused');
-                                break;
-                            case firebase.storage.TaskState.RUNNING:
-                                console.log('Upload is running');
-                                break;
-                        }
-                    },
-                    function(error) {
-                        switch (error.code) {
-                            case 'storage/unauthorized':
-                                // User doesn't have permission to access the object
-                                break;
-                            case 'storage/canceled':
-                                // User canceled the upload
-                                break;
-                            case 'storage/unknown':
-                                // Unknown error occurred, inspect error.serverResponse
-                                break;
-                        }
-                    },
-                    function() {
-                        // Upload completed successfully, now we can get the download URL
-                        var imgSrc = {};
-                        imgSrc['/adverts/' + postKey + '/sponsorImage'] = uploadTask.snapshot.downloadURL;
-                        firebase.database().ref().update(imgSrc);
-                    });
-            });
-        };
 
         var updates = {};
         updates['/adverts/' + postKey + '/advertTitle'] = title;
@@ -420,6 +314,10 @@ jQuery(document).ready(function($) {
         
         if(firebase.database().ref().update(updates)){
             $("#adDetail").attr("hidden","hidden");
+            $("#ad_title").empty();
+            $("#ad_body").empty();
+            $("#ad_sponurl").empty();
+            $("#ref").empty().attr("value", " ");
             alert("修改完畢");
         }else{
             alert("You may try it later :)");
