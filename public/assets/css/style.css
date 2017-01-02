@@ -394,7 +394,7 @@ p {
     top: 0;
 }
 
-.dashboard-menu:hover, .dashboard-menu:active, .dashboard-menu:focus {
+.dashboard-menu:hover, .dashboard-menu:active, .dashboard-menu:focus, .dashboard-menu:visited {
     background-color:#035ca0;
 }
 
