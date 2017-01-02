@@ -34,6 +34,7 @@ jQuery(document).ready(function($) {
 
     $('#writeNewPost').on('click', function(event) {
         event.preventDefault();
+        var adId = $('#newAd_id').val();
         var adName = $('#newAd_name').val();
         var adBody = $('#newAd_body').val();
         var adUrl = $('#newAd_url').val();
@@ -42,63 +43,108 @@ jQuery(document).ready(function($) {
             contentType: 'image/jpeg'
         };
 
-        newImageFile.croppie('result', {
-            type: 'blob',
-            size: {
-                width: 600,
-                height: 600
-            },
-            format: 'jpeg'
-        }).then(function(resp) {
-            var uploadTask = firebase.storage().ref().child('adverts/' + adName).put(resp, metadata);
-            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-                function(snapshot) {
-                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
-                    switch (snapshot.state) {
-                        case firebase.storage.TaskState.PAUSED:
-                            console.log('Upload is paused');
-                            break;
-                        case firebase.storage.TaskState.RUNNING:
-                            console.log('Upload is running');
-                            break;
-                    }
+        var downloadURL1 = null;
+        var downloadURL2 = null;
+        var sets = {};
+        if (newImageFile1 != null) {
+            newImageFile1.croppie('result', {
+                type: 'blob',
+                size: {
+                    width: 600,
+                    height: 600
                 },
-                function(error) {
-                    switch (error.code) {
-                        case 'storage/unauthorized':
-                            // User doesn't have permission to access the object
-                            break;
-                        case 'storage/canceled':
-                            // User canceled the upload
-                            break;
-                        case 'storage/unknown':
-                            // Unknown error occurred, inspect error.serverResponse
-                            break;
-                    }
-                },
-                function() {
-                    // Upload completed successfully, now we can get the download URL
-                    var downloadURL = uploadTask.snapshot.downloadURL;
-                    // A post entry.
-                    var postData = {
-                        postBody: adBody,
-                        postImage: downloadURL,
-                        sponsorUrl: adUrl,
-                        sponsorName: adSponsor
-                    };
+                format: 'jpeg'
+            }).then(function(resp) {
+                var uploadTask = firebase.storage().ref().child('adverts/' + adId).put(resp, metadata);
+                uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+                    function(snapshot) {
+                        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        console.log('Upload is ' + progress + '% done');
+                        switch (snapshot.state) {
+                            case firebase.storage.TaskState.PAUSED:
+                                console.log('Upload is paused');
+                                break;
+                            case firebase.storage.TaskState.RUNNING:
+                                console.log('Upload is running');
+                                break;
+                        }
+                    },
+                    function(error) {
+                        switch (error.code) {
+                            case 'storage/unauthorized':
+                                // User doesn't have permission to access the object
+                                break;
+                            case 'storage/canceled':
+                                // User canceled the upload
+                                break;
+                            case 'storage/unknown':
+                                // Unknown error occurred, inspect error.serverResponse
+                                break;
+                        }
+                    },
+                    function() {
+                        // Upload completed successfully, now we can get the download URL
+                        downloadURL1 = uploadTask.snapshot.downloadURL;
+                    });
+            });
+        };
 
-                    var sets = {};
-                    sets['/adverts/' + newPostKey] = postData;
-                    firebase.database().ref().update(sets);
-                    $('#newAd_name').val("");
-                    $('#newAd_body').val("");
-                    $('#newAd_url').val("");
-                    $('#newAd_sponsorName').val("");
-                    $("#img_preview").empty();
-                    newImageFile = null;
-                });
-        });
+        if (newImageFile2 != null) {
+            newImageFile2.croppie('result', {
+                type: 'blob',
+                size: {
+                    width: 600,
+                    height: 600
+                },
+                format: 'jpeg'
+            }).then(function(resp) {
+                var uploadTask = firebase.storage().ref().child('adverts/' + adId).put(resp, metadata);
+                uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+                    function(snapshot) {
+                        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        console.log('Upload is ' + progress + '% done');
+                        switch (snapshot.state) {
+                            case firebase.storage.TaskState.PAUSED:
+                                console.log('Upload is paused');
+                                break;
+                            case firebase.storage.TaskState.RUNNING:
+                                console.log('Upload is running');
+                                break;
+                        }
+                    },
+                    function(error) {
+                        switch (error.code) {
+                            case 'storage/unauthorized':
+                                // User doesn't have permission to access the object
+                                break;
+                            case 'storage/canceled':
+                                // User canceled the upload
+                                break;
+                            case 'storage/unknown':
+                                // Unknown error occurred, inspect error.serverResponse
+                                break;
+                        }
+                    },
+                    function() {
+                        // Upload completed successfully, now we can get the download URL
+                        downloadURL2 = uploadTask.snapshot.downloadURL;
+                    });
+            });
+        };
+
+        var sets = {};
+        (downloadURL1 == null) ? (downloadURL1 = null) : (sets['/adverts/' + adId + '/postImage'] = downloadURL1);
+        (downloadURL2 == null) ? (downloadURL2 = null) : (sets['/adverts/' + adId + '/postImage'] = downloadURL2);
+        sets['/adverts/' + adId + '/advertTitle'] = title;
+        sets['/adverts/' + adId + '/postBody'] = body;
+        sets['/adverts/' + adId + '/sponsorName'] = sponName;
+        sets['/adverts/' + adId + '/sponsorUrl'] = sponUrl;
+
+        if(firebase.database().ref().update(sets)){
+            
+        }else{
+            alert("You may try it later :)");
+        }
     });
 
     $("#img_input").on('click', function () {
@@ -111,7 +157,31 @@ jQuery(document).ready(function($) {
         reader.onload = function (arg) {
             var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
             $("#img_preview").empty().append(img);
-            newImageFile = $('.preview').croppie({
+            newImageFile1 = $('.preview').croppie({
+                viewport: {
+                    width: 400,
+                    height: 400,
+                    type: 'square'
+                },
+                boundary: {
+                    width: 400,
+                    height: 400
+                }
+            });
+        }
+    });
+
+    $("#sp_input").on('click', function () {
+        $('#spfile').trigger('click');
+    });
+
+    $("#spfile").on("change", function (event) {
+        var reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]); // 讀取檔案
+        reader.onload = function (arg) {
+            var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+            $("#sp_preview").empty().append(img);
+            newImageFile2 = $('.preview').croppie({
                 viewport: {
                     width: 400,
                     height: 400,
@@ -126,13 +196,11 @@ jQuery(document).ready(function($) {
     });
 
     $("#ad_img_f").on("change", function(event) {
-        console.log("click!");
         var reader = new FileReader();
         reader.readAsDataURL(event.target.files[0]); // 讀取檔案
         reader.onload = function(arg) {
             var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
             $("#ad_preview").empty().append(img);
-            console.log(img);
             newImageFile1 = $('.preview').croppie({
                 viewport: {
                     width: 400,
@@ -235,7 +303,7 @@ jQuery(document).ready(function($) {
                 },
                 format: 'jpeg'
             }).then(function(resp) {
-                var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(resp, metadata);
+                var uploadTask = firebase.storage().ref().child('postImage/' + postKey).put(resp, metadata);
                 uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
                     function(snapshot) {
                         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
