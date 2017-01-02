@@ -378,8 +378,7 @@ p {
 
 /* Dashboard */
 .dashboard {
-    margin: 90px auto 40px auto;
-    width: 100%;
+    margin: 90px 40px 40px 40px;
     text-align: center;
 }
 
