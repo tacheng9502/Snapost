@@ -143,16 +143,7 @@ var totalpost=0;
                     };
                     array.push(post);
                 });
-                firebase.database().ref('adverts/'+adKey+'/advertTitle').once("value", function (snapshot){
-                snapshot.forEach(function(data){
-                    var adName=data.val()
-                    console.log(adName);
-                });
-                
-                console.log(array);
                     createAdBar(array,adName);
-            });
-                    //createAdBar(array,adName);
             });
         });
         
