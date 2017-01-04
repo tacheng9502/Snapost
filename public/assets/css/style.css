@@ -165,7 +165,7 @@ p {
 
 #adDetail p, #followList p, #list p {
     padding: 10px 20px;
-    word-wrap: break-all;
+    word-break: break-all;
 }
 
 #list a:hover, a:visited, a:active, a:link {

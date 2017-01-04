@@ -1,4 +1,6 @@
 jQuery(document).ready(function($) {
+    $("#userInfo").hide();
+    $(".dashboard-menu").show();
     var newImageFile1, newImageFile2;
     var listeningFirebaseRefs = [];
 
