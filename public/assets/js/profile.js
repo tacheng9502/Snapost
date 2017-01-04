@@ -12,7 +12,7 @@ jQuery(document).ready(function($) {
             userImage = user.photoURL;
             currentUserId = user.uid;
             $('#userInfo').html(
-                '<img src="' + userImage + '" class="img-circle" width="30px">&nbsp;&nbsp;' +
+                '<img src="' + userImage + '" class="img-circle" width="30px" height="30px">&nbsp;&nbsp;' +
                 '<span>' + userName + '</span>'
             );
             startDatabaseQueries();
