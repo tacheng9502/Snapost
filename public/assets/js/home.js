@@ -1,6 +1,5 @@
 jQuery(document).ready(function ($) {
     var win = $(window);
-    $(".dashboard-menu").hide();
 
     var newImageFile, userName, userImage, currentUserId;
     var listeningFirebaseRefs = [];

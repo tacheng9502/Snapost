@@ -1,5 +1,4 @@
 jQuery(document).ready(function($) {
-    $(".dashboard-menu").hide();
 
     var userName, userImage, currentUserId, queryName;
     var listeningFirebaseRefs = [];
