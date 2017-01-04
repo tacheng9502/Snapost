@@ -37,6 +37,10 @@ q:before, q:after {
     content: none;
 }
 
+textarea {
+    resize: none;
+}
+
 :focus {
     outline: 0;
 }
@@ -161,6 +165,7 @@ p {
 
 #adDetail p, #followList p, #list p {
     padding: 10px 20px;
+    word-wrap: break-all;
 }
 
 #list a:hover, a:visited, a:active, a:link {
@@ -303,6 +308,7 @@ p {
     border: 0px;
     margin: 0px;
     border-bottom: 3px;
+    word-break: break-all;
 }
 
 #file, #spfile {
@@ -451,7 +457,7 @@ p {
 }
 
 .dashboard-menu {
-    display:block;
+    display:none;
     padding:12px 20px;
     color:white;
     position: absolute;
