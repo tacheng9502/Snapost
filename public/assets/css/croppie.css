@@ -10,6 +10,11 @@
 	transform-origin: 0 0;
     max-width: none;
 }
+
+.cr-image {
+    background: #fff;
+}
+
 .croppie-container .cr-boundary {
 	position: relative;
 	overflow: hidden;
