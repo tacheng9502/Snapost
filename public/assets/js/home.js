@@ -141,6 +141,7 @@ jQuery(document).ready(function ($) {
                 '</button>' +
                 '</div>';
         }
+        var editedpostbody=postBody.replace(/(^|\W)(#[a-z\d][\w-]*)/ig, '$1<span>$2</span>');
 
         html = html +
             '</div>' +
