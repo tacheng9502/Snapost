@@ -534,14 +534,10 @@ jQuery(document).ready(function ($) {
                 }
             });
             postsRef.on('child_changed', function (data) {
-                if (!followLastPost.includes(data.key) && lastPostId != data.key) {
                     $('#' + data.key + '_body').text(data.val().postBody);
-                }
             });
             postsRef.on('child_removed', function (data) {
-                if (!followLastPost.includes(data.key) && lastPostId != data.key) {
                     $('#' + data.key).remove();
-                }
             });
             listeningFirebaseRefs.push(postsRef);
         } else {
