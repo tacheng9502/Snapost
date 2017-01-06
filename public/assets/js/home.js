@@ -382,7 +382,7 @@ jQuery(document).ready(function ($) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -5);
         var postBody = $('#' + postKey + '_newBody').val();
-
+        var editedpostBody=postBody.replace(/(^|\s)(#[\S]+)/ig, '$1<span style="color:blue"><a>$2</a></span>');
         var updates = {};
         updates['/posts/' + postKey + '/postBody'] = postBody;
         firebase.database().ref().update(updates);
@@ -396,7 +396,7 @@ jQuery(document).ready(function ($) {
             '</button>'
         );
 
-        $('#' + postKey + '_body').html(postBody);
+        $('#' + postKey + '_body').html(editedpostBody);
     }
 
     window.clickUpdate = function (event) {
