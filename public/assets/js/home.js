@@ -141,7 +141,7 @@ jQuery(document).ready(function ($) {
                 '</button>' +
                 '</div>';
         }
-        var editedpostbody=postBody.replace(/(^|\s)(#[\S]+)/ig, '$1<span style="color:blue"><a>$2</a></span>');
+        var editedpostbody = postBody.replace(/(^|\s)(#[\S]+)/ig, '$1<span style="color:blue"><a>$2</a></span>');
 
         html = html +
             '</div>' +
@@ -273,6 +273,7 @@ jQuery(document).ready(function ($) {
 
     $('#writeNewPost').on('click', function (event) {
         event.preventDefault();
+        $('#writeNewPost').attr("disabled", "disabled");
         var postBody = $('#newPost_body').val();
         var date = new Date();
         var postTime = date.getTime();
@@ -293,13 +294,10 @@ jQuery(document).ready(function ($) {
             uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
                 function (snapshot) {
                     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
                     switch (snapshot.state) {
                         case firebase.storage.TaskState.PAUSED:
-                            console.log('Upload is paused');
                             break;
                         case firebase.storage.TaskState.RUNNING:
-                            console.log('Upload is running');
                             break;
                     }
                 },
@@ -346,6 +344,8 @@ jQuery(document).ready(function ($) {
                     firebase.database().ref('statistic/' + thisYear + '-' + thisMonth + '/postCount').transaction(function (currentCount) {
                         return currentCount + 1;
                     });
+
+                    $('#writeNewPost').removeAttr("disabled");
                 });
         });
     });
@@ -382,7 +382,7 @@ jQuery(document).ready(function ($) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -5);
         var postBody = $('#' + postKey + '_newBody').val();
-        var editedpostBody=postBody.replace(/(^|\s)(#[\S]+)/ig, '$1<span style="color:blue"><a>$2</a></span>');
+        var editedpostBody = postBody.replace(/(^|\s)(#[\S]+)/ig, '$1<span style="color:blue"><a>$2</a></span>');
         var updates = {};
         updates['/posts/' + postKey + '/postBody'] = postBody;
         firebase.database().ref().update(updates);
