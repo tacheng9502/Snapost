@@ -145,7 +145,7 @@ jQuery(document).ready(function ($) {
 
         html = html +
             '</div>' +
-            '<p id="' + postKey + '_body">' + postBody + '</p>' +
+            '<p id="' + postKey + '_body">' + editedpostbody + '</p>' +
             '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>';
 
         if (likeStatus != null) {
