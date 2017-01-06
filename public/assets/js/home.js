@@ -141,7 +141,7 @@ jQuery(document).ready(function ($) {
                 '</button>' +
                 '</div>';
         }
-        var editedpostbody=postBody.replace(/(^|\W)(#[a-z\d][\w-]*)/ig, '$1<span>$2</span>');
+        var editedpostbody=postBody.replace(/(^|\W)(#[a-z\d][\w-]*)/ig, '$1<span style="color:blue"><a>$2</a></span>');
 
         html = html +
             '</div>' +
