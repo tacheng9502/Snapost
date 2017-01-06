@@ -236,8 +236,12 @@ jQuery(document).ready(function ($) {
     }
 
     function stripHTML(input) {
-        var regEx = /<[^>]*>/g;
-        return input.replace(regEx, "");
+        return input
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
     }
 
     $("#img_input").on('click', function () {
@@ -534,10 +538,10 @@ jQuery(document).ready(function ($) {
                 }
             });
             postsRef.on('child_changed', function (data) {
-                    $('#' + data.key + '_body').text(data.val().postBody);
+                $('#' + data.key + '_body').text(data.val().postBody);
             });
             postsRef.on('child_removed', function (data) {
-                    $('#' + data.key).remove();
+                $('#' + data.key).remove();
             });
             listeningFirebaseRefs.push(postsRef);
         } else {
