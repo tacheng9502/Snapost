@@ -235,6 +235,11 @@ jQuery(document).ready(function ($) {
         });
     }
 
+    function stripHTML(input) {
+        var regEx = /<[^>]*>/g;
+        return input.replace(regEx, "");
+    }
+
     $("#img_input").on('click', function () {
         $('#file').trigger('click');
     });
@@ -274,7 +279,7 @@ jQuery(document).ready(function ($) {
     $('#writeNewPost').on('click', function (event) {
         event.preventDefault();
         $('#writeNewPost').attr("disabled", "disabled");
-        var postBody = $('#newPost_body').val();
+        var postBody = stripHTML($('#newPost_body').val());
         var date = new Date();
         var postTime = date.getTime();
         var newPostKey = firebase.database().ref().child('posts').push().key;
@@ -381,7 +386,7 @@ jQuery(document).ready(function ($) {
     window.sendUpdate = function (event) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -5);
-        var postBody = $('#' + postKey + '_newBody').val();
+        var postBody = stripHTML($('#' + postKey + '_newBody').val());
         var editedpostBody = postBody.replace(/(^|\s)(#[\S]+)/ig, '$1<span style="color:blue"><a>$2</a></span>');
         var updates = {};
         updates['/posts/' + postKey + '/postBody'] = postBody;
