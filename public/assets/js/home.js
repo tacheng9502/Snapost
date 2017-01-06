@@ -279,7 +279,7 @@ jQuery(document).ready(function ($) {
         var postTime = date.getTime();
         var newPostKey = firebase.database().ref().child('posts').push().key;
         var metadata = {
-            contentType: 'image/jpeg'
+            contentType: 'image/png'
         };
 
         newImageFile.croppie('result', {
@@ -288,7 +288,7 @@ jQuery(document).ready(function ($) {
                 width: 600,
                 height: 600
             },
-            format: 'jpeg'
+            format: 'png'
         }).then(function (resp) {
             var uploadTask = firebase.storage().ref().child('postImage/' + newPostKey).put(resp, metadata);
             uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
