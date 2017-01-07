@@ -141,14 +141,16 @@ jQuery(document).ready(function ($) {
                 '</button>' +
                 '</div>';
         }
-        
+
         var matched = postBody.match(/(^#\S+)|(\s+#\S+)/g);
-        [].forEach.call(matched, function (matchText) {
-            var template = '<span style="color:blue"><a href="/hashtag?tag={#n}">{#}</a></span>';
-            template = template.replace('{#n}', matchText.slice(1));
-            template = template.replace('{#}', matchText);
-            postBody = postBody.replace(matchText, template);
-        });
+        if (match != null) {
+            [].forEach.call(matched, function (matchText) {
+                var template = '<span style="color:blue"><a href="/hashtag?tag={#n}">{#}</a></span>';
+                template = template.replace('{#n}', matchText.slice(1));
+                template = template.replace('{#}', matchText);
+                postBody = postBody.replace(matchText, template);
+            });
+        }
 
         html = html +
             '</div>' +
@@ -408,12 +410,14 @@ jQuery(document).ready(function ($) {
         var postBody = stripHTML($('#' + postKey + '_newBody').val());
 
         var matched = postBody.match(/(^#\S+)|(\s+#\S+)/g);
-        [].forEach.call(matched, function (matchText) {
-            var template = '<span style="color:blue"><a href="/hashtag?tag={#n}">{#}</a></span>';
-            template = template.replace('{#}', matchText.slice(1));
-            template = template.replace('{#}', matchText);
-            postBody = postBody.replace(matchText, template);
-        });
+        if (match != null) {
+            [].forEach.call(matched, function (matchText) {
+                var template = '<span style="color:blue"><a href="/hashtag?tag={#n}">{#}</a></span>';
+                template = template.replace('{#n}', matchText.slice(1));
+                template = template.replace('{#}', matchText);
+                postBody = postBody.replace(matchText, template);
+            });
+        }
 
         var updates = {};
         updates['/posts/' + postKey + '/postBody'] = postBody;
