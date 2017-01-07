@@ -317,6 +317,7 @@ p {
     cursor: pointer;
     float: right;
     color: #777;
+    margin: 4.5px auto;
 }
 
 .like, .comment-btn, .share {
