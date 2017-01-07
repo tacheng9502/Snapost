@@ -83,6 +83,7 @@ h1 {
     font-size: 27px;
     margin-top: 0px;
     margin-bottom: 0px;
+    float: left;
 }
 
 h1 a {
@@ -111,13 +112,13 @@ p {
 }
 
 .header {
-    text-align: center;
     box-shadow: 0 -1px 0 rgba(0,0,0,0.1) inset;
     background-color: #0068B7;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 9999;
+    padding: 0px 30px;
 }
 
 .content {
@@ -329,9 +330,7 @@ p {
     display:block;
     padding:9.5px 20px;
     color:white;
-    position: absolute;
-    right: 0;
-    top: 0;
+    float: right;
 }
 
 #userInfo:hover {
@@ -460,9 +459,7 @@ p {
     display:none;
     padding:12px 20px;
     color:white;
-    position: absolute;
-    right: 0;
-    top: 0;
+    float: right;
 }
 
 .dashboard-menu:hover, .dashboard-menu:active, .dashboard-menu:focus, .dashboard-menu:visited {
