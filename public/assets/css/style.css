@@ -77,13 +77,14 @@ a:hover, a:visited, a:active, a:link {
 
 h1 {
     font-family: Lobster;
-    padding: 10px 15px 10px 15px;
+    padding: 0px 20px 0px 15px;
     color: white;
     font-weight: bold;
     font-size: 27px;
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin: 10px auto;
     float: left;
+    border-right: 1px solid #fff;
+
 }
 
 h1 a {
@@ -118,7 +119,7 @@ p {
     top: 0;
     width: 100%;
     z-index: 9999;
-    padding: 0px 30px;
+    padding: 0px 200px;
 }
 
 .content {
