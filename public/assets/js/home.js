@@ -303,7 +303,8 @@ jQuery(document).ready(function ($) {
                 template = template.replace('{#}', matchText);
                 postBody = postBody.replace(matchText, template);
                 var updates = {};
-                updates['/hashtag/' + matchText.slice(1) + '/' + newPostKey] = true;
+                var hashtagName = matchText.split("#");
+                updates['/hashtag/' + hashtagName[1] + '/' + newPostKey] = true;
                 firebase.database().ref().update(updates);
             });
         }
