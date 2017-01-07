@@ -423,7 +423,7 @@ jQuery(document).ready(function ($) {
                 postBody = postBody.replace(matchText, template);
                 var updates = {};
                 var hashtagName = matchText.split("#");
-                updates['/hashtag/' + hashtagName[1] + '/' + newPostKey] = true;
+                updates['/hashtag/' + hashtagName[1] + '/' + postKey] = true;
                 firebase.database().ref().update(updates);
             });
         }
