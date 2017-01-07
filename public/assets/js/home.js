@@ -291,6 +291,9 @@ jQuery(document).ready(function ($) {
         event.preventDefault();
         $('#writeNewPost').attr("disabled", "disabled");
         var postBody = stripHTML($('#newPost_body').val());
+        var date = new Date();
+        var postTime = date.getTime();
+        var newPostKey = firebase.database().ref().child('posts').push().key;
 
         var matched = postBody.match(/(^#\S+)|(\s+#\S+)/g);
         if (matched != null) {
@@ -300,14 +303,11 @@ jQuery(document).ready(function ($) {
                 template = template.replace('{#}', matchText);
                 postBody = postBody.replace(matchText, template);
                 var updates = {};
-                updates['/hashtag/' + matchText.slice(1) + '/' + postKey] = true;
+                updates['/hashtag/' + matchText.slice(1) + '/' + newPostKey] = true;
                 firebase.database().ref().update(updates);
             });
         }
 
-        var date = new Date();
-        var postTime = date.getTime();
-        var newPostKey = firebase.database().ref().child('posts').push().key;
         var metadata = {
             contentType: 'image/png'
         };
