@@ -310,6 +310,14 @@ p {
     margin-right: 20px;
 }
 
+.delete-btn {
+    border: 0px;
+    background-color: transparent;
+    padding: 0px;
+    cursor: pointer;
+    float: right;
+}
+
 .like, .comment-btn, .share {
     color: #777;
 }
