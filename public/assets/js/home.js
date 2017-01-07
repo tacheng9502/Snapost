@@ -176,8 +176,11 @@ jQuery(document).ready(function ($) {
 
         var commentsRef = firebase.database().ref('post-comments/' + postKey);
         commentsRef.on('child_added', function (data) {
-            var html = createCommentElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime);
+            var html = createCommentElement(postKey, data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime);
             $('#' + postKey + '_commentList').append(html);
+        });
+        commentsRef.on('child_removed', function (data) {
+            $('#' + data.key).remove();
         });
 
         var likeCountRef = firebase.database().ref('posts/' + postKey + '/likeCount');
@@ -201,10 +204,14 @@ jQuery(document).ready(function ($) {
         return html;
     }
 
-    function createCommentElement(commentKey, userId, userName, userImage, commentBody, commentTime) {
-        var date = new Date(parseInt(commentTime));
-        var html =
-            '<li id =' + commentKey + '><a href="/profile?u=' + userId + '" >' + userName + '</a><span>' + commentBody + '</span></li>';
+    function createCommentElement(postKey, commentKey, userId, userName, userImage, commentBody, commentTime) {
+        var html = '<li id =' + commentKey + '><a href="/profile?u=' + userId + '" >' + userName + '</a><span>' + commentBody + '</span></li>';
+        if (currentUserId == userId) {
+            html = html +
+                '<button id="' + postKey + '/' + commentKey + '_delete" class="btn btn-default" onclick="clickCommentDelete(event)" >' +
+                '<i id="' + postKey + '/' + commentKey + '_delete" class="fa fa-trash" onclick="clickCommentDelete(event)" title="delete"></i>' +
+                '</button>';
+        }
         return html;
     }
 
@@ -450,6 +457,28 @@ jQuery(document).ready(function ($) {
                     return currentCount - 1;
                 });
 
+            });
+    }
+
+    window.clickCommentDelete = function (event) {
+        event.preventDefault();
+        var key = event.target.id.slice(0, -7);
+        var splitKey = key.split('/');
+
+        swal({
+                title: "確認刪除留言?",
+                text: "刪除後留言將無法復原",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "刪除",
+                closeOnConfirm: false
+            },
+            function () {
+                var deletes = {};
+                deletes['/post-comments/' + splitKey[0] + '/' + splitKey[1]] = null;
+                firebase.database().ref().update(deletes);
+                swal("已刪除", "留言已經成功刪除", "success");
             });
     }
 
