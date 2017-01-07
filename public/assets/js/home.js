@@ -145,7 +145,7 @@ jQuery(document).ready(function ($) {
         var matched = postBody.match(/(^#\S+)|(\s+#\S+)/g);
         [].forEach.call(matched, function (matchText) {
             var template = '<span style="color:blue"><a href="/hashtag?tag={#n}">{#}</a></span>';
-            template = template.replace('{#}', matchText.slice(1));
+            template = template.replace('{#n}', matchText.slice(1));
             template = template.replace('{#}', matchText);
             postBody = postBody.replace(matchText, template);
         });
