@@ -205,13 +205,14 @@ jQuery(document).ready(function ($) {
     }
 
     function createCommentElement(postKey, commentKey, userId, userName, userImage, commentBody, commentTime) {
-        var html = '<li id =' + commentKey + '><a href="/profile?u=' + userId + '" >' + userName + '</a><span>' + commentBody + '</span></li>';
+        var html = '<li id =' + commentKey + '><a href="/profile?u=' + userId + '" >' + userName + '</a><span>' + commentBody + '</span>';
         if (currentUserId == userId) {
             html = html +
                 '<button id="' + postKey + '/' + commentKey + '_delete" class="btn btn-default" onclick="clickCommentDelete(event)" >' +
                 '<i id="' + postKey + '/' + commentKey + '_delete" class="fa fa-trash" onclick="clickCommentDelete(event)" title="delete"></i>' +
                 '</button>';
         }
+        html = html + '</li>';
         return html;
     }
 
