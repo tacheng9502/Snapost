@@ -127,6 +127,10 @@ p {
     display: inline-block;
 }
 
+.search-bar input[type="text"]:focus {
+    box-shadow: none;
+}
+
 .search {
     display: inline-block;
     width: 300px;
