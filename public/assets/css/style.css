@@ -316,6 +316,7 @@ p {
     padding: 0px;
     cursor: pointer;
     float: right;
+    color: #777;
 }
 
 .like, .comment-btn, .share {
@@ -326,7 +327,7 @@ p {
     color: #dc0000;
 }
 
-.like:hover, .comment-btn:hover, .share:hover {
+.like:hover, .comment-btn:hover, .share:hover, .delete-btn:hover {
     color: #292929;
 }
 
