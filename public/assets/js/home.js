@@ -143,7 +143,7 @@ jQuery(document).ready(function ($) {
         }
 
         var matched = postBody.match(/(^#\S+)|(\s+#\S+)/g);
-        if (match != null) {
+        if (matched != null) {
             [].forEach.call(matched, function (matchText) {
                 var template = '<span style="color:blue"><a href="/hashtag?tag={#n}">{#}</a></span>';
                 template = template.replace('{#n}', matchText.slice(1));
@@ -410,7 +410,7 @@ jQuery(document).ready(function ($) {
         var postBody = stripHTML($('#' + postKey + '_newBody').val());
 
         var matched = postBody.match(/(^#\S+)|(\s+#\S+)/g);
-        if (match != null) {
+        if (matched != null) {
             [].forEach.call(matched, function (matchText) {
                 var template = '<span style="color:blue"><a href="/hashtag?tag={#n}">{#}</a></span>';
                 template = template.replace('{#n}', matchText.slice(1));
