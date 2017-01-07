@@ -122,6 +122,10 @@ p {
     padding: 0px 200px;
 }
 
+.search-bar {
+    position: relative;
+}
+
 .search {
     display: inline-block;
     width: 300px;
@@ -130,7 +134,9 @@ p {
 }
 
 .search-btn {
-
+    position: absolute;
+    border: none;
+    background: transparent;
 }
 
 .content {
