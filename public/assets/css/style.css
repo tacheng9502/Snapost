@@ -124,6 +124,7 @@ p {
 
 .search-bar {
     position: relative;
+    display: inline-block;
 }
 
 .search {
@@ -131,12 +132,20 @@ p {
     width: 300px;
     height: 29px;
     margin: 10px 0px;
+    padding: 6px 36px 6px 12px;
 }
 
 .search-btn {
     position: absolute;
     border: none;
     background: transparent;
+    top: 16px;
+    right: 6px;
+    color: #bbb;
+}
+
+.search-btn:hover {
+    color: #292929;
 }
 
 .content {
