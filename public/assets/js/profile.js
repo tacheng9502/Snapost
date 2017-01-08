@@ -31,22 +31,26 @@ jQuery(document).ready(function($) {
             $("#user_fans").empty();
             $("#user_followers").empty();
             var a, b, c;
-            (data.val().userPostCount == null) ? (a = 0) : (a = data.val().userPostCount);
-            (data.val().userFanCount == null) ? (b = 0) : (b = data.val().userFanCount);
-            (data.val().userFollowCount == null) ? (c = 0) : (c = data.val().userFollowCount);
-            if (b == 0) {
-                $("#fans").click(function(e){
-                    return false;
-                });
+            if(data.val().userPostCount == null){
+                $("#li_post").html("<h3>0</h3><span>貼文</span>");
+            }else{
+                a = data.val().userPostCount;
+                $("#user_posts").append(a);
             }
-            if (c == 0) {
-                $("#followers").click(function(e){
-                    return false;
-                });
+
+            if(data.val().userFanCount == null){
+                $("#li_fans").html("<h3>0</h3><span>粉絲</span>");
+            }else{
+                b = data.val().userFanCount
+                $("#user_fans").append(b);
             }
-            $("#user_posts").append(a);
-            $("#user_fans").append(b);
-            $("#user_followers").append(c);
+
+            if(data.val().userFollowCount == null){
+                $("#li_follows").html("<h3>0</h3><span>追蹤</span>");
+            }else{
+                c = data.val().userFollowCount
+                $("#user_followers").append(c);
+            }
         });
 
         var postRef = firebase.database().ref('users/' + queryId + '/userPost');
