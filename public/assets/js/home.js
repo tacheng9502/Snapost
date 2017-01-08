@@ -438,7 +438,7 @@ jQuery(document).ready(function ($) {
         var postKey = event.target.id.slice(0, -5);
         var postBody = stripHTML($('#' + postKey + '_newBody').val());
 
-        var matched = postBody.match(/(^#\S+)|(\s+#\S+)/g);
+        var matched = postBody.match(/(\S+#\S+)|(\s+#\S+)/g);
         if (matched != null) {
             [].forEach.call(matched, function (matchText) {
                 var hashtagName = matchText.split("#");
@@ -514,7 +514,7 @@ jQuery(document).ready(function ($) {
                 closeOnConfirm: false
             },
             function () {
-                var matched = oldBody.match(/(^#\S+)|(\s+#\S+)/g);
+                var matched = oldBody.match(/(\S+#\S+)|(\s+#\S+)/g);
                 if (matched != null) {
                     [].forEach.call(matched, function (matchText) {
                         var hashtagName = matchText.split("#");
