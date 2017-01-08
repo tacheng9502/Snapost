@@ -483,12 +483,26 @@ jQuery(document).ready(function ($) {
         $('#' + updateId + '_body').html(
             '<textarea id="' + updateId + '_newBody" class="form-control" rows="3">' + oldBody + '</textarea>'
         );
+
+        var matched = oldBody.match(/(^#\S+)|(\s+#\S+)/g);
+        if (matched != null) {
+            [].forEach.call(matched, function (matchText) {
+                var hashtagName = matchText.split("#");
+                var updates = {};
+                updates['/hashtag/' + hashtagName[1] + '/' + updateId] = null;
+                firebase.database().ref().update(updates);
+                firebase.database().ref('/hashtag/' + hashtagName[1] + '/totalUsed').transaction(function (currentCount) {
+                    return currentCount - 1;
+                });
+            });
+        }
     }
 
     window.clickDelete = function (event) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -7);
         var timeArray = $('#' + postKey + '_postTime').text().split("/");
+        var oldBody = $('#' + postKey + '_body').text();
 
         swal({
                 title: "確認刪除貼文?",
@@ -500,6 +514,18 @@ jQuery(document).ready(function ($) {
                 closeOnConfirm: false
             },
             function () {
+                var matched = oldBody.match(/(^#\S+)|(\s+#\S+)/g);
+                if (matched != null) {
+                    [].forEach.call(matched, function (matchText) {
+                        var hashtagName = matchText.split("#");
+                        var updates = {};
+                        updates['/hashtag/' + hashtagName[1] + '/' + updateId] = null;
+                        firebase.database().ref().update(updates);
+                        firebase.database().ref('/hashtag/' + hashtagName[1] + '/totalUsed').transaction(function (currentCount) {
+                            return currentCount - 1;
+                        });
+                    });
+                }
                 var deletes = {};
                 deletes['/posts/' + postKey] = null;
                 deletes['/post-comments/' + postKey] = null;
