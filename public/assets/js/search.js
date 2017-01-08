@@ -30,7 +30,15 @@ jQuery(document).ready(function ($) {
         var queryArray = queryText.split('=');
         $('#keyWord').html('<i class="fa fa-tag fa-fw fa-lg"></i>&nbsp;' + queryArray[1]);
         if (queryArray[0] == 'key') {
-
+            var postsRef = firebase.database().ref('posts/');
+            postsRef.once('value', function (snapshot) {
+                snapshot.forEach(function (postData){
+                    if(postData.val().postBody.includes(queryArray[1])){
+                        var html = createPostElement(postData.key, postData.val().userId, postData.val().userName, postData.val().userImage, postData.val().postBody, postData.val().postTime, postData.val().postImage, postData.val().likeCount);
+                        $('#list').prepend(html);
+                    }
+                });
+            });
         } else {
             var tagRef = firebase.database().ref('hashtag/' + queryArray[1]);
             tagRef.once('value', function (snapshot) {
@@ -62,18 +70,6 @@ jQuery(document).ready(function ($) {
             '<h2 id="' + postKey + '_userName">' + userName + '</h2>' +
             '</a>' +
             '<span id="' + postKey + '_postTime" class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>';
-
-        if (currentUserId === userId) {
-            html = html +
-                '<div id="' + postKey + '_operate" class="navi pull-right">' +
-                '<button id="' + postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
-                '<i id="' + postKey + '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i>' +
-                '</button>&nbsp;' +
-                '<button id="' + postKey + '_delete" class="btn btn-default" onclick="clickDelete(event)" >' +
-                '<i id="' + postKey + '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i>' +
-                '</button>' +
-                '</div>';
-        }
 
         html = html +
             '</div>' +
