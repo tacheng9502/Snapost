@@ -25,23 +25,23 @@ jQuery(document).ready(function ($) {
         }
     });
 
-    var queryText = window.location.search.substr(1);
-    var queryArray = queryText.split('=');
-    if (queryArray[0] == 'key') {
+    function startDatabaseQueries() {
+        var queryText = window.location.search.substr(1);
+        var queryArray = queryText.split('=');
+        if (queryArray[0] == 'key') {
 
-    } else {
-        var tagRef = firebase.database().ref('/hashtag/' + queryArray[1]);
-        postsRef.on('child_added', function (data) {
-            var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-            $('#list').prepend(html);
-        });
-        postsRef.on('child_changed', function (data) {
-            $('#' + data.key + '_body').text(data.val().postBody);
-        });
-        postsRef.on('child_removed', function (data) {
-            $('#' + data.key).remove();
-        });
-        listeningFirebaseRefs.push(postsRef);
+        } else {
+            var tagRef = firebase.database().ref('/hashtag/' + queryArray[1]);
+            tagRef.once('value', function (snapshot) {
+                snapshot.forEach(function (data) {
+                    var postsRef = firebase.database().ref('posts/' + data.key);
+                    tagRef.once('value', function (snapshot) {
+                        var html = createPostElement(data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+                        $('#list').prepend(html);
+                    });
+                });
+            });
+        }
     }
 
     function createPostElement(postKey, userId, userName, userImage, postBody, postTime, postImage, likeCount) {
