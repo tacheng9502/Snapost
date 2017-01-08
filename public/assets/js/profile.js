@@ -314,58 +314,45 @@ jQuery(document).ready(function($) {
         showFollow();
     });
 
-    window.dragHandler = function(e) {
-        e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
-        e.preventDefault();
-    }
-
-    window.dropImage = function(e) {
-        e.stopImmediatePropagation(); //防止瀏覽器執行預設動作
-        e.preventDefault();
-        var reader = new FileReader();
-        reader.readAsDataURL(e.dataTransfer.files[0]); // 讀取檔案
-        // 渲染至頁面
-        reader.onload = function(arg) {
-            var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
-            $("#img_preview").empty().append(img);
-            newImageFile = $('.preview').croppie({
-                viewport: {
-                    width: 600,
-                    height: 600,
-                    type: 'square'
-                },
-                boundary: {
-                    width: 600,
-                    height: 600
-                }
-            });
-        }
-    }
-
-    window.sendUpdate = function(event) {
+    window.sendUpdate = function (event) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -5);
-        var date = new Date();
-        var postTime = date.getTime();
-        var postBody = $('#' + postKey + '_newBody').val();
-        var postImage = $('#' + postKey + '_postImage').attr('src');
+        var postBody = stripHTML($('#' + postKey + '_newBody').val());
 
-        var postData = {
-            userId: currentUserId,
-            userName: userName,
-            userImage: userImage,
-            postBody: postBody,
-            postTime: postTime,
-            postImage: postImage
-        };
+        var matched = postBody.match(/(^#\S+)|(\s+#\S+)/g);
+        if (matched != null) {
+            [].forEach.call(matched, function (matchText) {
+                var hashtagName = matchText.split("#");
+                var template = '<a href="/search?tag={#n}" class="tag">{#}</a>';
+                template = template.replace(/{#}/, matchText);
+                template = template.replace(/{#n}/, hashtagName[1]);
+                postBody = postBody.replace(matchText, template);
+                var updates = {};
+                updates['/hashtag/' + hashtagName[1] + '/' + postKey] = true;
+                firebase.database().ref().update(updates);
+                firebase.database().ref('/hashtag/' + hashtagName[1] + '/totalUsed').transaction(function (currentCount) {
+                    return currentCount + 1;
+                });
+            });
+        }
 
         var updates = {};
-        updates['/posts/' + postKey] = postData;
+        updates['/posts/' + postKey + '/postBody'] = postBody;
         firebase.database().ref().update(updates);
 
+        $('#' + postKey + '_operate').html(
+            '<button id="' + postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
+            '<i id="' + postKey + '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i>' +
+            '</button>&nbsp;' +
+            '<button id="' + postKey + '_delete" class="btn btn-default" onclick="clickDelete(event)" >' +
+            '<i id="' + postKey + '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i>' +
+            '</button>'
+        );
+
+        $('#' + postKey + '_body').html(postBody);
     }
 
-    window.clickUpdate = function(event) {
+    window.clickUpdate = function (event) {
         event.preventDefault();
         var updateId = event.target.id.slice(0, -7);
 
@@ -379,10 +366,41 @@ jQuery(document).ready(function($) {
         );
     }
 
-    window.clickDelete = function(event) {
+    window.clickDelete = function (event) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -7);
         var timeArray = $('#' + postKey + '_postTime').text().split("/");
+
+        swal({
+                title: "確認刪除貼文?",
+                text: "刪除後貼文將無法復原",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "刪除",
+                closeOnConfirm: false
+            },
+            function () {
+                var deletes = {};
+                deletes['/posts/' + postKey] = null;
+                deletes['/post-comments/' + postKey] = null;
+                deletes['/users/' + currentUserId + '/userPost/' + postKey] = null;
+                firebase.database().ref().update(deletes);
+                swal("已刪除", "貼文已經成功刪除", "success");
+                firebase.database().ref('/users/' + currentUserId + '/userPostCount').transaction(function (currentCount) {
+                    return currentCount - 1;
+                });
+                firebase.database().ref('statistic/' + timeArray[0] + '-' + timeArray[1] + '/postCount').transaction(function (currentCount) {
+                    return currentCount - 1;
+                });
+
+            });
+    }
+
+    window.clickCommentDelete = function (event) {
+        event.preventDefault();
+        var key = event.target.id.slice(0, -7);
+        var splitKey = key.split('/');
 
         swal({
                 title: "確認刪除留言?",
@@ -393,25 +411,20 @@ jQuery(document).ready(function($) {
                 confirmButtonText: "刪除",
                 closeOnConfirm: false
             },
-            function() {
+            function () {
                 var deletes = {};
-                deletes['/posts/' + postKey] = null;
-                deletes['/post-comments/' + postKey] = null;
+                deletes['/post-comments/' + splitKey[0] + '/' + splitKey[1]] = null;
                 firebase.database().ref().update(deletes);
                 swal("已刪除", "留言已經成功刪除", "success");
-                firebase.database().ref('statistic/' + timeArray[0] + '-' + timeArray[1] + '/postCount').transaction(function(currentCount) {
-                    return currentCount - 1;
-                });
-
             });
     }
 
-    window.writeNewComment = function(event) {
+    window.writeNewComment = function (event) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -8);
         var date = new Date();
         var commentTime = date.getTime();
-        var commentBody = $('#' + postKey + '_commentBody').val();
+        var commentBody = stripHTML($('#' + postKey + '_commentBody').val());
         var newCommentKey = firebase.database().ref().child('post-comments').push().key;
 
         var commentData = {
@@ -427,28 +440,27 @@ jQuery(document).ready(function($) {
         firebase.database().ref().update(updates);
         $('#' + postKey + '_commentBody').val("");
     }
-
-    window.clickLike = function(event) {
+    window.clickLike = function (event) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -5);
-        firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId).once("value", function(snapshot) {
+        firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId).once("value", function (snapshot) {
             if (snapshot.val() != null) {
                 var deletes = {};
                 deletes['posts/' + postKey + '/likes/' + currentUserId] = null;
                 firebase.database().ref().update(deletes);
-                firebase.database().ref('/posts/' + postKey + '/' + 'likeCount').transaction(function(currentCount) {
+                firebase.database().ref('/posts/' + postKey + '/' + 'likeCount').transaction(function (currentCount) {
                     return currentCount - 1;
                 });
             } else {
                 var updates = {};
                 updates['posts/' + postKey + '/likes/' + currentUserId] = userName;
                 firebase.database().ref().update(updates);
-                firebase.database().ref('/posts/' + postKey + '/' + 'likeCount').transaction(function(currentCount) {
+                firebase.database().ref('/posts/' + postKey + '/' + 'likeCount').transaction(function (currentCount) {
                     return currentCount + 1;
                 });
             }
         });
-    };
+    }
 
     window.clickfan = function(event) {
         event.preventDefault();
