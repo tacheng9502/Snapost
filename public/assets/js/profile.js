@@ -267,6 +267,10 @@ jQuery(document).ready(function($) {
                 swal("取消追蹤", "退追蹤了啦 QQ", "success");
                 changeButton(j);
             });
+
+        $('.sweet-overlay').on('click', function (event) {
+                swal.close();
+            });
     }
 
     function doFollow(i, j) {
@@ -414,6 +418,10 @@ jQuery(document).ready(function($) {
                 });
 
             });
+
+        $('.sweet-overlay').on('click', function (event) {
+                swal.close();
+            });
     }
 
     window.clickCommentDelete = function (event) {
@@ -435,6 +443,10 @@ jQuery(document).ready(function($) {
                 deletes['/post-comments/' + splitKey[0] + '/' + splitKey[1]] = null;
                 firebase.database().ref().update(deletes);
                 swal("已刪除", "留言已經成功刪除", "success");
+            });
+
+        $('.sweet-overlay').on('click', function (event) {
+                swal.close();
             });
     }
 
@@ -521,6 +533,10 @@ jQuery(document).ready(function($) {
                 });
                 swal("刪除成功", "恭喜你少了一位粉絲", "success");
                 $(targetUserTr).remove();
+            });
+
+        $('.sweet-overlay').on('click', function (event) {
+                swal.close();
             });
     };
 
