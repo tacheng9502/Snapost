@@ -31,7 +31,7 @@ jQuery(document).ready(function($) {
             $("#user_fans").empty();
             $("#user_followers").empty();
             var a, b, c;
-            
+
             if(data.val().userPostCount == null){
                 $("#li_post").html("<h3>0</h3><span>貼文</span>");
             }else{
@@ -39,17 +39,17 @@ jQuery(document).ready(function($) {
                 $("#user_posts").append(a);
             }
 
-            if(data.val().userFanCount == null){
+            if(data.val().userFanCount == null || data.val().userFanCount == 0){
                 $("#li_fans").html("<h3>0</h3><span>粉絲</span>");
             }else{
-                b = data.val().userFanCount
+                b = data.val().userFanCount;
                 $("#user_fans").append(b);
             }
 
-            if(data.val().userFollowCount == null){
+            if(data.val().userFollowCount == null || data.val().userFollowCount == 0){
                 $("#li_follows").html("<h3>0</h3><span>追蹤</span>");
             }else{
-                c = data.val().userFollowCount
+                c = data.val().userFollowCount;
                 $("#user_followers").append(c);
             }
         });
