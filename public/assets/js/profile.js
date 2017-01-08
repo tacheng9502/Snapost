@@ -152,9 +152,9 @@ jQuery(document).ready(function ($) {
         });
 
         var html =
-            '<div id="' + postKey + '">' +
+            '<div id="' + postKey + '" class="alertPost">' +
             '<img id="' + postKey + '_postImage" class="alertPhoto" src="' + postImage + '"/>' +
-            '<div class="alertPost">' +
+            '<div class="alertContent">'  +
             '<div class="info">' +
             '<a id="' + postKey + '_profile" href="/profile?u=' + userId + '" >' +
             '<img id="' + postKey + '_userImage" src="' + userImage + '" class="img-circle" width="25px" height="25px">' +
@@ -570,11 +570,12 @@ jQuery(document).ready(function ($) {
         var postDetailRef = firebase.database().ref('posts/' + refKey + '/');
         postDetailRef.on('value', function (data) {
             var html = createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-            swal({
-                title: "",
-                text: html,
-                html: true
-            });
+                swal({
+                    title: "",
+                    text: html,
+                    html: true,
+                    showConfirmButton: false
+                });
             $('.sweet-overlay').on('click', function (event) {
                 swal.close();
             });

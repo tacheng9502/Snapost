@@ -587,6 +587,10 @@ p {
     background: #0068B7;
 }
 
+.sweet-alert .alertBody h2 {
+    display: none;
+}
+
 .alertBody {
     font: 14px/25px "微軟正黑體",Arial, Helvetica, sans-serif;
     color: #292929;
@@ -595,6 +599,16 @@ p {
     width: 935px;
     margin-left: -457px;
     margin-top: -300px !important;
+}
+
+.alertPost {
+    overflow: hidden;
+}
+
+.alertContent {
+    width: 335px;
+    float: left;
+    height: 100%;
 }
 
 .alertDelete {
