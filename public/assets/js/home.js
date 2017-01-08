@@ -75,7 +75,7 @@ jQuery(document).ready(function ($) {
         firebase.database().ref('hashtag').orderByChild('totalUsed').limitToLast(5).once('value').then(function (snapshot) {
             snapshot.forEach(function(data){
                 var html = '<li><a href="/hashtag?tag='+data.key+'">#'+data.key+'</a></li><li>';
-                $('ul.hottag-list').appeng(html);
+                $('ul.hottag-list').append(html);
             });
         });
 
