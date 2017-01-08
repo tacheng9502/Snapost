@@ -539,7 +539,11 @@ p {
 }
 
 .hottag i {
-    color: yellow;
+    color: #ffca00;
+}
+
+.hottag-list li {
+    float: left;
 }
 
 /* Clear Float */
