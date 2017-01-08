@@ -135,6 +135,15 @@ jQuery(document).ready(function($) {
         });
     }
 
+    function stripHTML(input) {
+        return input
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+    
     function createPostElement(postKey, userId, userName, userImage, postBody, postTime, postImage, likeCount) {
       var date = new Date(parseInt(postTime));
       var likeStatus;
