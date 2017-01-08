@@ -62,7 +62,7 @@ jQuery(document).ready(function($) {
                 var postImage = childdata.val();
                 html =
                     '<li id="' + postKey + '"> ' +
-                    '<a href="#"><img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '" onclick="clickImg(event)"/></a>' +
+                    '<a href="#" onclick="clickImg(event)"><img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/></a>' +
                     '</li>' + html;
             });
             $("#ninebox").append("");
@@ -509,6 +509,7 @@ jQuery(document).ready(function($) {
         postDetailRef.on('value', function(data) {
             var html = createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
                 swal({
+                    title: "";
                     text: html,
                     html: true
                 });
