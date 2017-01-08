@@ -317,6 +317,7 @@ jQuery(document).ready(function($) {
             $("#adTargetUrl").attr("href", sponUrl);
             $("#ref").empty().attr("value", refKey);
             $('#edit_default').removeAttr("hidden", "hidden");
+            $('#edit_mod').remove();
         })
     }
 
