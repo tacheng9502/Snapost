@@ -169,6 +169,18 @@ jQuery(document).ready(function($) {
         }
     });
 
+    $('#clearNewPost').on('click', function (event) {
+        event.preventDefault();
+        $('#newAd_sponsorName').val("");
+        $('#newAd_name').val("");
+        $('#newAd_body').val("");
+        $('newAd_url').val("");
+        $("#sp_preview").empty();
+        $('#img_preview').empty();
+        newImageFile1 = null;
+        newImageFile2 = null;
+    });
+
     $("#img_input").on('click', function () {
         $('#file').trigger('click');
     });
@@ -292,6 +304,9 @@ jQuery(document).ready(function($) {
             $("#adTargetUrl").empty().append(sponUrl);
             $("#adTargetUrl").attr("href", sponUrl);
             $("#ref").empty().attr("value", refKey);
+            $('#edit').html('<button id="edit_b" class="btn btn-default" onclick="">'+
+                            '<i id="edit_i" class="fa fa-pencil" onclick="" title="edit"></i>'+
+                            '</button>');
         })
     }
 
