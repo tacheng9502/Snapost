@@ -32,7 +32,8 @@ jQuery(document).ready(function ($) {
 
         } else {
             console.log("開始找貼文");
-            var tagRef = firebase.database().ref('/hashtag/' + queryArray[1]);
+            console.log(queryArray[1]);
+            var tagRef = firebase.database().ref('hashtag/' + queryArray[1]);
             tagRef.once('value', function (snapshot) {
                 snapshot.forEach(function (data) {
                     console.log(data.key);
