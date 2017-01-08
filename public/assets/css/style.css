@@ -489,6 +489,7 @@ p {
 
 #list .tag {
     color: #0068B7;
+    margin-right: 3px;
 }
 
 #list .tag:hover {
