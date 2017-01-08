@@ -222,15 +222,16 @@ jQuery(document).ready(function($) {
       return html;
     }
 
-    function createCommentElement(commentKey, userId, userName, userImage, commentBody, commentTime) {
-        var date = new Date(parseInt(commentTime));
-        var html =
-            '<li id =' + commentKey + '>' + userName + ':' + commentBody + '</li>';
+    function createCommentElement(postKey, commentKey, userId, userName, userImage, commentBody, commentTime) {
+        var html = '<li id =' + commentKey + '><a href="/profile?u=' + userId + '" >' + userName + '</a><span>' + commentBody + '</span>';
+        if (currentUserId == userId) {
+            html = html +
+                '<button id="' + postKey + '/' + commentKey + '_delete" class="delete-btn" onclick="clickCommentDelete(event)" >' +
+                '<i id="' + postKey + '/' + commentKey + '_delete" class="fa fa-times" onclick="clickCommentDelete(event)" title="delete"></i>' +
+                '</button>';
+        }
+        html = html + '</li>';
         return html;
-    }
-
-    function unFan(i) {
-
     }
 
     function unFollow(i, j) {
