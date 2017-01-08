@@ -396,6 +396,14 @@ p {
     margin: 90px auto 40px auto;
 }
 
+.tag-box {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 0 0 40px 0;
+    background: #fff;
+    padding: 20px;
+}
+
 .user-box {
     border: 1px solid #ddd;
     border-radius: 4px;
