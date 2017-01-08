@@ -503,7 +503,6 @@ jQuery(document).ready(function($) {
     };
 
     window.clickImg = function(event) {
-        $("div.showSweetAlert").addClass("alertPost");
         event.preventDefault();
         var refKey = event.target.id.slice(0, -10);
         var postDetailRef = firebase.database().ref('posts/' + refKey + '/');
@@ -514,6 +513,7 @@ jQuery(document).ready(function($) {
                     text: html,
                     html: true
                 });
+            $(".showSweetAlert").addClass("alertPost");
         });
     };
 })
