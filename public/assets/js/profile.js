@@ -503,7 +503,7 @@ jQuery(document).ready(function($) {
     };
 
     window.clickImg = function(event) {
-        $(".sweet-alert .showSweetAlert .visible").addClass("alertPost");
+        $("div.showSweetAlert").addClass("alertPost");
         event.preventDefault();
         var refKey = event.target.id.slice(0, -10);
         var postDetailRef = firebase.database().ref('posts/' + refKey + '/');
