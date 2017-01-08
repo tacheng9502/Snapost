@@ -419,6 +419,7 @@ jQuery(document).ready(function($) {
 
             });
 
+        $(".showSweetAlert").removeClass("alertBody");
         $('.sweet-overlay').on('click', function (event) {
                 swal.close();
             });
@@ -445,6 +446,7 @@ jQuery(document).ready(function($) {
                 swal("已刪除", "留言已經成功刪除", "success");
             });
 
+        $(".showSweetAlert").removeClass("alertBody");
         $('.sweet-overlay').on('click', function (event) {
                 swal.close();
             });

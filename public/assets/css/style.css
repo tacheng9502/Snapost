@@ -593,8 +593,8 @@ p {
     padding: 0px;
     height: 600px;
     width: 935px;
-    margin-left: 457px;
-    margin-top: 300px;
+    margin-left: -457px;
+    margin-top: -300px !important;
 }
 
 .alertPost {
