@@ -34,15 +34,13 @@ jQuery(document).ready(function ($) {
             var tagRef = firebase.database().ref('hashtag/' + queryArray[1]);
             tagRef.once('value', function (snapshot) {
                 snapshot.forEach(function (data) {
-                    console.log(data.key);
-                    var postsRef = firebase.database().ref('posts/' + data.key);
-                    postsRef.once('value', function (postData) {
-                        console.log(postData);
-                        console.log(postData.key);
-                        console.log(postData.val().userId);
-                        var html = createPostElement(postData.key, postData.val().userId, postData.val().userName, postData.val().userImage, postData.val().postBody, postData.val().postTime, postData.val().postImage, postData.val().likeCount);
-                        $('#list').prepend(html);
-                    });
+                    if (data.key != 'totalUsed') {
+                        var postsRef = firebase.database().ref('posts/' + data.key);
+                        postsRef.once('value', function (postData) {
+                            var html = createPostElement(postData.key, postData.val().userId, postData.val().userName, postData.val().userImage, postData.val().postBody, postData.val().postTime, postData.val().postImage, postData.val().likeCount);
+                            $('#list').prepend(html);
+                        });
+                    }
                 });
             });
         }
