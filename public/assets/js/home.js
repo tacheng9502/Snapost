@@ -72,7 +72,7 @@ jQuery(document).ready(function ($) {
 
     function startDatabaseQueries() {
 
-        firebase.database().ref('hashtag').once('value').orderByValue('totalUsed').limitToLast(5).then(function (snapshot) {
+        firebase.database().ref('hashtag').orderByValue('totalUsed').limitToLast(5).once('value').then(function (snapshot) {
             snapshot.forEach(function(data){
                 var html = '<li><a href="/hashtag?tag='+data.key+'">#'+data.key+'</a></li><li>';
                 $('ul.hottag-list').appeng(html);
