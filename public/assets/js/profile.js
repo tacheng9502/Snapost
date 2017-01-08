@@ -508,8 +508,13 @@ jQuery(document).ready(function($) {
         var postDetailRef = firebase.database().ref('posts/' + refKey + '/');
         postDetailRef.on('value', function(data) {
             var html = createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-            $("#postDetail").empty();
-            $("#postDetail").append(html);
+            function alert() {
+                swal({
+                    title: ""
+                    text: html,
+                    html: true
+                });
+            }
         });
     };
 })
