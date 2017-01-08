@@ -587,12 +587,13 @@ p {
     background: #0068B7;
 }
 
-.alertPost {
+.alertBody {
     font: 14px/25px "微軟正黑體",Arial, Helvetica, sans-serif;
     color: #292929;
-    height: 600px;
     padding: 0px;
 }
+
+
 
 
 /* Clear Float */
