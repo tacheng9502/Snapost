@@ -538,7 +538,7 @@ jQuery(document).ready(function ($) {
                 firebase.database().ref('statistic/' + timeArray[0] + '-' + timeArray[1] + '/postCount').transaction(function (currentCount) {
                     return currentCount - 1;
                 });
-
+                window.location.reload();
             });
 
         $('.sweet-overlay').on('click', function (event) {
