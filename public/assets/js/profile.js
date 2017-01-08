@@ -152,9 +152,9 @@ jQuery(document).ready(function($) {
         });
 
         var html =
-            '<div id="' + postKey + '">' +
+            '<div id="' + postKey + '" class="alertPost">' +
             '<img id="' + postKey + '_postImage" class="alertPhoto" src="' + postImage + '"/>' +
-            '<div class="alertPost">'  +
+            '<div class="alertContent">'  +
             '<div class="info">' +
             '<a id="' + postKey + '_profile" href="/profile?u=' + userId + '" >' +
             '<img id="' + postKey + '_userImage" src="' + userImage + '" class="img-circle" width="25px" height="25px">' +
@@ -573,7 +573,8 @@ jQuery(document).ready(function($) {
                 swal({
                     title: "",
                     text: html,
-                    html: true
+                    html: true,
+                    showConfirmButton: false
                 });
             $('.sweet-overlay').on('click', function (event) {
                 swal.close();
