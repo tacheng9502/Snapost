@@ -285,7 +285,8 @@ jQuery(document).ready(function($) {
         var oldAdBody = $("#adBody").text();
         var oldTargetUrl = $("#adTargetUrl").text();
         var ref = $("#ref").val();
-        $('#edit').html(
+        $('#edit_default').attr("hidden", "hidden");
+        $('#edit_mod').html(
             '<button id="' + ref + '_send" class="btn btn-default" onclick="sendUpdate(event)" >' +
             '<i id="' + ref + '_send" class="fa fa-floppy-o" onclick="sendUpdate(event)" title="save"></i></a>'
         );
@@ -315,9 +316,7 @@ jQuery(document).ready(function($) {
             $("#adTargetUrl").empty().append(sponUrl);
             $("#adTargetUrl").attr("href", sponUrl);
             $("#ref").empty().attr("value", refKey);
-            $('#edit').html('<button id="edit_b" class="btn btn-default" onclick="">'+
-                            '<i id="edit_i" class="fa fa-pencil" onclick="" title="edit"></i>'+
-                            '</button>');
+            $('#edit_default').removeAttr("hidden", "hidden");
         })
     }
 
@@ -365,9 +364,8 @@ jQuery(document).ready(function($) {
             $("#adTargetUrl").empty();
             $("#ref").empty().attr("value", " ");
             $("#adDetail").attr("hidden", "hidden");
-            $('#edit').html('<button id="edit_b" class="btn btn-default" onclick="">'+
-                            '<i id="edit_i" class="fa fa-pencil" onclick="" title="edit"></i>'+
-                            '</button>');
+            $('#edit_default').removeAttr("hidden", "hidden");
+            $('#edit_mod').remove();
         }else{
             alert("You may try it later :)");
         }
