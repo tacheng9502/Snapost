@@ -28,8 +28,8 @@ jQuery(document).ready(function ($) {
     function startDatabaseQueries() {
         var queryText = decodeURIComponent(window.location.search.substr(1));
         var queryArray = queryText.split('=');
-        $('#keyWord').html('<i class="fa fa-tag fa-fw fa-lg"></i>&nbsp;' + queryArray[1]);
         if (queryArray[0] == 'key') {
+            $('#keyWord').html('<i class="fa fa-search fa-fw fa-lg"></i>&nbsp;' + queryArray[1]);
             var postsRef = firebase.database().ref('posts/');
             postsRef.once('value', function (snapshot) {
                 snapshot.forEach(function (postData){
@@ -40,6 +40,7 @@ jQuery(document).ready(function ($) {
                 });
             });
         } else {
+            $('#keyWord').html('<i class="fa fa-tag fa-fw fa-lg"></i>&nbsp;' + queryArray[1]);
             var tagRef = firebase.database().ref('hashtag/' + queryArray[1]);
             tagRef.once('value', function (snapshot) {
                 snapshot.forEach(function (data) {
