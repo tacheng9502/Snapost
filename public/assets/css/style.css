@@ -590,7 +590,7 @@ p {
 .alertPost {
     font: 14px/25px "微軟正黑體",Arial, Helvetica, sans-serif;
     color: #292929;
-    max-width: 935px;
+    height: 600px;
     padding: 0px;
 }
 
