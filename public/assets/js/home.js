@@ -417,12 +417,11 @@ jQuery(document).ready(function ($) {
         var matched = postBody.match(/(^#\S+)|(\s+#\S+)/g);
         if (matched != null) {
             [].forEach.call(matched, function (matchText) {
-                var template = '<span style="color:blue"><a href="/hashtag?tag={#n}">{#}</a></span>';
-                template = template.replace('{#n}', matchText.slice(1));
-                template = template.replace('{#}', matchText);
+                var hashtagName = matchText.split("#");
+                var template = '<span style="color:blue"><a href="/hashtag?tag={#}">{#}</a></span>';
+                template = template.replace('{#}', hashtagName[1]);
                 postBody = postBody.replace(matchText, template);
                 var updates = {};
-                var hashtagName = matchText.split("#");
                 updates['/hashtag/' + hashtagName[1] + '/' + postKey] = true;
                 firebase.database().ref().update(updates);
             });
