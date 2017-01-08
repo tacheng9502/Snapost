@@ -343,7 +343,7 @@ p {
     margin-right: 5px;
 }
 
-.comment a:hover {
+#list .comment a:hover {
     color: #23527c;
 }
 
@@ -485,6 +485,14 @@ p {
 
 #ninebox li:nth-child(3n) {
     margin-right: 0px;
+}
+
+#list .tag {
+    color: #0068B7;
+}
+
+#list .tag:hover {
+    color: #23527c;
 }
 
 /* Dashboard */
