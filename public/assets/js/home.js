@@ -304,7 +304,7 @@ jQuery(document).ready(function ($) {
                 template = template.replace(/{#n}/, hashtagName[1]);
                 postBody = postBody.replace(matchText, template);
                 var updates = {};
-                updates['/hashtag/' + hashtagName[1] + '/' + postKey] = true;
+                updates['/hashtag/' + hashtagName[1] + '/' + newPostKey] = true;
                 firebase.database().ref().update(updates);
                 firebase.database().ref('/hashtag/' + hashtagName[1] + '/totalUsed').transaction(function (currentCount) {
                     return currentCount + 1;
