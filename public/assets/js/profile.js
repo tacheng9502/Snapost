@@ -62,7 +62,7 @@ jQuery(document).ready(function($) {
                 var postImage = childdata.val();
                 html =
                     '<li id="' + postKey + '"> ' +
-                    '<a href="#"><img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/></a>' +
+                    '<a href="#"><img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '" onclick="clickImg()"/></a>' +
                     '</li>' + html;
             });
             $("#ninebox").append("");
