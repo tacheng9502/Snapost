@@ -35,10 +35,10 @@ jQuery(document).ready(function($) {
             (data.val().userFanCount == null) ? (b = 0) : (b = data.val().userFanCount);
             (data.val().userFollowCount == null) ? (c = 0) : (c = data.val().userFollowCount);
             if (b == 0) {
-                $("fans").replaceWith($(this).html());
+                $("#fans").replaceWith($(this).html());
             }
             if (c == 0) {
-                $("followers").replaceWith($(this).html());
+                $("#followers").replaceWith($(this).html());
             }
             $("#user_posts").append(a);
             $("#user_fans").append(b);
