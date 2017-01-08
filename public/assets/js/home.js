@@ -72,8 +72,8 @@ jQuery(document).ready(function ($) {
     function startDatabaseQueries() {
 
         firebase.database().ref('hashtag').orderByChild('totalUsed').limitToLast(5).once('value').then(function (snapshot) {
-            snapshot.forEach(function(data){
-                var html = '<li><a href="/search?tag='+data.key+'">#'+data.key+'</a></li><li>';
+            snapshot.forEach(function (data) {
+                var html = '<li><a href="/search?tag=' + data.key + '">#' + data.key + '</a></li><li>';
                 $('ul.hottag-list').prepend(html);
             });
         });
@@ -294,10 +294,16 @@ jQuery(document).ready(function ($) {
     $('#searchButton').on('click', function (event) {
         event.preventDefault();
         var searchText = $('#searchText').val();
-        if(searchText.match(/(^#\S+)/)){
+        if (searchText.match(/(^#\S+)/)) {
             window.location.href = "/search?tag=" + searchText.slice(1);
-        }else{
+        } else {
             window.location.href = "/search?key=" + searchText;
+        }
+    });
+
+    $('#searchText').keypress(function (event) {
+        if (event.keyCode == 13) {
+            $("#searchButton").trigger("click");
         }
     });
 
