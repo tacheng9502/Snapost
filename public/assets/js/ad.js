@@ -35,13 +35,23 @@ jQuery(document).ready(function($) {
         });
     }
 
+    function stripHTML(input) {
+        return input
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
     $('#writeNewPost').on('click', function(event) {
         event.preventDefault();
+        $("#writeNewPost").attr("disabled", "disabled");
         var adId = $('#newAd_name').val();
-        var adTitle = $('#newAd_name').val();
-        var adBody = $('#newAd_body').val();
+        var adTitle = stripHTML($('#newAd_name').val());
+        var adBody = stripHTML($('#newAd_body').val());
         var adUrl = $('#newAd_url').val();
-        var adSponsor = $('#newAd_sponsorName').val();
+        var adSponsor = stripHTML($('#newAd_sponsorName').val());
         var metadata = {
             contentType: 'image/jpeg'
         };
@@ -65,10 +75,10 @@ jQuery(document).ready(function($) {
                         console.log('Upload is ' + progress + '% done');
                         switch (snapshot.state) {
                             case firebase.storage.TaskState.PAUSED:
-                                console.log('Upload is paused');
+                                //console.log('Upload is paused');
                                 break;
                             case firebase.storage.TaskState.RUNNING:
-                                console.log('Upload is running');
+                                //console.log('Upload is running');
                                 break;
                         }
                     },
@@ -90,6 +100,7 @@ jQuery(document).ready(function($) {
                         var imgSrc = {};
                         imgSrc['/adverts/' + adId + '/postImage'] = uploadTask.snapshot.downloadURL;
                         firebase.database().ref().update(imgSrc);
+                        $('#writeNewPost').removeAttr("disabled");
                     });
             });
         };
@@ -110,10 +121,10 @@ jQuery(document).ready(function($) {
                         console.log('Upload is ' + progress + '% done');
                         switch (snapshot.state) {
                             case firebase.storage.TaskState.PAUSED:
-                                console.log('Upload is paused');
+                                //console.log('Upload is paused');
                                 break;
                             case firebase.storage.TaskState.RUNNING:
-                                console.log('Upload is running');
+                                //console.log('Upload is running');
                                 break;
                         }
                     },
@@ -174,7 +185,7 @@ jQuery(document).ready(function($) {
         $('#newAd_sponsorName').val("");
         $('#newAd_name').val("");
         $('#newAd_body').val("");
-        $('newAd_url').val("");
+        $('#newAd_url').val("");
         $("#sp_preview").empty();
         $('#img_preview').empty();
         newImageFile1 = null;
