@@ -152,7 +152,7 @@ jQuery(document).ready(function($) {
         });
 
         var html =
-            '<li id="' + postKey + '">' +
+            '<div id="' + postKey + '" class="alertPost">' +
             '<div class="info">' +
             '<a id="' + postKey + '_profile" href="/profile?u=' + userId + '" >' +
             '<img id="' + postKey + '_userImage" src="' + userImage + '" class="img-circle" width="25px" height="25px">' +
@@ -266,6 +266,10 @@ jQuery(document).ready(function($) {
                 });
                 swal("取消追蹤", "退追蹤了啦 QQ", "success");
                 changeButton(j);
+            });
+
+        $('.sweet-overlay').on('click', function (event) {
+                swal.close();
             });
     }
 
@@ -414,6 +418,10 @@ jQuery(document).ready(function($) {
                 });
 
             });
+
+        $('.sweet-overlay').on('click', function (event) {
+                swal.close();
+            });
     }
 
     window.clickCommentDelete = function (event) {
@@ -435,6 +443,10 @@ jQuery(document).ready(function($) {
                 deletes['/post-comments/' + splitKey[0] + '/' + splitKey[1]] = null;
                 firebase.database().ref().update(deletes);
                 swal("已刪除", "留言已經成功刪除", "success");
+            });
+
+        $('.sweet-overlay').on('click', function (event) {
+                swal.close();
             });
     }
 
@@ -522,6 +534,10 @@ jQuery(document).ready(function($) {
                 swal("刪除成功", "恭喜你少了一位粉絲", "success");
                 $(targetUserTr).remove();
             });
+
+        $('.sweet-overlay').on('click', function (event) {
+                swal.close();
+            });
     };
 
     window.clickUnFollow = function(event) {
@@ -553,7 +569,9 @@ jQuery(document).ready(function($) {
                     text: html,
                     html: true
                 });
-
+            $('.sweet-overlay').on('click', function (event) {
+                swal.close();
+            });
             $(".showSweetAlert").addClass("alertBody");
         });
     };
