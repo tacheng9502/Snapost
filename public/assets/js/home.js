@@ -529,7 +529,7 @@ jQuery(document).ready(function ($) {
         var postKey = event.target.id.slice(0, -8);
         var date = new Date();
         var commentTime = date.getTime();
-        var commentBody = $('#' + postKey + '_commentBody').val();
+        var commentBody = stripHTML($('#' + postKey + '_commentBody').val());
         var newCommentKey = firebase.database().ref().child('post-comments').push().key;
 
         var commentData = {
