@@ -185,6 +185,15 @@ p {
     background: #fff;
 }
 
+.hottag {
+    padding: 40px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 0 0 40px 0;
+    overflow: hidden;
+    background: #fff;
+}
+
 #img_preview, #sp_preview {
     margin-bottom: 30px;
 }
