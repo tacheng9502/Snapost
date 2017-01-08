@@ -510,7 +510,7 @@ jQuery(document).ready(function($) {
             var html = createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
             function alert() {
                 swal({
-                    title: ""
+                    title: "",
                     text: html,
                     html: true
                 });
