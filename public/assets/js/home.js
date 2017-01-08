@@ -241,10 +241,8 @@ jQuery(document).ready(function ($) {
                 array.push(html);
             });
 
-            var load = loadTimes *2 ;
-            for (var i = 0; i < 2 ; i++) {    
-                $("#list li:nth-child(" + (5 * load - 1) + ")").after(array[load - 1]);
-                load = load -1;
+            for (var i = loadTimes * 2 - 1; i <= loadTimes * 2; i++) {
+                $("#list li:nth-child(" + (5 * i - 1) + ")").after(array[i - 1]);
             }
         });
     }
@@ -630,7 +628,7 @@ jQuery(document).ready(function ($) {
                 $('#' + data.key).remove();
             });
             listeningFirebaseRefs.push(postsRef);
-            
+
             loadTimes = loadTimes + 1;
             showAdvertisment();
         } else {
