@@ -186,7 +186,7 @@ p {
 }
 
 .hottag {
-    padding: 20px;
+    padding: 20px 20px 10px 20px;
     border: 1px solid #ddd;
     border-radius: 4px;
     margin: 0 0 20px 0;
@@ -542,6 +542,10 @@ p {
     color: #ffca00;
 }
 
+.hottag-list li {
+    overflow: hidden;
+}
+
 .hottag-list li a {
     float: left;
     margin-right: 8px;
@@ -549,6 +553,8 @@ p {
     border: 1px solid #0068B7;
     color: #0068B7;
     border-radius: 40px;
+    word-break: break-all;
+    margin-bottom: 10px;
 }
 
 .hottag-list li a:hover {
