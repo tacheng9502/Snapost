@@ -112,7 +112,7 @@ jQuery(document).ready(function($) {
             } else {
                 data.forEach(function(childdata) {
                     var followID = childdata.key;
-                    var followName = childdata.val();
+                    var followName = childdata.val().userName;
                     var html = '<li><a href="/profile?u=' + followID + '"><p>' + followName + '</p></a></li>';
                     $("#result").append(html);
                 });
