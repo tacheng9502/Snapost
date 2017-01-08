@@ -542,7 +542,7 @@ p {
     color: #ffca00;
 }
 
-.hottag-list li {
+.hottag-list li a {
     float: left;
     margin-right: 8px;
     padding: 0px 10px;
