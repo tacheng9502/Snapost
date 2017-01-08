@@ -152,7 +152,7 @@ jQuery(document).ready(function($) {
         });
 
         var html =
-            '<div id="' + postKey + '" class="alertPost">' +
+            '<div id="' + postKey + '">' +
             '<div class="info">' +
             '<a id="' + postKey + '_profile" href="/profile?u=' + userId + '" >' +
             '<img id="' + postKey + '_userImage" src="' + userImage + '" class="img-circle" width="25px" height="25px">' +
@@ -175,7 +175,7 @@ jQuery(document).ready(function($) {
         html = html +
             '</div>' +
             '<p id="' + postKey + '_body">' + postBody + '</p>' +
-            '<img id="' + postKey + '_postImage" class="postImage" src="' + postImage + '"/>';
+            '<img id="' + postKey + '_postImage" class="alertPhoto" src="' + postImage + '"/>';
 
         if (likeStatus != null) {
             html = html +
@@ -420,6 +420,7 @@ jQuery(document).ready(function($) {
             });
 
         $(".showSweetAlert").removeClass("alertBody");
+        $(".showSweetAlert").addClass("alertDelete");
         $('.sweet-overlay').on('click', function (event) {
                 swal.close();
             });
@@ -447,6 +448,7 @@ jQuery(document).ready(function($) {
             });
 
         $(".showSweetAlert").removeClass("alertBody");
+        $(".showSweetAlert").addClass("alertDelete");
         $('.sweet-overlay').on('click', function (event) {
                 swal.close();
             });

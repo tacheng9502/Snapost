@@ -597,8 +597,14 @@ p {
     margin-top: -300px !important;
 }
 
-.alertPost {
+.alertDelete {
+    margin-top: -171px !important;
+}
 
+.alertPhoto {
+    float: left;
+    height: 600px;
+    width: 600px;
 }
 
 
