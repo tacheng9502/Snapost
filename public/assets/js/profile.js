@@ -554,6 +554,9 @@ jQuery(document).ready(function($) {
                     text: html,
                     html: true
                 });
+            $('.sweet-overlay').on('click', function (event) {
+                swal.close();
+            }
             $(".showSweetAlert").addClass("alertPost");
         });
     };
