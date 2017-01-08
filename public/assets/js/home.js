@@ -5,7 +5,7 @@ jQuery(document).ready(function ($) {
     var listeningFirebaseRefs = [];
     var followLastPost = [];
     var loadController = true;
-    var loadTimes = '1';
+    var loadTimes = 1;
 
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
@@ -241,7 +241,7 @@ jQuery(document).ready(function ($) {
                 array.push(html);
             });
 
-            for (var i = 0; i < 2; i++) {
+            for (var i = 1; i <= array.length; i++) {
                 var load = loadTimes * 2;
                 $("#list li:nth-child(" + (5 * load - 1) + ")").after(array[load - 1]);
                 load = load - 1;
@@ -630,6 +630,7 @@ jQuery(document).ready(function ($) {
                 $('#' + data.key).remove();
             });
             listeningFirebaseRefs.push(postsRef);
+
             loadTimes = loadTimes + 1;
             showAdvertisment();
         } else {
