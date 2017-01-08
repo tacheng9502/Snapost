@@ -497,6 +497,10 @@ p {
     overflow: hidden;
 }
 
+#ninebox a {
+    display: block;
+}
+
 #ninebox li {
     margin: 0px 10px 10px 0px;
     border: 1px solid #ddd;
