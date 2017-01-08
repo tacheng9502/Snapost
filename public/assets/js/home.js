@@ -60,7 +60,6 @@ jQuery(document).ready(function ($) {
                 }
             });
 
-
         }).catch(function (error) {
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -290,6 +289,16 @@ jQuery(document).ready(function ($) {
     $('#userInfo').on('click', function (event) {
         event.preventDefault();
         window.location.href = "/profile?u=" + currentUserId;
+    });
+
+    $('#searchButton').on('click', function (event) {
+        event.preventDefault();
+        var searchText = $('#searchText').val();
+        if(searchText.match(/(^#\S+)/)){
+            window.location.href = "/search?tag=" + searchText.slice(1);
+        }else{
+            window.location.href = "/search?key=" + searchText;
+        }
     });
 
     $('#writeNewPost').on('click', function (event) {

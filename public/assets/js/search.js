@@ -21,14 +21,14 @@ jQuery(document).ready(function ($) {
                 ref.off();
             });
             listeningFirebaseRefs = [];
-            window.location.href('/');
+            window.location.href = '/';
         }
     });
 
     function startDatabaseQueries() {
         var queryText = decodeURIComponent(window.location.search.substr(1));
         var queryArray = queryText.split('=');
-        $('#searchText').text('&nbsp;' + queryArray[1]);
+        $('#searchText').html('<i class="fa fa-tag fa-fw fa-lg"></i>&nbsp;' + queryArray[1]);
         if (queryArray[0] == 'key') {
 
         } else {
