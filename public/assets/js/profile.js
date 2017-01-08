@@ -47,7 +47,7 @@ jQuery(document).ready(function($) {
             }
 
             if(data.val().userFollowCount == null || data.val().userFollowCount == 0){
-                $("#li_follows").html("<h3>0</h3><span>追蹤</span>");
+                $("#li_followers").html("<h3>0</h3><span>追蹤</span>");
             }else{
                 c = data.val().userFollowCount;
                 $("#user_followers").append(c);
