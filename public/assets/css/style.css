@@ -556,6 +556,7 @@ p {
     color: #0068B7;
     border-radius: 40px;
     word-break: break-all;
+    float: left;
 }
 
 .hottag-list li a:hover {
