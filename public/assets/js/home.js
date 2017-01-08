@@ -519,7 +519,7 @@ jQuery(document).ready(function ($) {
                     [].forEach.call(matched, function (matchText) {
                         var hashtagName = matchText.split("#");
                         var updates = {};
-                        updates['/hashtag/' + hashtagName[1] + '/' + updateId] = null;
+                        updates['/hashtag/' + hashtagName[1] + '/' + postKey] = null;
                         firebase.database().ref().update(updates);
                         firebase.database().ref('/hashtag/' + hashtagName[1] + '/totalUsed').transaction(function (currentCount) {
                             return currentCount - 1;
