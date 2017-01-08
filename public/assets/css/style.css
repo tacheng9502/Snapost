@@ -544,17 +544,18 @@ p {
 
 .hottag-list li {
     overflow: hidden;
+    float: left;
+    margin-right: 8px;
+    margin-bottom: 10px;
+
 }
 
 .hottag-list li a {
-    float: left;
-    margin-right: 8px;
-    padding: 0px 10px;
+    padding: 2px 10px;
     border: 1px solid #0068B7;
     color: #0068B7;
     border-radius: 40px;
     word-break: break-all;
-    margin-bottom: 10px;
 }
 
 .hottag-list li a:hover {
