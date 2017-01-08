@@ -535,7 +535,7 @@ p {
 .hottag h3 {
     font-weight: bold;
     font-size: 15px;
-    margin-bottom: 8px;
+    margin-bottom: 15px;
 }
 
 .hottag i {
@@ -544,6 +544,16 @@ p {
 
 .hottag-list li {
     float: left;
+    margin-right: 8px;
+    padding: 0px 10px;
+    border: 1px solid #0068B7;
+    color: #0068B7;
+    border-radius: 40px;
+}
+
+.hottag-list li a:hover {
+    color: #fff;
+    background: #0068B7;
 }
 
 /* Clear Float */
