@@ -504,20 +504,15 @@ jQuery(document).ready(function($) {
 
     window.clickImg = function(event) {
         event.preventDefault();
-        console.log("ZZZ");
         var refKey = event.target.id.slice(0, -10);
         var postDetailRef = firebase.database().ref('posts/' + refKey + '/');
         postDetailRef.on('value', function(data) {
-            console.log("!!!");
             var html = createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-            function alert() {
-                console.log("?!");
                 swal({
                     title: "",
                     text: html,
                     html: true
                 });
-            }
         });
     };
 })
