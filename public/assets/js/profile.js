@@ -556,7 +556,7 @@ jQuery(document).ready(function($) {
                 });
             $('.sweet-overlay').on('click', function (event) {
                 swal.close();
-            }
+            });
             $(".showSweetAlert").addClass("alertPost");
         });
     };
