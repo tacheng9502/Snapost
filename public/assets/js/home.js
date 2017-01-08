@@ -5,6 +5,7 @@ jQuery(document).ready(function ($) {
     var listeningFirebaseRefs = [];
     var followLastPost = [];
     var loadController = true;
+    var loadTimes = '1';
 
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
@@ -220,7 +221,7 @@ jQuery(document).ready(function ($) {
     }
 
     function showAdvertisment() {
-        var advertsRef = firebase.database().ref('adverts').limitToLast(2);
+        var advertsRef = firebase.database().ref('adverts');
         advertsRef.once('value', function (snapshot) {
             var array = [];
             snapshot.forEach(function (data) {
@@ -240,8 +241,10 @@ jQuery(document).ready(function ($) {
                 array.push(html);
             });
 
-            for (var i = 1; i <= array.length; i++) {
-                $("#list li:nth-child(" + (5 * i - 1) + ")").after(array[i - 1]);
+            for (var i = 0; i < 2; i++) {
+                var load = loadTimes * 2;
+                $("#list li:nth-child(" + (5 * load - 1) + ")").after(array[load - 1]);
+                load = load - 1;
             }
         });
     }
@@ -627,6 +630,8 @@ jQuery(document).ready(function ($) {
                 $('#' + data.key).remove();
             });
             listeningFirebaseRefs.push(postsRef);
+            loadTimes = loadTimes + 1;
+            showAdvertisment();
         } else {
             loadController = true;
         }
