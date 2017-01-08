@@ -153,6 +153,8 @@ jQuery(document).ready(function($) {
 
         var html =
             '<div id="' + postKey + '">' +
+            '<img id="' + postKey + '_postImage" class="alertPhoto" src="' + postImage + '"/>' +
+            '<div class="alertPost">'  +
             '<div class="info">' +
             '<a id="' + postKey + '_profile" href="/profile?u=' + userId + '" >' +
             '<img id="' + postKey + '_userImage" src="' + userImage + '" class="img-circle" width="25px" height="25px">' +
@@ -174,8 +176,7 @@ jQuery(document).ready(function($) {
 
         html = html +
             '</div>' +
-            '<p id="' + postKey + '_body">' + postBody + '</p>' +
-            '<img id="' + postKey + '_postImage" class="alertPhoto" src="' + postImage + '"/>';
+            '<p id="' + postKey + '_body">' + postBody + '</p>';
 
         if (likeStatus != null) {
             html = html +
@@ -188,7 +189,8 @@ jQuery(document).ready(function($) {
                 '<div class="postMenu">' +
                 '<button class="like"><i id="' + postKey + '_like" class="fa fa-heart" onclick="clickLike(event)">&nbsp;&nbsp;' + likeCount + '</i></button>' +
                 '<button class="comment-btn"><i id="' + postKey + '_commentFocus" class="fa fa-comment" onclick="commentFocus(event)">&nbsp;留言</i></button>' +
-                '</div>';
+                '</div>' +
+            '</div>';
         }
 
         html = html +
@@ -199,7 +201,7 @@ jQuery(document).ready(function($) {
             '<button id="' + postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button"><i class="fa fa-paper-plane fa-fw" id="' + postKey + '_comment" aria-hidden="true" onclick="writeNewComment(event)"></i>&nbsp;發送</button>' +
             '</span>' +
             '</div></div>' +
-            '</li>';
+            '</div></div>';
 
         var commentsRef = firebase.database().ref('post-comments/' + postKey);
         commentsRef.on('child_added', function (data) {
