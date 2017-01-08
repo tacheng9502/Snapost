@@ -306,6 +306,9 @@ jQuery(document).ready(function ($) {
                 var updates = {};
                 updates['/hashtag/' + hashtagName[1] + '/' + postKey] = true;
                 firebase.database().ref().update(updates);
+                firebase.database().ref('/hashtag/' + hashtagName[1] + '/totalUsed').transaction(function (currentCount) {
+                    return currentCount + 1;
+                });
             });
         }
 
@@ -425,6 +428,9 @@ jQuery(document).ready(function ($) {
                 var updates = {};
                 updates['/hashtag/' + hashtagName[1] + '/' + postKey] = true;
                 firebase.database().ref().update(updates);
+                firebase.database().ref('/hashtag/' + hashtagName[1] + '/totalUsed').transaction(function (currentCount) {
+                    return currentCount + 1;
+                });
             });
         }
 
@@ -587,7 +593,6 @@ jQuery(document).ready(function ($) {
         var lastLi = $('#list>li:last');
         if ($(document).height() - window.innerHeight == win.scrollTop() && loadController) {
             loadController = false;
-            console.log('載入更多貼文');
             var postsRef = firebase.database().ref('posts').orderByKey().endAt(lastPostId).limitToLast(8);
             postsRef.on('child_added', function (data) {
                 if (!followLastPost.includes(data.key) && lastPostId != data.key) {
