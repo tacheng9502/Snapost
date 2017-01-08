@@ -32,8 +32,8 @@ jQuery(document).ready(function ($) {
             $('#keyWord').html('<i class="fa fa-search fa-fw fa-lg"></i>&nbsp;' + queryArray[1]);
             var postsRef = firebase.database().ref('posts/');
             postsRef.once('value', function (snapshot) {
-                snapshot.forEach(function (postData){
-                    if(postData.val().postBody.includes(queryArray[1])){
+                snapshot.forEach(function (postData) {
+                    if (postData.val().postBody.includes(queryArray[1])) {
                         var html = createPostElement(postData.key, postData.val().userId, postData.val().userName, postData.val().userImage, postData.val().postBody, postData.val().postTime, postData.val().postImage, postData.val().likeCount);
                         $('#list').prepend(html);
                     }
@@ -229,5 +229,21 @@ jQuery(document).ready(function ($) {
     $('#userInfo').on('click', function (event) {
         event.preventDefault();
         window.location.href = "/profile?u=" + currentUserId;
+    });
+
+    $('#searchButton').on('click', function (event) {
+        event.preventDefault();
+        var searchText = $('#searchText').val();
+        if (searchText.match(/(^#\S+)/)) {
+            window.location.href = "/search?tag=" + searchText.slice(1);
+        } else {
+            window.location.href = "/search?key=" + searchText;
+        }
+    });
+
+    $('#searchText').keypress(function (event) {
+        if (event.keyCode == 13) {
+            $("#searchButton").trigger("click");
+        }
     });
 });
