@@ -419,7 +419,7 @@ jQuery(document).ready(function ($) {
             [].forEach.call(matched, function (matchText) {
                 var hashtagName = matchText.split("#");
                 var template = '<span style="color:blue"><a href="/hashtag?tag={#}">{#}</a></span>';
-                template = template.replace('{#}', hashtagName[1]);
+                template = template.replaceAll('{#}', hashtagName[1]);
                 postBody = postBody.replace(matchText, template);
                 var updates = {};
                 updates['/hashtag/' + hashtagName[1] + '/' + postKey] = true;
