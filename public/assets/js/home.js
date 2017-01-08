@@ -129,7 +129,7 @@ jQuery(document).ready(function ($) {
         });
 
         var html =
-            '<li id="' + postKey + '" class="post">' +
+            '<li id="' + postKey + '">' +
             '<div class="info">' +
             '<a id="' + postKey + '_profile" href="/profile?u=' + userId + '" >' +
             '<img id="' + postKey + '_userImage" src="' + userImage + '" class="img-circle" width="25px" height="25px">' +
