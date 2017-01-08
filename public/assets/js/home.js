@@ -299,7 +299,7 @@ jQuery(document).ready(function ($) {
         if (matched != null) {
             [].forEach.call(matched, function (matchText) {
                 var hashtagName = matchText.split("#");
-                var template = '<span style="color:blue"><a href="/hashtag?tag={#}">{#}</a></span>';
+                var template = '<a href="/hashtag?tag={#}" class="tag">{#}</a>';
                 template = template.replace(/{#}/g, hashtagName[1]);
                 postBody = postBody.replace(matchText, template);
                 var updates = {};
@@ -417,7 +417,7 @@ jQuery(document).ready(function ($) {
         if (matched != null) {
             [].forEach.call(matched, function (matchText) {
                 var hashtagName = matchText.split("#");
-                var template = '<span style="color:blue"><a href="/hashtag?tag={#}">{#}</a></span>';
+                var template = '<a href="/hashtag?tag={#}" class="tag">{#}</a>';
                 template = template.replace(/{#}/g, hashtagName[1]);
                 postBody = postBody.replace(matchText, template);
                 var updates = {};
