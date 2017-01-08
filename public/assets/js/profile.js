@@ -509,7 +509,7 @@ jQuery(document).ready(function($) {
         postDetailRef.on('value', function(data) {
             var html = createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
                 swal({
-                    title: "";
+                    title: "",
                     text: html,
                     html: true
                 });
