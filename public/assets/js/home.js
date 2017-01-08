@@ -74,7 +74,7 @@ jQuery(document).ready(function ($) {
 
         firebase.database().ref('hashtag').orderByChild('totalUsed').limitToLast(5).once('value').then(function (snapshot) {
             snapshot.forEach(function(data){
-                var html = '<li><a href="/hashtag?tag='+data.key+'">#'+data.key+'</a></li><li>';
+                var html = '<li><a href="/search?tag='+data.key+'">#'+data.key+'</a></li><li>';
                 $('ul.hottag-list').append(html);
             });
         });
@@ -306,7 +306,7 @@ jQuery(document).ready(function ($) {
         if (matched != null) {
             [].forEach.call(matched, function (matchText) {
                 var hashtagName = matchText.split("#");
-                var template = '<a href="/hashtag?tag={#n}" class="tag">{#}</a>';
+                var template = '<a href="/search?tag={#n}" class="tag">{#}</a>';
                 template = template.replace(/{#}/, matchText);
                 template = template.replace(/{#n}/, hashtagName[1]);
                 postBody = postBody.replace(matchText, template);
@@ -428,7 +428,7 @@ jQuery(document).ready(function ($) {
         if (matched != null) {
             [].forEach.call(matched, function (matchText) {
                 var hashtagName = matchText.split("#");
-                var template = '<a href="/hashtag?tag={#n}" class="tag">{#}</a>';
+                var template = '<a href="/search?tag={#n}" class="tag">{#}</a>';
                 template = template.replace(/{#}/, matchText);
                 template = template.replace(/{#n}/, hashtagName[1]);
                 postBody = postBody.replace(matchText, template);

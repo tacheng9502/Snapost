@@ -396,6 +396,23 @@ p {
     margin: 90px auto 40px auto;
 }
 
+.tag-box {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 0 0 40px 0;
+    background: #fff;
+    padding: 20px;
+}
+
+.tag-box h3 {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.tag-box i {
+    color: #0068B7;
+}
+
 .user-box {
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -545,7 +562,7 @@ p {
 .hottag-list li {
     overflow: hidden;
     float: left;
-    margin-right: 8px;
+    margin-right: 6px;
     margin-bottom: 10px;
 
 }

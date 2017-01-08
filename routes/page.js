@@ -6,8 +6,8 @@ exports.profile = function (request, response) {
     response.render('pages/profile');
 };
 
-exports.hashtag = function (request, response) {
-    response.render('pages/hashtag');
+exports.search = function (request, response) {
+    response.render('pages/search');
 };
 
 exports.chart = function (request, response) {

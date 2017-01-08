@@ -31,6 +31,7 @@ jQuery(document).ready(function($) {
             $("#user_fans").empty();
             $("#user_followers").empty();
             var a, b, c;
+            
             if(data.val().userPostCount == null){
                 $("#li_post").html("<h3>0</h3><span>貼文</span>");
             }else{
