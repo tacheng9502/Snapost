@@ -1,10 +1,10 @@
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
 
     var userName, userImage, currentUserId, queryName;
     var listeningFirebaseRefs = [];
     var queryId = window.location.search.substr(3);
 
-    firebase.auth().onAuthStateChanged(function(user) {
+    firebase.auth().onAuthStateChanged(function (user) {
         if (!user) {
             window.location.href = 'https://snapost.herokuapp.com/';
         } else {
@@ -22,7 +22,7 @@ jQuery(document).ready(function($) {
     function startDatabaseQueries() {
 
         var profileRef = firebase.database().ref('users/' + queryId + "/");
-        profileRef.on('value', function(data) {
+        profileRef.on('value', function (data) {
             queryName = data.val().userName;
             var queryImage = data.val().userImage;
             $("#user_img").attr("src", queryImage);
@@ -32,23 +32,23 @@ jQuery(document).ready(function($) {
             $("#user_followers").empty();
             var a, b, c;
 
-            if(data.val().userPostCount == null){
+            if (data.val().userPostCount == null) {
                 $("#li_post").html("<h3>0</h3><span>貼文</span>");
-            }else{
+            } else {
                 a = data.val().userPostCount;
                 $("#user_posts").append(a);
             }
 
-            if(data.val().userFanCount == null || data.val().userFanCount == 0){
+            if (data.val().userFanCount == null || data.val().userFanCount == 0) {
                 $("#li_fans").html("<h3>0</h3><span>粉絲</span>");
-            }else{
+            } else {
                 b = data.val().userFanCount;
                 $("#user_fans").append(b);
             }
 
-            if(data.val().userFollowCount == null || data.val().userFollowCount == 0){
+            if (data.val().userFollowCount == null || data.val().userFollowCount == 0) {
                 $("#li_followers").html("<h3>0</h3><span>追蹤</span>");
-            }else{
+            } else {
                 c = data.val().userFollowCount;
                 $("#user_followers").append(c);
             }
@@ -56,8 +56,8 @@ jQuery(document).ready(function($) {
 
         var postRef = firebase.database().ref('users/' + queryId + '/userPost');
         var html = "";
-        postRef.once('value', function(data) {
-            data.forEach(function(childdata) {
+        postRef.once('value', function (data) {
+            data.forEach(function (childdata) {
                 var postKey = childdata.key;
                 var postImage = childdata.val();
                 html =
@@ -71,7 +71,7 @@ jQuery(document).ready(function($) {
         if (queryId != currentUserId) {
             $("#follow").show();
             var isFollow = firebase.database().ref('users/' + currentUserId + '/userFollow').orderByKey().equalTo(queryId);
-            isFollow.once('value', function(data) {
+            isFollow.once('value', function (data) {
                 if (data.val() == null) {
                     $("#follow").append("加入追蹤");
                     $("#follow").val("1");
@@ -91,9 +91,9 @@ jQuery(document).ready(function($) {
         $("#result").toggle();
         $("#result").empty();
         var fanRef = firebase.database().ref('users/' + queryId + '/userFan');
-        fanRef.once('value', function(data) {
+        fanRef.once('value', function (data) {
             if (queryId == currentUserId) {
-                data.forEach(function(childdata) {
+                data.forEach(function (childdata) {
                     var fanID = childdata.key;
                     var fanName = childdata.val();
                     var html =
@@ -101,7 +101,7 @@ jQuery(document).ready(function($) {
                     $("#result").append(html);
                 });
             } else {
-                data.forEach(function(childdata) {
+                data.forEach(function (childdata) {
                     var fanID = childdata.key;
                     var fanName = childdata.val();
                     var html = '<li><a href="/profile?u=' + fanID + '"><p>' + fanName + '</p></a></li>';
@@ -115,9 +115,9 @@ jQuery(document).ready(function($) {
         $("#result").toggle();
         $("#result").empty();
         var followRef = firebase.database().ref('users/' + queryId + '/userFollow');
-        followRef.once('value', function(data) {
+        followRef.once('value', function (data) {
             if (queryId == currentUserId) {
-                data.forEach(function(childdata) {
+                data.forEach(function (childdata) {
                     var followID = childdata.key;
                     var followName = childdata.val().userName;
                     var html =
@@ -125,7 +125,7 @@ jQuery(document).ready(function($) {
                     $("#result").append(html);
                 });
             } else {
-                data.forEach(function(childdata) {
+                data.forEach(function (childdata) {
                     var followID = childdata.key;
                     var followName = childdata.val().userName;
                     var html = '<li><a href="/profile?u=' + followID + '"><p>' + followName + '</p></a></li>';
@@ -154,7 +154,11 @@ jQuery(document).ready(function($) {
         var html =
             '<div id="' + postKey + '" class="alertPost">' +
             '<img id="' + postKey + '_postImage" class="alertPhoto" src="' + postImage + '"/>' +
+<<<<<<< HEAD
             '<div class="alertContent">'  +
+=======
+            '<div class="alertPost">' +
+>>>>>>> e2afa2ffb564b54dcc6e8c31b9316ed8515a7f25
             '<div class="info">' +
             '<a id="' + postKey + '_profile" href="/profile?u=' + userId + '" >' +
             '<img id="' + postKey + '_userImage" src="' + userImage + '" class="img-circle" width="25px" height="25px">' +
@@ -190,7 +194,7 @@ jQuery(document).ready(function($) {
                 '<button class="like"><i id="' + postKey + '_like" class="fa fa-heart" onclick="clickLike(event)">&nbsp;&nbsp;' + likeCount + '</i></button>' +
                 '<button class="comment-btn"><i id="' + postKey + '_commentFocus" class="fa fa-comment" onclick="commentFocus(event)">&nbsp;留言</i></button>' +
                 '</div>' +
-            '</div>';
+                '</div>';
         }
 
         html = html +
@@ -255,15 +259,15 @@ jQuery(document).ready(function($) {
                 confirmButtonText: "刪除",
                 closeOnConfirm: false
             },
-            function() {
+            function () {
                 var dels = {};
                 dels['/users/' + currentUserId + '/userFollow/' + i] = null;
                 dels['/users/' + i + '/userFan/' + currentUserId] = null;
                 firebase.database().ref().update(dels);
-                firebase.database().ref('/users/' + currentUserId + '/userFollowCount').transaction(function(currentCount) {
+                firebase.database().ref('/users/' + currentUserId + '/userFollowCount').transaction(function (currentCount) {
                     return currentCount - 1;
                 });
-                firebase.database().ref('/users/' + i + '/userFanCount').transaction(function(currentCount) {
+                firebase.database().ref('/users/' + i + '/userFanCount').transaction(function (currentCount) {
                     return currentCount - 1;
                 });
                 swal("取消追蹤", "退追蹤了啦 QQ", "success");
@@ -271,8 +275,8 @@ jQuery(document).ready(function($) {
             });
 
         $('.sweet-overlay').on('click', function (event) {
-                swal.close();
-            });
+            swal.close();
+        });
     }
 
     function doFollow(i, j) {
@@ -284,10 +288,10 @@ jQuery(document).ready(function($) {
         sets['/users/' + currentUserId + '/userFollow/' + i] = followData;
         sets['/users/' + i + '/userFan/' + currentUserId] = userName;
         firebase.database().ref().update(sets);
-        firebase.database().ref('/users/' + currentUserId + '/userFollowCount').transaction(function(currentCount) {
+        firebase.database().ref('/users/' + currentUserId + '/userFollowCount').transaction(function (currentCount) {
             return currentCount + 1;
         });
-        firebase.database().ref('/users/' + i + '/userFanCount').transaction(function(currentCount) {
+        firebase.database().ref('/users/' + i + '/userFanCount').transaction(function (currentCount) {
             return currentCount + 1;
         });
     }
@@ -306,7 +310,7 @@ jQuery(document).ready(function($) {
         }
     }
 
-    $('#clearNewPost').on('click', function(event) {
+    $('#clearNewPost').on('click', function (event) {
         event.preventDefault();
         $('.form-control').val("");
         $('#newPost_body').val("");
@@ -314,17 +318,17 @@ jQuery(document).ready(function($) {
         newImageFile = null;
     });
 
-    $('#userInfo').on('click', function(event) {
+    $('#userInfo').on('click', function (event) {
         event.preventDefault();
         window.location.href = "/profile?u=" + currentUserId;
     });
 
-    $('#fans').on('click', function(event) {
+    $('#fans').on('click', function (event) {
         event.preventDefault();
         showFan();
     });
 
-    $('#followers').on('click', function(event) {
+    $('#followers').on('click', function (event) {
         event.preventDefault();
         showFollow();
     });
@@ -332,9 +336,9 @@ jQuery(document).ready(function($) {
     $('#searchButton').on('click', function (event) {
         event.preventDefault();
         var searchText = $('#searchText').val();
-        if(searchText.match(/(^#\S+)/)){
+        if (searchText.match(/(^#\S+)/)) {
             window.location.href = "/search?tag=" + searchText.slice(1);
-        }else{
+        } else {
             window.location.href = "/search?key=" + searchText;
         }
     });
@@ -424,8 +428,8 @@ jQuery(document).ready(function($) {
         $(".showSweetAlert").removeClass("alertBody");
         $(".showSweetAlert").addClass("alertDelete");
         $('.sweet-overlay').on('click', function (event) {
-                swal.close();
-            });
+            swal.close();
+        });
     }
 
     window.clickCommentDelete = function (event) {
@@ -452,8 +456,8 @@ jQuery(document).ready(function($) {
         $(".showSweetAlert").removeClass("alertBody");
         $(".showSweetAlert").addClass("alertDelete");
         $('.sweet-overlay').on('click', function (event) {
-                swal.close();
-            });
+            swal.close();
+        });
     }
 
     window.writeNewComment = function (event) {
@@ -500,7 +504,7 @@ jQuery(document).ready(function($) {
         });
     }
 
-    window.clickfan = function(event) {
+    window.clickfan = function (event) {
         event.preventDefault();
         if ($("#follow").val() == 1) {
             doFollow(queryId, queryName);
@@ -513,7 +517,7 @@ jQuery(document).ready(function($) {
         }
     };
 
-    window.clickUnfan = function(event) {
+    window.clickUnfan = function (event) {
         event.preventDefault();
         var targetUser = event.target.id.slice(0, -4);
         var targetUserTr = "#" + targetUser + "_tr";
@@ -526,15 +530,15 @@ jQuery(document).ready(function($) {
                 confirmButtonText: "刪除",
                 closeOnConfirm: false
             },
-            function() {
+            function () {
                 var dels = {};
                 dels['/users/' + currentUserId + '/userFan/' + targetUser] = null;
                 dels['/users/' + targetUser + '/userFollow/' + currentUserId] = null;
                 firebase.database().ref().update(dels);
-                firebase.database().ref('/users/' + currentUserId + '/userFanCount').transaction(function(currentCount) {
+                firebase.database().ref('/users/' + currentUserId + '/userFanCount').transaction(function (currentCount) {
                     return currentCount - 1;
                 });
-                firebase.database().ref('/users/' + targetUser + '/userFollowCount').transaction(function(currentCount) {
+                firebase.database().ref('/users/' + targetUser + '/userFollowCount').transaction(function (currentCount) {
                     return currentCount - 1;
                 });
                 swal("刪除成功", "恭喜你少了一位粉絲", "success");
@@ -542,11 +546,11 @@ jQuery(document).ready(function($) {
             });
 
         $('.sweet-overlay').on('click', function (event) {
-                swal.close();
-            });
+            swal.close();
+        });
     };
 
-    window.clickUnFollow = function(event) {
+    window.clickUnFollow = function (event) {
         event.preventDefault();
         var targetUser = event.target.id.slice(0, -2);
         var a = '#' + targetUser + '_f';
@@ -564,22 +568,40 @@ jQuery(document).ready(function($) {
         }
     };
 
-    window.clickImg = function(event) {
+    window.clickImg = function (event) {
         event.preventDefault();
         var refKey = event.target.id.slice(0, -10);
         var postDetailRef = firebase.database().ref('posts/' + refKey + '/');
-        postDetailRef.on('value', function(data) {
+        postDetailRef.on('value', function (data) {
             var html = createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+<<<<<<< HEAD
                 swal({
                     title: "",
                     text: html,
                     html: true,
                     showConfirmButton: false
                 });
+=======
+            swal({
+                title: "",
+                text: html,
+                html: true
+            });
+>>>>>>> e2afa2ffb564b54dcc6e8c31b9316ed8515a7f25
             $('.sweet-overlay').on('click', function (event) {
                 swal.close();
             });
             $(".showSweetAlert").addClass("alertBody");
         });
     };
+
+    $('#searchButton').on('click', function (event) {
+        event.preventDefault();
+        var searchText = $('#searchText').val();
+        if (searchText.match(/(^#\S+)/)) {
+            window.location.href = "/search?tag=" + searchText.slice(1);
+        } else {
+            window.location.href = "/search?key=" + searchText;
+        }
+    });
 })

@@ -244,10 +244,4 @@ jQuery(document).ready(function ($) {
             window.location.href = "/search?key=" + searchText;
         }
     });
-
-    $('#searchText').keypress(function (event) {
-        if (event.keyCode == 13) {
-            $("#searchButton").trigger("click");
-        }
-    });
 });

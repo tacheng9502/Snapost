@@ -514,7 +514,7 @@ jQuery(document).ready(function ($) {
                 closeOnConfirm: false
             },
             function () {
-                var matched = oldBody.match(/(\S+#\S+)|(\s+#\S+)/g);
+                var matched = oldBody.match(/(\S*#\S+)|(\s+#\S+)/g);
                 if (matched != null) {
                     [].forEach.call(matched, function (matchText) {
                         var hashtagName = matchText.split("#");
