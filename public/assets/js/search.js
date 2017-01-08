@@ -26,7 +26,7 @@ jQuery(document).ready(function ($) {
     });
 
     function startDatabaseQueries() {
-        var queryText = window.location.search.substr(1);
+        var queryText = decodeURIComponent(window.location.search.substr(1));
         var queryArray = queryText.split('=');
         if (queryArray[0] == 'key') {
 
