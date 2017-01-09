@@ -587,6 +587,7 @@ jQuery(document).ready(function ($) {
         var html = "";
         postDetailRef.on('value', function (data) {
             if(viewListener == false){
+                console.log("~!~");
                 createSweetAlertView(createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount));
                 viewListener = true;
             }
@@ -601,6 +602,9 @@ jQuery(document).ready(function ($) {
       });
       $('.sweet-overlay').on('click', function (event) {
           swal.close();
+          $('.showSweetAlert').remove();
+          $('.alertBody').remove();
+          $('.sweet-overlay').remove();
           viewListener = false;
       });
       $(".showSweetAlert").addClass("alertBody");
