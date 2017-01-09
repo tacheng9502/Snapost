@@ -41,9 +41,6 @@ jQuery(document).ready(function ($) {
                         resultNumber = resultNumber + 1;
                     }
                 });
-                if (resultNumber == 0) {
-                    $('div.noresult').removeAttr("hidden");
-                }
             });
         } else {
             $('#keyWord').html('<i class="fa fa-tag fa-fw fa-lg"></i>&nbsp;' + queryArray[1]);
@@ -59,9 +56,6 @@ jQuery(document).ready(function ($) {
                         });
                     }
                 });
-                if (resultNumber == 0) {
-                    $('div.noresult').removeAttr("hidden");
-                }
             });
         }
     }
@@ -254,5 +248,9 @@ jQuery(document).ready(function ($) {
             window.location.href = "/search?key=" + searchText;
         }
     });
+
+    if (resultNumber == 0) {
+        $('div.noresult').removeAttr("hidden");
+    }
 
 });
