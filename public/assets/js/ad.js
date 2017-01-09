@@ -365,7 +365,7 @@ jQuery(document).ready(function($) {
             $("#ref").empty().attr("value", " ");
             $("#adDetail").attr("hidden", "hidden");
             $('#edit_default').removeAttr("hidden", "hidden");
-            $('#edit_mod').remove();
+            $('#edit_mod').attr("hidden", "hidden");
         }else{
             alert("You may try it later :)");
         }
