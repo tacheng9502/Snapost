@@ -155,13 +155,13 @@ jQuery(document).ready(function ($) {
         var html =
             '<div id="' + postKey + '_alertPost" class="alertPost">' +
             '<img id="' + postKey + '_postImage" class="alertPhoto" src="' + postImage + '"/>' +
-            '<div class="alertContent">' +
-            '<span id="' + postKey + '_postTime" class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>'  +
+            '<div class="alertContent">'  +
             '<div class="info">' +
             '<a id="' + postKey + '_profile" href="/profile?u=' + userId + '" >' +
             '<img id="' + postKey + '_userImage" src="' + userImage + '" class="img-circle" width="25px" height="25px">' +
             '<h2 id="' + postKey + '_userName">' + userName + '</h2>' +
-            '</a>';
+            '</a>' +
+            '<span id="' + postKey + '_postTime" class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + '</br>' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>';
 
         if (currentUserId === userId) {
             html = html +
