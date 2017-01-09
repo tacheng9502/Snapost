@@ -203,24 +203,7 @@ jQuery(document).ready(function ($) {
             '</div></div>' +
             '</div></div>';
 
-        var commentsRef = firebase.database().ref('post-comments/' + postKey);
-        commentsRef.once('value', function (parentdata) {
-            parentdata.forEach(function (data) {
-              var html = "";
-              if((html = createCommentElement(postKey, data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime))!=null){
-                  $('#' + postKey + '_commentList').append(html);
-              }
-            })
-        })
-        // commentsRef.on('child_added', function (data) {
-        //     var html = "";
-        //     if((html = createCommentElement(postKey, data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime))!=null){
-        //         $('#' + postKey + '_commentList').append(html);
-        //     }
-        // });
-        commentsRef.on('child_removed', function (data) {
-            $('#' + data.key).remove();
-        });
+        getComment(postKey);
 
         var likeCountRef = firebase.database().ref('posts/' + postKey + '/likeCount');
         likeCountRef.on('value', function (snapshot) {
@@ -236,6 +219,19 @@ jQuery(document).ready(function ($) {
             }
         });
         return html;
+    }
+
+    function getComment(postKey){
+      var commentsRef = firebase.database().ref('post-comments/' + postKey);
+      commentsRef.on('child_added', function (data) {
+          var html = "";
+          if((html = createCommentElement(postKey, data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime))!=null){
+              $('#' + postKey + '_commentList').append(html);
+          }
+      });
+      commentsRef.on('child_removed', function (data) {
+          $('#' + data.key).remove();
+      });
     }
 
     function createCommentElement(postKey, commentKey, userId, userName, userImage, commentBody, commentTime) {
@@ -591,6 +587,7 @@ jQuery(document).ready(function ($) {
             if(viewListener == false){
                 console.log("~!~");
                 createSweetAlertView(createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount));
+                getComment(refKey);
                 viewListener = true;
             }
         });
