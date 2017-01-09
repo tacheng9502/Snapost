@@ -210,12 +210,20 @@ jQuery(document).ready(function ($) {
             '</div></div>';
 
         var commentsRef = firebase.database().ref('post-comments/' + postKey);
-        commentsRef.on('child_added', function (data) {
-            var html = "";
-            if((html = createCommentElement(postKey, data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime))!=null){
-                $('#' + postKey + '_commentList').append(html);
-            }
-        });
+        commentsRef.once('value', function (parentdata) {
+            parentdata.forEach(function (data) {
+              var html = "";
+              if((html = createCommentElement(postKey, data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime))!=null){
+                  $('#' + postKey + '_commentList').append(html);
+              }
+            })
+        })
+        // commentsRef.on('child_added', function (data) {
+        //     var html = "";
+        //     if((html = createCommentElement(postKey, data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime))!=null){
+        //         $('#' + postKey + '_commentList').append(html);
+        //     }
+        // });
         commentsRef.on('child_removed', function (data) {
             $('#' + data.key).remove();
         });
@@ -237,7 +245,6 @@ jQuery(document).ready(function ($) {
     }
 
     function createCommentElement(postKey, commentKey, userId, userName, userImage, commentBody, commentTime) {
-        console.log("~~~~");
         var html = "";
         if($('#'+commentKey).html()==null){
           var html = '<li id =' + commentKey + '><a href="/profile?u=' + userId + '" >' + userName + '</a><span>' + commentBody + '</span>';
