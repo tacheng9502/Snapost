@@ -466,9 +466,10 @@ jQuery(document).ready(function ($) {
     }
 
     window.writeNewComment = function (event) {
+        console.log($('#'+event.target.id).val());
         event.preventDefault();
         if($('#'+event.target.id).val()!=""){
-            console.log("writeNewComment!");
+            console.log("writeNewComment!!");
             var postKey = event.target.id.slice(0, -8);
             var date = new Date();
             var commentTime = date.getTime();
