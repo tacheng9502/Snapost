@@ -587,6 +587,13 @@ p {
     background: #0068B7;
 }
 
+.noresult {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fff;
+    padding: 20px;
+}
+
 .alertBody h2 {
     display: none;
 }
