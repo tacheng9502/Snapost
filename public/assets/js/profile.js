@@ -580,8 +580,9 @@ jQuery(document).ready(function ($) {
         var html = "";
         postDetailRef.on('value', function (data) {
             if(viewListener == false){
-              createSweetAlertView(createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount));
-              viewListener = true;
+                createSweetAlertView(createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount));
+                viewListener = true;
+            }
         });
     };
     function createSweetAlertView(html){
