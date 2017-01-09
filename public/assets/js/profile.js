@@ -461,6 +461,7 @@ jQuery(document).ready(function ($) {
                 deletes['/post-comments/' + splitKey[0] + '/' + splitKey[1]] = null;
                 firebase.database().ref().update(deletes);
                 swal("已刪除", "留言已經成功刪除", "success");
+                window.location.reload();
             });
 
         $(".showSweetAlert").removeClass("alertBody");
