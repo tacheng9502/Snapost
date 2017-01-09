@@ -606,6 +606,16 @@ jQuery(document).ready(function ($) {
           $('.sweet-overlay').remove();
           viewListener = false;
       });
+      $(document).keydown(function(e) {
+          // ESCAPE key pressed
+          if (e.keyCode == 27) {
+              swal.close();
+              $('.showSweetAlert').remove();
+              $('.alertBody').remove();
+              $('.sweet-overlay').remove();
+              viewListener = false;
+          }
+      });
       $(".showSweetAlert").addClass("alertBody");
     }
 
