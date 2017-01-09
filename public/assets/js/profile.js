@@ -424,6 +424,7 @@ jQuery(document).ready(function ($) {
         $(".showSweetAlert").addClass("alertDelete");
         $('.sweet-overlay').on('click', function (event) {
             swal.close();
+            $(".showSweetAlert").removeClass("alertDelete");
         });
     }
 
@@ -452,6 +453,7 @@ jQuery(document).ready(function ($) {
         $(".showSweetAlert").addClass("alertDelete");
         $('.sweet-overlay').on('click', function (event) {
             swal.close();
+            $(".showSweetAlert").removeClass("alertDelete");
         });
     }
 
