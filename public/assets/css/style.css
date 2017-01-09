@@ -356,6 +356,7 @@ p {
     color: #0068B7;
     font-weight: bold;
     margin-right: 5px;
+    white-space: nowrap;
 }
 
 #list .comment a:hover {
@@ -765,6 +766,10 @@ p {
 
 .alertContent .tag:hover {
     color: #23527c;
+}
+
+.alertContent .comment li a {
+    white-space: nowrap;
 }
 
 .alertContent .comment li {
