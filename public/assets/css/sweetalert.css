@@ -14,7 +14,8 @@ body.stop-scrolling {
   top: 0;
   bottom: 0;
   display: none;
-  z-index: 10000; }
+  z-index: 10000;
+  overflow-y: auto; }
 
 .sweet-alert {
   background-color: white;
