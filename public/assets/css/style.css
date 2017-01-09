@@ -728,8 +728,14 @@ p {
     color: #23527c;
 }
 
-.alertContent .comment a {
-
+.alertContent .comment li {
+    border: 0;
+    margin: 0;
+    word-break: break-all;
+    color: #292929;
+    font-weight: normal;
+    line-height: 25px;
+    font-size: 14px;
 }
 
 .alertContent .comment a:hover {
