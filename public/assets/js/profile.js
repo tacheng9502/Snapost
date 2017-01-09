@@ -604,12 +604,14 @@ jQuery(document).ready(function ($) {
           $('.showSweetAlert').remove();
           $('.alertBody').remove();
           $('.sweet-overlay').remove();
+          ('.sweet-alert').remove();
           viewListener = false;
       });
       $(document).keydown(function(e) {
           // ESCAPE key pressed
           if (e.keyCode == 27) {
               swal.close();
+              $('.sweet-alert').remove();
               $('.showSweetAlert').remove();
               $('.alertBody').remove();
               $('.sweet-overlay').remove();
