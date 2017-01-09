@@ -674,7 +674,7 @@ p {
     background-color: transparent;
     color: #777;
     border: none;
-    font-size: 14px;
+    font-size: 15px;
     padding: 6px 6px;
     margin: 0px;
 }
@@ -685,6 +685,7 @@ p {
     background-color: transparent;
     border: none;
     color: #292929;
+    box-shadow: none;
 }
 
 .alertContent p {

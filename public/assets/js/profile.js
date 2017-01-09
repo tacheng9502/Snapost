@@ -168,7 +168,7 @@ jQuery(document).ready(function ($) {
                 '<div id="' + postKey + '_operate" class="navi pull-right">' +
                 '<a id="' + postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
                 '<i id="' + postKey + '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i>' +
-                '</a>&nbsp;' +
+                '</a>' +
                 '<a id="' + postKey + '_delete" class="btn btn-default" onclick="clickDelete(event)" >' +
                 '<i id="' + postKey + '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i>' +
                 '</a>' +
@@ -379,7 +379,7 @@ jQuery(document).ready(function ($) {
         $('#' + postKey + '_operate').html(
             '<a id="' + postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
             '<i id="' + postKey + '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i>' +
-            '</a>&nbsp;' +
+            '</a>' +
             '<a id="' + postKey + '_delete" class="btn btn-default" onclick="clickDelete(event)" >' +
             '<i id="' + postKey + '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i>' +
             '</a>'
