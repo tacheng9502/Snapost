@@ -709,10 +709,6 @@ p {
     border: 1px solid #204d74;
 }
 
-.alertDelete {
-    margin-top: -171px !important;
-}
-
 .alertPhoto {
     float: left;
     height: 600px;
