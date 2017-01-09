@@ -161,7 +161,7 @@ jQuery(document).ready(function ($) {
             '<img id="' + postKey + '_userImage" src="' + userImage + '" class="img-circle" width="25px" height="25px">' +
             '<h2 id="' + postKey + '_userName">' + userName + '</h2>' +
             '</a>' +
-            '<span id="' + postKey + '_postTime" class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + '</br>' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>';
+            '<span id="' + postKey + '_postTime" class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>';
 
         if (currentUserId === userId) {
             html = html +
