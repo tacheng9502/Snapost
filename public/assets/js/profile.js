@@ -204,8 +204,10 @@ jQuery(document).ready(function ($) {
 
         var commentsRef = firebase.database().ref('post-comments/' + postKey);
         commentsRef.on('child_added', function (data) {
-            var html = createCommentElement(postKey, data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime);
-            $('#' + postKey + '_commentList').append(html);
+            var html = null;
+            if((html = createCommentElement(postKey, data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime))!=null){
+                $('#' + postKey + '_commentList').append(html);
+            }
         });
         commentsRef.on('child_removed', function (data) {
             $('#' + data.key).remove();
@@ -229,9 +231,7 @@ jQuery(document).ready(function ($) {
 
     function createCommentElement(postKey, commentKey, userId, userName, userImage, commentBody, commentTime) {
         var html = "";
-        console.log("called comment");
         if($('#'+commentKey).html()==null){
-          console.log("called comment " + commentKey);
           var html = '<li id =' + commentKey + '><a href="/profile?u=' + userId + '" >' + userName + '</a><span>' + commentBody + '</span>';
           if (currentUserId == userId) {
               html = html +
@@ -466,9 +466,9 @@ jQuery(document).ready(function ($) {
     }
 
     window.writeNewComment = function (event) {
-        console.log($('#'+event.target.id).val());
+        var postKey = event.target.id.slice(0, -8);
         event.preventDefault();
-        if($('#'+event.target.id).val()!=""){
+        if($('#'+postKey+'_commentBody').val()!=""){
             console.log("writeNewComment!!");
             var postKey = event.target.id.slice(0, -8);
             var date = new Date();
