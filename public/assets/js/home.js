@@ -104,7 +104,7 @@ jQuery(document).ready(function ($) {
         });
     }
 
-    function enter(){
+    function enter() {
         if (event.keyCode=="13") {
             document.getElementById("searchButton").click();
         }
