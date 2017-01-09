@@ -208,7 +208,7 @@ jQuery(document).ready(function ($) {
             $('#' + postKey + '_commentList').empty();
             if((html = createCommentElement(postKey, data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime))!=null){
                 $('#' + postKey + '_commentList').append(html);
-                console.log($('#' + postKey + '_commentList').val());
+                console.log($('#' + postKey + '_commentList').html());
             }
         });
         commentsRef.on('child_removed', function (data) {
