@@ -237,6 +237,7 @@ jQuery(document).ready(function ($) {
     }
 
     function createCommentElement(postKey, commentKey, userId, userName, userImage, commentBody, commentTime) {
+        console.log("~~~~");
         var html = "";
         if($('#'+commentKey).html()==null){
           var html = '<li id =' + commentKey + '><a href="/profile?u=' + userId + '" >' + userName + '</a><span>' + commentBody + '</span>';
