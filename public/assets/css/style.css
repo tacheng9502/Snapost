@@ -612,7 +612,7 @@ p {
 }
 
 .alertContent .info {
-    overflow: inherit;
+    overflow: hidden;
     padding: 14px 20px 0px 20px;
     text-align: left;
 }
@@ -624,6 +624,22 @@ p {
     margin: 8px 10px 0px 10px;
     line-height: inherit;
     text-align: left;
+}
+
+.alertContent .info .navi button {
+    background-color: #fff;
+    color: #333;
+    border-color: #ccc;
+    font-size: 14px;
+    padding: 6px 12px;
+    margin: 0px;
+}
+
+.alertContent .info .navi button:hover,
+.alertContent .info .navi button:focus,
+.alertContent .info .navi button:active {
+    background-color: #e6e6e6;
+    border-color: #adadad;
 }
 
 .alertDelete {
