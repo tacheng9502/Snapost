@@ -275,6 +275,7 @@ p {
 
 .url a {
     float: left;
+    white-space: nowrap;
 }
 
 .url a:hover {
