@@ -605,7 +605,7 @@ jQuery(document).ready(function ($) {
           $('.showSweetAlert').remove();
           $('.alertBody').remove();
           $('.sweet-overlay').remove();
-          ('.sweet-alert').remove();
+          $('.sweet-alert').remove();
           viewListener = false;
       });
       $(document).keydown(function(e) {
