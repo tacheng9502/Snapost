@@ -595,6 +595,16 @@ p {
     text-align: center;
 }
 
+.noresult img {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 25px;
+}
+
+.noresult h2 {
+    color: #464646;
+}
+
 .alertBody h2 {
     display: none;
 }
