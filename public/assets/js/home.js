@@ -12,6 +12,7 @@ jQuery(document).ready(function ($) {
             currentUserId = user.uid;
             userName = user.displayName;
             userImage = user.photoURL;
+            $('.search-bar').hide();
             $('#intro').attr("hidden", true);
             $('#content').removeAttr("hidden");
             $('#userInfo').html(
