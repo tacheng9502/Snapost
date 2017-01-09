@@ -591,7 +591,8 @@ p {
     border: 1px solid #ddd;
     border-radius: 4px;
     background: #fff;
-    padding: 20px;
+    padding: 60px 0;
+    text-align: center;
 }
 
 .alertBody h2 {
