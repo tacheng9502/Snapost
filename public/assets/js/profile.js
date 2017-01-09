@@ -393,7 +393,7 @@ jQuery(document).ready(function ($) {
         var updateId = event.target.id.slice(0, -7);
 
         $('#' + updateId + '_operate').html(
-            '<button id="' + updateId + '_send" class="btn btn-default" onclick="sendUpdate(event)" >' +
+            '<a id="' + updateId + '_send" class="btn btn-default" onclick="sendUpdate(event)" >' +
             '<i id="' + updateId + '_send" class="fa fa-floppy-o" onclick="sendUpdate(event)" title="save"></i></a>'
         );
         var oldBody = $('#' + updateId + '_body').text();
