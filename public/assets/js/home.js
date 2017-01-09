@@ -184,12 +184,6 @@ jQuery(document).ready(function ($) {
             '</div></div>' +
             '</li>';
 
-        function enterComment() {
-            if (event.keyCode=="13") {
-                document.getElementById(postKey + '_comment').click();
-            }
-        }
-
         var commentsRef = firebase.database().ref('post-comments/' + postKey);
         commentsRef.on('child_added', function (data) {
             var html = createCommentElement(postKey, data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime);
@@ -219,6 +213,12 @@ jQuery(document).ready(function ($) {
 
         return html;
     }
+
+    function enterComment(postKey) {
+            if (event.keyCode=="13") {
+                document.getElementById(postKey + '_comment').click();
+            }
+        }
 
     function createCommentElement(postKey, commentKey, userId, userName, userImage, commentBody, commentTime) {
         var html = '<li id =' + commentKey + '><a href="/profile?u=' + userId + '" >' + userName + '</a><span>' + commentBody + '</span>';
