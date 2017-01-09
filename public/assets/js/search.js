@@ -40,7 +40,7 @@ jQuery(document).ready(function ($) {
                         resultNumber = resultNumber + 1;
                     }
                 });
-                if (resultNumber > 0) {
+                if (resultNumber == 0) {
                     $('div.noresult').removeAttr("hidden");
                 }
             });
@@ -58,7 +58,7 @@ jQuery(document).ready(function ($) {
                         });
                     }
                 });
-                if (resultNumber > 0) {
+                if (resultNumber == 0) {
                     $('div.noresult').removeAttr("hidden");
                 }
             });
