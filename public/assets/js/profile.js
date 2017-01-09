@@ -585,7 +585,6 @@ jQuery(document).ready(function ($) {
         var html = "";
         postDetailRef.on('value', function (data) {
             if(viewListener == false){
-                console.log("~!~");
                 createSweetAlertView(createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount));
                 getComment(refKey);
                 viewListener = true;
@@ -597,8 +596,7 @@ jQuery(document).ready(function ($) {
           title: "",
           text: html,
           html: true,
-          showConfirmButton: false,
-          allowEscapeKey: false
+          showConfirmButton: false
       });
       $('.sweet-overlay').on('click', function (event) {
           swal.close();
@@ -608,17 +606,7 @@ jQuery(document).ready(function ($) {
           $('.sweet-alert').remove();
           viewListener = false;
       });
-      $(document).keydown(function(e) {
-          // ESCAPE key pressed
-          if (e.keyCode == 27) {
-              swal.close();
-              $('.sweet-alert').remove();
-              $('.showSweetAlert').remove();
-              $('.alertBody').remove();
-              $('.sweet-overlay').remove();
-              viewListener = false;
-          }
-      });
+
       $(".showSweetAlert").addClass("alertBody");
     }
 
