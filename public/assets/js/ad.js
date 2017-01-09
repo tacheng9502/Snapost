@@ -1,5 +1,4 @@
 jQuery(document).ready(function($) {
-    $(".search-bar").hide();
     $("#userInfo").hide();
     $(".dashboard-menu").show();
     var newImageFile1, newImageFile2;

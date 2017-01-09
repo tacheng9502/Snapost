@@ -127,6 +127,7 @@ p {
 
 .search-bar {
     position: relative;
+    display: none;
     display: inline-block;
     margin: 10px auto;
 }

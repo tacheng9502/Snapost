@@ -11,6 +11,7 @@ jQuery(document).ready(function ($) {
             userName = user.displayName;
             userImage = user.photoURL;
             currentUserId = user.uid;
+            $('.search-bar').show();
             $('#userInfo').html(
                 '<img src="' + userImage + '" class="img-circle" width="30px" height="30px">&nbsp;&nbsp;' +
                 '<span>' + userName + '</span>'

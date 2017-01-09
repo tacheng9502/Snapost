@@ -12,6 +12,7 @@ jQuery(document).ready(function ($) {
             currentUserId = user.uid;
             userName = user.displayName;
             userImage = user.photoURL;
+            $('.search-bar').show();
             $('#intro').attr("hidden", true);
             $('#content').removeAttr("hidden");
             $('#userInfo').html(
@@ -23,7 +24,6 @@ jQuery(document).ready(function ($) {
             currentUserId = null;
             userName = null;
             userImage = null;
-            $('.search-bar').hide();
             $('#intro').removeAttr("hidden");
             $('#content').attr("hidden", true);
             listeningFirebaseRefs.forEach(function (ref) {
