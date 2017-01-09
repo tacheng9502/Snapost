@@ -228,8 +228,10 @@ jQuery(document).ready(function ($) {
     }
 
     function createCommentElement(postKey, commentKey, userId, userName, userImage, commentBody, commentTime) {
+        var html = "";
         console.log("called comment");
         if($('#'+commentKey).html()==null){
+          console.log("called comment " + commentKey);
           var html = '<li id =' + commentKey + '><a href="/profile?u=' + userId + '" >' + userName + '</a><span>' + commentBody + '</span>';
           if (currentUserId == userId) {
               html = html +
@@ -465,24 +467,26 @@ jQuery(document).ready(function ($) {
 
     window.writeNewComment = function (event) {
         event.preventDefault();
-        var postKey = event.target.id.slice(0, -8);
-        var date = new Date();
-        var commentTime = date.getTime();
-        var commentBody = stripHTML($('#' + postKey + '_commentBody').val());
-        var newCommentKey = firebase.database().ref().child('post-comments').push().key;
+        if($('#'+event.target.id).val()!=""){
+            var postKey = event.target.id.slice(0, -8);
+            var date = new Date();
+            var commentTime = date.getTime();
+            var commentBody = stripHTML($('#' + postKey + '_commentBody').val());
+            var newCommentKey = firebase.database().ref().child('post-comments').push().key;
 
-        var commentData = {
-            userId: currentUserId,
-            userName: userName,
-            userImage: userImage,
-            commentBody: commentBody,
-            commentTime: commentTime
-        };
+            var commentData = {
+                userId: currentUserId,
+                userName: userName,
+                userImage: userImage,
+                commentBody: commentBody,
+                commentTime: commentTime
+            };
 
-        var updates = {};
-        updates['/post-comments/' + postKey + '/' + newCommentKey] = commentData;
-        firebase.database().ref().update(updates);
-        $('#' + postKey + '_commentBody').val("");
+            var updates = {};
+            updates['/post-comments/' + postKey + '/' + newCommentKey] = commentData;
+            firebase.database().ref().update(updates);
+            $('#' + postKey + '_commentBody').val("");
+          }
     }
 
     window.clickLike = function (event) {
