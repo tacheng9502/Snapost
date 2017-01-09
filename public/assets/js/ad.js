@@ -285,7 +285,7 @@ jQuery(document).ready(function($) {
         var oldTargetUrl = $("#adTargetUrl").text();
         var ref = $("#ref").val();
         $('#edit_default').attr("hidden", "hidden");
-        $('#edit_default').removeAttr("hidden", "hidden");
+        $('#edit_mod').removeAttr("hidden", "hidden");
         $('#edit_mod').html(
             '<button id="' + ref + '_send" class="btn btn-default" onclick="sendUpdate(event)" >' +
             '<i id="' + ref + '_send" class="fa fa-floppy-o" onclick="sendUpdate(event)" title="save"></i></a>'
