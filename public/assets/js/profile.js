@@ -31,27 +31,23 @@ jQuery(document).ready(function ($) {
             $("#user_posts").empty();
             $("#user_fans").empty();
             $("#user_followers").empty();
-            var a, b, c;
 
             if (data.val().userPostCount == null) {
                 $("#li_post").html("<h3>0</h3><span>貼文</span>");
             } else {
-                a = data.val().userPostCount;
-                $("#user_posts").append(a);
+                $("#user_posts").append(data.val().userPostCount);
             }
 
             if (data.val().userFanCount == null || data.val().userFanCount == 0) {
                 $("#li_fans").html("<h3>0</h3><span>粉絲</span>");
             } else {
-                b = data.val().userFanCount;
-                $("#user_fans").append(b);
+                $("#user_fans").append(data.val().userFanCount);
             }
 
             if (data.val().userFollowCount == null || data.val().userFollowCount == 0) {
                 $("#li_followers").html("<h3>0</h3><span>追蹤</span>");
             } else {
-                c = data.val().userFollowCount;
-                $("#user_followers").append(c);
+                $("#user_followers").append(data.val().userFollowCount);
             }
         });
 
