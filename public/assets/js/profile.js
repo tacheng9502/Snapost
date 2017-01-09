@@ -176,24 +176,24 @@ jQuery(document).ready(function ($) {
 
         html = html +
             '</div>' +
-            '<p id="' + postKey + '_body" style="text-align:left">' + postBody + '</p>';
+            '<p id="' + postKey + '_body">' + postBody + '</p>';
 
         if (likeStatus != null) {
             html = html +
-                '<div class="postMenu" style="text-align:left">' +
+                '<div class="postMenu">' +
                 '<button class="like"><i id="' + postKey + '_like" class="fa fa-heart fa-heart-click" onclick="clickLike(event)">&nbsp;&nbsp;' + likeCount + '</i></button>' +
                 '<button class="comment-btn"><i id="' + postKey + '_commentFocus" class="fa fa-comment" onclick="commentFocus(event)">&nbsp;留言</i></button>' +
                 '</div>';
         } else {
             html = html +
-                '<div class="postMenu" style="text-align:left">' +
+                '<div class="postMenu" >' +
                 '<button class="like"><i id="' + postKey + '_like" class="fa fa-heart" onclick="clickLike(event)">&nbsp;&nbsp;' + likeCount + '</i></button>' +
                 '<button class="comment-btn"><i id="' + postKey + '_commentFocus" class="fa fa-comment" onclick="commentFocus(event)">&nbsp;留言</i></button>' +
                 '</div>';
         }
 
         html = html +
-            '<ul id="' + postKey + '_commentList" class="comment" style="text-align:left"></ul>' +
+            '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
             '<div class="msg-input"><div class="input-group">' +
             '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
             '<span class="input-group-btn">' +

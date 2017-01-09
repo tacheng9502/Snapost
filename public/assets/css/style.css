@@ -728,6 +728,30 @@ p {
     color: #23527c;
 }
 
+.alertContent .comment a {
+
+}
+
+.alertContent .comment a:hover {
+    color: #23527c;
+}
+
+.alertContent .delete-btn {
+    background-color: transparent;
+    color: #777;
+    font-weight: normal;
+    font-size: 14px;
+    padding: 0px;
+    margin: 4.5px auto;
+}
+
+.alertContent .comment button:hover,
+.alertContent .comment button:active {
+    background: transparent;
+}
+
+
+
 
 
 
