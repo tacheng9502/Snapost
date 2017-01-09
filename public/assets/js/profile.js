@@ -204,7 +204,8 @@ jQuery(document).ready(function ($) {
 
         var commentsRef = firebase.database().ref('post-comments/' + postKey);
         commentsRef.on('child_added', function (data) {
-            if((var html = createCommentElement(postKey, data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime))!=null){
+            var html = "";
+            if((html = createCommentElement(postKey, data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime))!=null){
                 $('#' + postKey + '_commentList').append(html);
                 console.log($('#' + postKey + '_commentList').html());
             }
