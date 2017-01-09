@@ -177,12 +177,18 @@ jQuery(document).ready(function ($) {
         html = html +
             '<ul id="' + postKey + '_commentList" class="comment"></ul>' +
             '<div class="msg-input"><div class="input-group">' +
-            '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
+            '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言..." onkeyup="enterComment();">' +
             '<span class="input-group-btn">' +
             '<button id="' + postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button"><i class="fa fa-paper-plane fa-fw" aria-hidden="true"></i>&nbsp;發送</button>' +
             '</span>' +
             '</div></div>' +
             '</li>';
+
+        function enterComment() {
+            if (event.keyCode=="13") {
+                document.getElementById(postKey + '_comment').click();
+            }
+        }
 
         var commentsRef = firebase.database().ref('post-comments/' + postKey);
         commentsRef.on('child_added', function (data) {
