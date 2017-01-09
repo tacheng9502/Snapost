@@ -106,7 +106,7 @@ jQuery(document).ready(function ($) {
     }
 
     function enter() {
-        if (event.keyCode=="13") {
+        if (event.keyCode == "13") {
             document.getElementById("searchButton").click();
         }
     }
@@ -255,12 +255,16 @@ jQuery(document).ready(function ($) {
     }
 
     function stripHTML(input) {
-        return input
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#039;');
+        if (input) {
+            return input
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        } else {
+            return input
+        }
     }
 
     $("#img_input").on('click', function () {
@@ -549,8 +553,8 @@ jQuery(document).ready(function ($) {
             });
 
         $('.sweet-overlay').on('click', function (event) {
-                swal.close();
-            });
+            swal.close();
+        });
     }
 
     window.clickCommentDelete = function (event) {
@@ -575,8 +579,8 @@ jQuery(document).ready(function ($) {
             });
 
         $('.sweet-overlay').on('click', function (event) {
-                swal.close();
-            });
+            swal.close();
+        });
     }
 
     window.writeNewComment = function (event) {
