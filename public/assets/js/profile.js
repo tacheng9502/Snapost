@@ -598,6 +598,7 @@ jQuery(document).ready(function ($) {
           text: html,
           html: true,
           showConfirmButton: false
+          allowEscapeKey: false
       });
       $('.sweet-overlay').on('click', function (event) {
           swal.close();
