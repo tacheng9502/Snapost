@@ -224,23 +224,22 @@ jQuery(document).ready(function ($) {
                 $('i#' + postKey + '_like').attr("class", "fa fa-heart");
             }
         });
-
-        listeningFirebaseRefs.push(commentsRef);
-        listeningFirebaseRefs.push(likeCountRef);
-        listeningFirebaseRefs.push(likeStatusRef);
-
         return html;
     }
 
     function createCommentElement(postKey, commentKey, userId, userName, userImage, commentBody, commentTime) {
-        var html = '<li id =' + commentKey + '><a href="/profile?u=' + userId + '" >' + userName + '</a><span>' + commentBody + '</span>';
-        if (currentUserId == userId) {
-            html = html +
-                '<button id="' + postKey + '/' + commentKey + '_delete" class="delete-btn" onclick="clickCommentDelete(event)" >' +
-                '<i id="' + postKey + '/' + commentKey + '_delete" class="fa fa-times" onclick="clickCommentDelete(event)" title="delete"></i>' +
-                '</button>';
+        if($('#'+commentKey).html()!=null){
+          var html = '<li id =' + commentKey + '><a href="/profile?u=' + userId + '" >' + userName + '</a><span>' + commentBody + '</span>';
+          if (currentUserId == userId) {
+              html = html +
+                  '<button id="' + postKey + '/' + commentKey + '_delete" class="delete-btn" onclick="clickCommentDelete(event)" >' +
+                  '<i id="' + postKey + '/' + commentKey + '_delete" class="fa fa-times" onclick="clickCommentDelete(event)" title="delete"></i>' +
+                  '</button>';
+          }
+          html = html + '</li>';
+        }else{
+          html = "";
         }
-        html = html + '</li>';
         return html;
     }
 
