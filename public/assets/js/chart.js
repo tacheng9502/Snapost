@@ -20,7 +20,7 @@ var totalpost=0;
                     type: 'category',
                     }
             },size:{
-                width:1200
+                width:900
             }
         });
         for(var i=0;i<array.length;i++){
@@ -52,7 +52,7 @@ var totalpost=0;
                     type: 'category',
                     }
                 },size:{
-                width:1200
+                width:900
             }
         });
         for(var i=0;i<array.length;i++){
@@ -87,7 +87,7 @@ var totalpost=0;
                     type: 'category',
                     }
                 },size:{
-                width:1200
+                width:900
             }
         });
         for(var i=0;i<array.length;i++){
