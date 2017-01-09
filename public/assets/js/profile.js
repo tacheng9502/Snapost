@@ -152,7 +152,7 @@ jQuery(document).ready(function ($) {
         });
 
         var html =
-            '<div id="' + postKey + '" class="alertPost">' +
+            '<div id="' + postKey + '_alertPost" class="alertPost">' +
             '<img id="' + postKey + '_postImage" class="alertPhoto" src="' + postImage + '"/>' +
             '<div class="alertContent">' +
             '<span id="' + postKey + '_postTime" class="time">' + date.getFullYear().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + '</span>'  +
@@ -207,7 +207,6 @@ jQuery(document).ready(function ($) {
             var html = "";
             if((html = createCommentElement(postKey, data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime))!=null){
                 $('#' + postKey + '_commentList').append(html);
-                console.log($('#' + postKey + '_commentList').html());
             }
         });
         commentsRef.on('child_removed', function (data) {
