@@ -429,7 +429,7 @@ jQuery(document).ready(function ($) {
                 firebase.database().ref('statistic/' + timeArray[0] + '-' + timeArray[1] + '/postCount').transaction(function (currentCount) {
                     return currentCount - 1;
                 });
-
+              window.location.reload();
             });
 
         $(".showSweetAlert").removeClass("alertBody");
@@ -469,7 +469,6 @@ jQuery(document).ready(function ($) {
         var postKey = event.target.id.slice(0, -8);
         event.preventDefault();
         if($('#'+postKey+'_commentBody').val()!=""){
-            console.log("writeNewComment!!");
             var postKey = event.target.id.slice(0, -8);
             var date = new Date();
             var commentTime = date.getTime();
