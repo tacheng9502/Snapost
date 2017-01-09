@@ -65,12 +65,6 @@ jQuery(document).ready(function ($) {
         }
     }
 
-    function enter(){
-        if (event.keyCode=="13") {
-            document.getElementById("searchButton").click();
-        }
-    }
-
     function createPostElement(postKey, userId, userName, userImage, postBody, postTime, postImage, likeCount) {
         var date = new Date(parseInt(postTime));
         var likeStatus;
@@ -259,4 +253,11 @@ jQuery(document).ready(function ($) {
             window.location.href = "/search?key=" + searchText;
         }
     });
+
+    function enter(){
+        if (event.keyCode=="13") {
+            document.getElementById("searchButton").click();
+        }
+    }
+
 });
