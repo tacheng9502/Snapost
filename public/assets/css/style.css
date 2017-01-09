@@ -719,9 +719,21 @@ p {
     width: 600px;
 }
 
+.alertContent .postMenu {
+    padding: 14px 6px 0px 6px;
+    border-top: 1px solid #eee;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
 .alertContent .postMenu button {
     color: inherit;
     margin: 0px;
+    margin-right: 20px;
+}
+
+.alertContent .postMenu .like:hover, .alertContent .postMenu .comment-btn:hover {
+    color: #292929;
 }
 
 .alertContent .postMenu button:hover, .alertContent .postMenu button:active {
