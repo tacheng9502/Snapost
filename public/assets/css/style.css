@@ -719,6 +719,15 @@ p {
     width: 600px;
 }
 
+.alertContent .postMenu button {
+    color: inherit;
+    margin: 0px;
+}
+
+.alertContent .postMenu button:hover, .alertContent .postMenu button:active {
+    background-color: transparent;
+}
+
 .alertContent .tag {
     color: #0068B7;
     margin-right: 3px;
@@ -749,6 +758,10 @@ p {
     font-size: 14px;
     padding: 0px;
     margin: 4.5px auto;
+}
+
+.alertContent .comment .delete-btn:hover {
+    color: #292929;
 }
 
 .alertContent .comment button:hover,

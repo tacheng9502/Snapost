@@ -338,6 +338,12 @@ jQuery(document).ready(function ($) {
         }
     });
 
+    window.commentFocus = function (event) {
+        event.preventDefault();
+        var postKey = event.target.id.slice(0, -13);
+        $('#' + postKey + '_commentBody').trigger("focus");
+    }
+
     window.sendUpdate = function (event) {
         event.preventDefault();
         var postKey = event.target.id.slice(0, -5);
