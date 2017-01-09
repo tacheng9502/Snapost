@@ -577,19 +577,20 @@ jQuery(document).ready(function ($) {
         event.preventDefault();
         var refKey = event.target.id.slice(0, -10);
         var postDetailRef = firebase.database().ref('posts/' + refKey + '/');
+        var html = "";
         postDetailRef.on('value', function (data) {
-            var html = createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
-                swal({
-                    title: "",
-                    text: html,
-                    html: true,
-                    showConfirmButton: false
-                });
-            $('.sweet-overlay').on('click', function (event) {
-                swal.close();
-            });
-            $(".showSweetAlert").addClass("alertBody");
+            html = createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
         });
+        swal({
+            title: "",
+            text: html,
+            html: true,
+            showConfirmButton: false
+        });
+        $('.sweet-overlay').on('click', function (event) {
+            swal.close();
+        });
+        $(".showSweetAlert").addClass("alertBody");
     };
 
     $('#searchButton').on('click', function (event) {
