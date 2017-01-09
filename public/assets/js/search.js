@@ -36,9 +36,11 @@ jQuery(document).ready(function ($) {
                     if (postData.val().postBody.includes(queryArray[1])) {
                         var html = createPostElement(postData.key, postData.val().userId, postData.val().userName, postData.val().userImage, postData.val().postBody, postData.val().postTime, postData.val().postImage, postData.val().likeCount);
                         $('#list').prepend(html);
-                        $('div.noresult').attr("hidden", true);
                     }
                 });
+                if ($('#list').html() == "") {
+                    $('div.noresult').removeAttr("hidden");
+                }
             });
         } else {
             $('#keyWord').html('<i class="fa fa-tag fa-fw fa-lg"></i>&nbsp;' + queryArray[1]);
@@ -50,10 +52,12 @@ jQuery(document).ready(function ($) {
                         postsRef.once('value', function (postData) {
                             var html = createPostElement(postData.key, postData.val().userId, postData.val().userName, postData.val().userImage, postData.val().postBody, postData.val().postTime, postData.val().postImage, postData.val().likeCount);
                             $('#list').prepend(html);
-                            $('div.noresult').attr("hidden", true);
                         });
                     }
                 });
+                if ($('#list').html() == "") {
+                    $('div.noresult').removeAttr("hidden");
+                }
             });
         }
     }
@@ -178,8 +182,8 @@ jQuery(document).ready(function ($) {
             });
 
         $('.sweet-overlay').on('click', function (event) {
-                swal.close();
-            });
+            swal.close();
+        });
     }
 
     window.writeNewComment = function (event) {
