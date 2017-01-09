@@ -666,24 +666,25 @@ p {
 
 .alertContent .info .navi {
     position: absolute;
-    top: 39px;
+    top: 5px;
     right: 20px;
 }
 
-.alertContent .info .navi button {
-    background-color: #fff;
-    color: #333;
-    border: 1px solid #ccc;
+.alertContent .info .navi a {
+    background-color: transparent;
+    color: #777;
+    border: none;
     font-size: 14px;
-    padding: 6px 12px;
+    padding: 6px 6px;
     margin: 0px;
 }
 
-.alertContent .info .navi button:hover,
-.alertContent .info .navi button:focus,
-.alertContent .info .navi button:active {
-    background-color: #e6e6e6;
-    border: 1px solid #adadad;
+.alertContent .info .navi a:hover,
+.alertContent .info .navi a:focus,
+.alertContent .info .navi a:active {
+    background-color: transparent;
+    border: none;
+    color: #292929;
 }
 
 .alertContent p {
