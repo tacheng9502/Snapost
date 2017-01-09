@@ -213,22 +213,23 @@ jQuery(document).ready(function ($) {
 
         var likeCountRef = firebase.database().ref('posts/' + postKey + '/likeCount');
         likeCountRef.on('value', function (snapshot) {
-            $('i#' + postKey + '_like').html('&nbsp;&nbsp;' + snapshot.val());
+            $('#' + postKey + '_like').html('&nbsp;&nbsp;' + snapshot.val());
         });
 
         var likeStatusRef = firebase.database().ref('posts/' + postKey + '/likes/' + currentUserId);
         likeStatusRef.on('value', function (snapshot) {
             if (snapshot.val() != null) {
-                $('i#' + postKey + '_like').attr("class", "fa fa-heart fa-heart-click");
+                $('#' + postKey + '_like').attr("class", "fa fa-heart fa-heart-click");
             } else {
-                $('i#' + postKey + '_like').attr("class", "fa fa-heart");
+                $('#' + postKey + '_like').attr("class", "fa fa-heart");
             }
         });
         return html;
     }
 
     function createCommentElement(postKey, commentKey, userId, userName, userImage, commentBody, commentTime) {
-        if($('#'+commentKey).html()!=null){
+        console.log("called comment");
+        if($('#'+commentKey).html()==null){
           var html = '<li id =' + commentKey + '><a href="/profile?u=' + userId + '" >' + userName + '</a><span>' + commentBody + '</span>';
           if (currentUserId == userId) {
               html = html +
