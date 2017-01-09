@@ -88,12 +88,6 @@ jQuery(document).ready(function ($) {
         //listeningFirebaseRefs.push(profileRef);
     }
 
-    function enter(){
-        if (event.keyCode=="13") {
-            document.getElementById("searchButton").click();
-        }
-    }
-
     function showFan() {
         $("#result").toggle();
         $("#result").empty();
