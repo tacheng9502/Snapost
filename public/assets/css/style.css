@@ -300,7 +300,6 @@ p {
 
 .time {
     color: #bbb;
-    font-style: italic;
     font-size: 13px;
 }
 
@@ -645,7 +644,6 @@ p {
 .alertContent .time {
     text-align: right;
     padding: 16px 0px 0px 0px;
-    font-style: normal;
     float: right;
 }
 
