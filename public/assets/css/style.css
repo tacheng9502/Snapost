@@ -348,6 +348,10 @@ p {
     padding: 10px 20px;
 }
 
+.comment li span {
+    word-break: break-word;
+}
+
 .comment a {
     color: #0068B7;
     font-weight: bold;
@@ -771,6 +775,10 @@ p {
     font-weight: normal;
     line-height: 25px;
     font-size: 14px;
+}
+
+.alertContent .comment li span {
+    word-break: break-word;
 }
 
 .alertContent .comment a:hover {
