@@ -239,6 +239,7 @@ jQuery(document).ready(function ($) {
                   '<i id="' + postKey + '/' + commentKey + '_delete" class="fa fa-times" onclick="clickCommentDelete(event)" title="delete"></i>' +
                   '</button>';
           }
+          console.log(html);
           html = html + '</li>';
         }else{
           html = "";
@@ -466,9 +467,9 @@ jQuery(document).ready(function ($) {
     }
 
     window.writeNewComment = function (event) {
-        console.log($('#'+event.target.id).val());
+        var postKey = event.target.id.slice(0, -8);
         event.preventDefault();
-        if($('#'+event.target.id).val()!=""){
+        if($('#'+postKey+'_commentBody').val()!=""){
             console.log("writeNewComment!!");
             var postKey = event.target.id.slice(0, -8);
             var date = new Date();
