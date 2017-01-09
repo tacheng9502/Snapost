@@ -2,7 +2,6 @@ jQuery(document).ready(function ($) {
 
     var userName, userImage, currentUserId;
     var listeningFirebaseRefs = [];
-    var resultNumber = 0;
 
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
@@ -28,12 +27,13 @@ jQuery(document).ready(function ($) {
     });
 
     function startDatabaseQueries() {
+        var resultNumber = 0;
         var queryText = decodeURIComponent(window.location.search.substr(1));
         var queryArray = queryText.split('=');
         if (queryArray[0] == 'key') {
             $('#keyWord').html('<i class="fa fa-search fa-fw fa-lg"></i>&nbsp;' + queryArray[1]);
             var postsRef = firebase.database().ref('posts/');
-            postsRef.once('value', function (snapshot) {
+            postsRef.once('value').then(function (snapshot) {
                 snapshot.forEach(function (postData) {
                     if (postData.val().postBody.includes(queryArray[1])) {
                         var html = createPostElement(postData.key, postData.val().userId, postData.val().userName, postData.val().userImage, postData.val().postBody, postData.val().postTime, postData.val().postImage, postData.val().likeCount);
@@ -41,11 +41,14 @@ jQuery(document).ready(function ($) {
                         resultNumber = resultNumber + 1;
                     }
                 });
+                if (resultNumber == 0) {
+                    $('div.noresult').removeAttr("hidden");
+                }
             });
         } else {
             $('#keyWord').html('<i class="fa fa-tag fa-fw fa-lg"></i>&nbsp;' + queryArray[1]);
             var tagRef = firebase.database().ref('hashtag/' + queryArray[1]);
-            tagRef.once('value', function (snapshot) {
+            tagRef.once('value').then(function (snapshot) {
                 snapshot.forEach(function (data) {
                     if (data.key != 'totalUsed') {
                         var postsRef = firebase.database().ref('posts/' + data.key);
@@ -56,6 +59,9 @@ jQuery(document).ready(function ($) {
                         });
                     }
                 });
+                if (resultNumber == 0) {
+                    $('div.noresult').removeAttr("hidden");
+                }
             });
         }
     }
@@ -249,8 +255,6 @@ jQuery(document).ready(function ($) {
         }
     });
 
-    if (resultNumber == 0) {
-        $('div.noresult').removeAttr("hidden");
-    }
+
 
 });
