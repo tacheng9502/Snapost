@@ -26,6 +26,7 @@ jQuery(document).ready(function ($) {
     });
 
     function startDatabaseQueries() {
+        var resultExist = false;
         var queryText = decodeURIComponent(window.location.search.substr(1));
         var queryArray = queryText.split('=');
         if (queryArray[0] == 'key') {
@@ -36,6 +37,7 @@ jQuery(document).ready(function ($) {
                     if (postData.val().postBody.includes(queryArray[1])) {
                         var html = createPostElement(postData.key, postData.val().userId, postData.val().userName, postData.val().userImage, postData.val().postBody, postData.val().postTime, postData.val().postImage, postData.val().likeCount);
                         $('#list').prepend(html);
+                        resultExist = true;
                     }
                 });
             });
@@ -49,10 +51,15 @@ jQuery(document).ready(function ($) {
                         postsRef.once('value', function (postData) {
                             var html = createPostElement(postData.key, postData.val().userId, postData.val().userName, postData.val().userImage, postData.val().postBody, postData.val().postTime, postData.val().postImage, postData.val().likeCount);
                             $('#list').prepend(html);
+                            resultExist = true;
                         });
                     }
                 });
             });
+        }
+        
+        if(resultExist){
+            $('div.noresult').attr("hidden", true);
         }
     }
 
