@@ -206,6 +206,7 @@ jQuery(document).ready(function ($) {
         commentsRef.on('child_added', function (data) {
             var html = null;
             if((html = createCommentElement(postKey, data.key, data.val().userId, data.val().userName, data.val().userImage, data.val().commentBody, data.val().commentTime))!=null){
+                console.log("CALLED");
                 $('#' + postKey + '_commentList').append(html);
             }
         });
