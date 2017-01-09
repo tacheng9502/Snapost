@@ -166,12 +166,12 @@ jQuery(document).ready(function ($) {
         if (currentUserId === userId) {
             html = html +
                 '<div id="' + postKey + '_operate" class="navi pull-right">' +
-                '<button id="' + postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
+                '<a id="' + postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
                 '<i id="' + postKey + '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i>' +
-                '</button>&nbsp;' +
-                '<button id="' + postKey + '_delete" class="btn btn-default" onclick="clickDelete(event)" >' +
+                '</a>&nbsp;' +
+                '<a id="' + postKey + '_delete" class="btn btn-default" onclick="clickDelete(event)" >' +
                 '<i id="' + postKey + '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i>' +
-                '</button>' +
+                '</a>' +
                 '</div>';
         }
 
@@ -198,7 +198,7 @@ jQuery(document).ready(function ($) {
             '<div class="msg-input"><div class="input-group">' +
             '<input id="' + postKey + '_commentBody" type="text" class="form-control" placeholder="留言...">' +
             '<span class="input-group-btn">' +
-            '<button id="' + postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button"><i class="fa fa-paper-plane fa-fw" id="' + postKey + '_comment" aria-hidden="true" onclick="writeNewComment(event)"></i>&nbsp;發送</button>' +            '</span>' +
+            '<a id="' + postKey + '_comment" class="btn btn-primary" onclick="writeNewComment(event)" type="button"><i class="fa fa-paper-plane fa-fw" id="' + postKey + '_comment" aria-hidden="true" onclick="writeNewComment(event)"></i>&nbsp;發送</a>' +            '</span>' +
             '</div></div>' +
             '</div></div>';
 
@@ -377,12 +377,12 @@ jQuery(document).ready(function ($) {
         firebase.database().ref().update(updates);
 
         $('#' + postKey + '_operate').html(
-            '<button id="' + postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
+            '<a id="' + postKey + '_update" class="btn btn-default" onclick="clickUpdate(event)" >' +
             '<i id="' + postKey + '_update" class="fa fa-pencil" onclick="clickUpdate(event)" title="edit"></i>' +
-            '</button>&nbsp;' +
-            '<button id="' + postKey + '_delete" class="btn btn-default" onclick="clickDelete(event)" >' +
+            '</a>&nbsp;' +
+            '<a id="' + postKey + '_delete" class="btn btn-default" onclick="clickDelete(event)" >' +
             '<i id="' + postKey + '_delete" class="fa fa-trash" onclick="clickDelete(event)" title="delete"></i>' +
-            '</button>'
+            '</a>'
         );
 
         $('#' + postKey + '_body').html(postBody);
