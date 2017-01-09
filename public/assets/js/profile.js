@@ -579,19 +579,21 @@ jQuery(document).ready(function ($) {
         var postDetailRef = firebase.database().ref('posts/' + refKey + '/');
         var html = "";
         postDetailRef.on('value', function (data) {
-            html = createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount);
+            createSweetAlertView(createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount));
         });
-        swal({
-            title: "",
-            text: html,
-            html: true,
-            showConfirmButton: false
-        });
-        $('.sweet-overlay').on('click', function (event) {
-            swal.close();
-        });
-        $(".showSweetAlert").addClass("alertBody");
     };
+    function createSweetAlertView(html){
+      swal({
+          title: "",
+          text: html,
+          html: true,
+          showConfirmButton: false
+      });
+      $('.sweet-overlay').on('click', function (event) {
+          swal.close();
+      });
+      $(".showSweetAlert").addClass("alertBody");
+    }
 
     $('#searchButton').on('click', function (event) {
         event.preventDefault();
