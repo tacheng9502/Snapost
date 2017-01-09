@@ -630,6 +630,12 @@ p {
     text-align: left;
 }
 
+.alertContent .info .navi {
+    position: absolute;
+    top: 22px;
+    right: 20px;
+}
+
 .alertContent .info .navi button {
     background-color: #fff;
     color: #333;
