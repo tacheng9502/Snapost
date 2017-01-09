@@ -613,17 +613,19 @@ p {
     width: 335px;
     float: left;
     height: 600px;
+    text-align: left;
 }
 
 .alertContent .time {
     display: block;
-    text-align: right;
-    padding: 20px 20px 0px 20px;
+    text-align: left;
+    padding: 20px 20px 0px 21px;
+    font-style: normal;
 }
 
 .alertContent .info {
     overflow: hidden;
-    padding: 14px 20px 0px 20px;
+    padding: 0px 20px 0px 20px;
     text-align: left;
 }
 
@@ -638,7 +640,7 @@ p {
 
 .alertContent .info .navi {
     position: absolute;
-    top: 22px;
+    top: 39px;
     right: 20px;
 }
 
@@ -715,6 +717,15 @@ p {
     float: left;
     height: 600px;
     width: 600px;
+}
+
+.alertContent .tag {
+    color: #0068B7;
+    margin-right: 3px;
+}
+
+.alertContent .tag:hover {
+    color: #23527c;
 }
 
 
