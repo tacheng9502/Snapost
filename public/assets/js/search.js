@@ -2,6 +2,7 @@ jQuery(document).ready(function ($) {
 
     var userName, userImage, currentUserId;
     var listeningFirebaseRefs = [];
+    var resultNumber = 0;
 
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
@@ -27,7 +28,6 @@ jQuery(document).ready(function ($) {
     });
 
     function startDatabaseQueries() {
-        var resultNumber = 0;
         var queryText = decodeURIComponent(window.location.search.substr(1));
         var queryArray = queryText.split('=');
         if (queryArray[0] == 'key') {
