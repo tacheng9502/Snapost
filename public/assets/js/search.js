@@ -27,7 +27,6 @@ jQuery(document).ready(function ($) {
     });
 
     function startDatabaseQueries() {
-        var hasResult = false;
         var queryText = decodeURIComponent(window.location.search.substr(1));
         var queryArray = queryText.split('=');
         if (queryArray[0] == 'key') {
@@ -38,12 +37,9 @@ jQuery(document).ready(function ($) {
                     if (postData.val().postBody.includes(queryArray[1])) {
                         var html = createPostElement(postData.key, postData.val().userId, postData.val().userName, postData.val().userImage, postData.val().postBody, postData.val().postTime, postData.val().postImage, postData.val().likeCount);
                         $('#list').prepend(html);
-                        hasResult = true;
+                        $('div.noresult').attr("hidden",true);
                     }
                 });
-                if(!hasResult){
-                    $('div.noresult').removeAttr("hidden");
-                }
             });
         } else {
             $('#keyWord').html('<i class="fa fa-tag fa-fw fa-lg"></i>&nbsp;' + queryArray[1]);
@@ -55,13 +51,10 @@ jQuery(document).ready(function ($) {
                         postsRef.once('value', function (postData) {
                             var html = createPostElement(postData.key, postData.val().userId, postData.val().userName, postData.val().userImage, postData.val().postBody, postData.val().postTime, postData.val().postImage, postData.val().likeCount);
                             $('#list').prepend(html);
-                            hasResult = true;
+                            $('div.noresult').attr("hidden",true);
                         });
                     }
                 });
-                if(!hasResult){
-                    $('div.noresult').removeAttr("hidden");
-                }
             });
         }
     }
@@ -156,12 +149,16 @@ jQuery(document).ready(function ($) {
     }
 
     function stripHTML(input) {
-        return input
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#039;');
+        if (input) {
+            return input
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        } else {
+            return input
+        }
     }
 
     window.clickCommentDelete = function (event) {
