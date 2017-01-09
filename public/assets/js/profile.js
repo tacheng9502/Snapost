@@ -430,9 +430,7 @@ jQuery(document).ready(function ($) {
             });
 
         $(".showSweetAlert").removeClass("alertBody");
-        $(".showSweetAlert").addClass("alertDelete");
         $('.sweet-overlay').on('click', function (event) {
-            $(".showSweetAlert").removeClass("alertDelete");
             swal.close();
         });
     }
@@ -459,9 +457,7 @@ jQuery(document).ready(function ($) {
             });
 
         $(".showSweetAlert").removeClass("alertBody");
-        $(".showSweetAlert").addClass("alertDelete");
         $('.sweet-overlay').on('click', function (event) {
-            $(".showSweetAlert").removeClass("alertDelete");
             swal.close();
         });
     }
