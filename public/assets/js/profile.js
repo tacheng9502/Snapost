@@ -572,14 +572,16 @@ jQuery(document).ready(function ($) {
             $(a).val(0);
         }
     };
-
+    var viewListener = false;
     window.clickImg = function (event) {
         event.preventDefault();
         var refKey = event.target.id.slice(0, -10);
         var postDetailRef = firebase.database().ref('posts/' + refKey + '/');
         var html = "";
         postDetailRef.on('value', function (data) {
-            createSweetAlertView(createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount));
+            if(viewListener == false){
+              createSweetAlertView(createPostElement(refKey, data.val().userId, data.val().userName, data.val().userImage, data.val().postBody, data.val().postTime, data.val().postImage, data.val().likeCount));
+              viewListener = true;
         });
     };
     function createSweetAlertView(html){
@@ -591,6 +593,7 @@ jQuery(document).ready(function ($) {
       });
       $('.sweet-overlay').on('click', function (event) {
           swal.close();
+          viewListener = false;
       });
       $(".showSweetAlert").addClass("alertBody");
     }
