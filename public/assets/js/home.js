@@ -104,6 +104,12 @@ jQuery(document).ready(function ($) {
         });
     }
 
+    function enter(){
+        if (event.keyCode=="13") {
+            document.getElementById("searchButton").click();
+        }
+    }
+
     function showPost() {
         var postsRef = firebase.database().ref('posts').orderByKey().limitToLast(8);
         postsRef.on('child_added', function (data) {

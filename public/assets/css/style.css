@@ -768,10 +768,6 @@ p {
     color: #23527c;
 }
 
-.alertContent .comment li a {
-    white-space: nowrap;
-}
-
 .alertContent .comment li {
     border: 0;
     margin: 0;
@@ -807,11 +803,6 @@ p {
 .alertContent .comment button:active {
     background: transparent;
 }
-
-
-
-
-
 
 /* Clear Float */
 
