@@ -356,7 +356,6 @@ jQuery(document).ready(function($) {
         updates['/adverts/' + postKey + '/sponsorUrl'] = sponUrl;
 
         if(firebase.database().ref().update(updates)){
-            alert("修改完畢");
             $("#sponImg").attr("src", "");
             $("#adTitle").empty();
             $("#adBody").empty();
